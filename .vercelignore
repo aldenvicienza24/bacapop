@@ -1,0 +1,7 @@
+.git/
+.next/
+.tmp/
+tmp/
+node_modules/
+.env*
+*.log
