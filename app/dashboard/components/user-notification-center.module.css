@@ -11,6 +11,26 @@
   font-family: inherit;
 }
 
+.mobilePortal {
+  --ink: #11131b;
+  --paper: #fffaf0;
+  --blue: #3f57ff;
+  --yellow: #ffdf35;
+  --pink: #ff668a;
+  --mint: #74e2bf;
+  position: fixed;
+  z-index: 2147483000;
+  inset: 0;
+  background: rgba(17, 19, 27, .46);
+  font-family: inherit;
+  backdrop-filter: blur(2px);
+  animation: portalFadeIn .18s ease both;
+}
+
+.mobilePortal .panel {
+  z-index: 1;
+}
+
 .bell {
   position: relative;
   width: auto;
@@ -852,6 +872,11 @@
   to {
     transform: scaleX(0);
   }
+}
+
+@keyframes portalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @media (max-width: 620px) {

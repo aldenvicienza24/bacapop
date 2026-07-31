@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import {useEffect, useMemo, useRef, useState} from 'react';
+import {createPortal} from 'react-dom';
 import {supabase} from '../../lib/supabase';
 import {
   getUserNotifications,
@@ -54,7 +55,9 @@ export default function UserNotificationCenter() {
   const [closing, setClosing] = useState(false);
   const [toast, setToast] = useState(null);
   const [toastClosing, setToastClosing] = useState(false);
+  const [useMobilePortal, setUseMobilePortal] = useState(false);
   const centerRef = useRef(null);
+  const panelRef = useRef(null);
   const closeTimerRef = useRef(null);
   const toastCloseTimerRef = useRef(null);
 
@@ -119,9 +122,19 @@ export default function UserNotificationCenter() {
   }, []);
 
   useEffect(() => {
+    const media = window.matchMedia('(max-width: 620px)');
+    const updatePortal = () => setUseMobilePortal(media.matches);
+    updatePortal();
+    media.addEventListener('change', updatePortal);
+    return () => media.removeEventListener('change', updatePortal);
+  }, []);
+
+  useEffect(() => {
     if (!open) return undefined;
     function handleOutsideClick(event) {
-      if (centerRef.current && !centerRef.current.contains(event.target)) closeCenter();
+      const insideButton = centerRef.current?.contains(event.target);
+      const insidePanel = panelRef.current?.contains(event.target);
+      if (!insideButton && !insidePanel) closeCenter();
     }
     document.addEventListener('mousedown', handleOutsideClick);
     return () => document.removeEventListener('mousedown', handleOutsideClick);
@@ -173,6 +186,19 @@ export default function UserNotificationCenter() {
     setItems(markAllUserNotificationsRead(userId));
   }
 
+  function renderNotificationLayer(content) {
+    if (!content) return null;
+    if (!useMobilePortal || typeof document === 'undefined') return content;
+    return createPortal(
+      <div className={styles.mobilePortal} onMouseDown={(event) => {
+        if (event.target === event.currentTarget) closeCenter();
+      }}>
+        {content}
+      </div>,
+      document.body
+    );
+  }
+
   if (!userId) return null;
 
   return (
@@ -185,7 +211,7 @@ export default function UserNotificationCenter() {
         {unread ? <b>{unread > 9 ? '9+' : unread}</b> : null}
       </button>
 
-      {open ? <section className={styles.panel} data-closing={closing} aria-label="Daftar pemberitahuan">
+      {renderNotificationLayer(open ? <section ref={panelRef} className={styles.panel} data-closing={closing} aria-label="Daftar pemberitahuan">
         <div className={styles.ticker} aria-hidden="true">
           <div>
             <span>BACA</span><i>✦</i><span>TULIS</span><i>✦</i><span>DAPAT POIN</span><i>✦</i>
@@ -217,7 +243,7 @@ export default function UserNotificationCenter() {
           )) : <div className={styles.empty}><b>Belum ada notifikasi baru</b><p>Pemberitahuan tentang ringkasan, poin, dan buku baru akan muncul di sini.</p></div>}
         </div>
         <footer aria-hidden="true"><span>BCP–POP</span><i /><b>KEEP READING</b></footer>
-      </section> : null}
+      </section> : null)}
 
       {toast ? <div className={styles.toast} data-type={toast.type} data-closing={toastClosing} role="status" aria-live="polite">
         <Link className={styles.toastBody} href={toast.href || '/dashboard'} onClick={() => {readNotification(toast.id); setToast(null);}}>
