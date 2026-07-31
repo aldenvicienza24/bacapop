@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Sampul Perahu Kertas</title>
+  <desc id="desc">Sampul ilustratif berwarna biru dengan perahu kertas putih.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#78d9ef"/>
+      <stop offset=".55" stop-color="#caeff2"/>
+      <stop offset="1" stop-color="#f7d0a4"/>
+    </linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#299bc0"/>
+      <stop offset="1" stop-color="#126b9a"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="900" rx="18" fill="url(#sky)"/>
+  <circle cx="470" cy="155" r="70" fill="#fff4b5" opacity=".9"/>
+  <path d="M0 590 Q120 550 230 595 T600 580 V900 H0Z" fill="url(#sea)"/>
+  <path d="M0 640 Q130 600 270 648 T600 625" fill="none" stroke="#b9f4f3" stroke-width="12" opacity=".75"/>
+  <path d="M130 575 315 540 255 675Z" fill="#fffdf4" stroke="#17495f" stroke-width="8" stroke-linejoin="round"/>
+  <path d="m315 540 145 78-205 57Z" fill="#f5eadc" stroke="#17495f" stroke-width="8" stroke-linejoin="round"/>
+  <path d="m130 575 125 100 60-135" fill="none" stroke="#17495f" stroke-width="6"/>
+  <g fill="#fff" opacity=".8"><circle cx="78" cy="170" r="18"/><circle cx="102" cy="165" r="25"/><circle cx="130" cy="173" r="16"/></g>
+  <text x="300" y="278" text-anchor="middle" fill="#173f55" font-family="Georgia,serif" font-size="76" font-weight="700">PERAHU</text>
+  <text x="300" y="354" text-anchor="middle" fill="#173f55" font-family="Georgia,serif" font-size="76" font-weight="700">KERTAS</text>
+  <text x="300" y="410" text-anchor="middle" fill="#246b83" font-family="Arial,sans-serif" font-size="25" letter-spacing="8">DEE LESTARI</text>
+  <rect x="42" y="42" width="150" height="48" rx="24" fill="#b92562"/>
+  <text x="117" y="74" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif" font-size="20" font-weight="700">PREMIUM</text>
+</svg>

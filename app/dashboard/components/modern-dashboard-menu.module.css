@@ -1,0 +1,191 @@
+.menu {
+  width: 100%;
+  display: grid;
+  gap: 6px;
+}
+
+.item {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  padding: 6px 8px;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) 24px;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  color: #9ba5bc;
+  text-decoration: none;
+  transition: color .18s ease, background .18s ease, border-color .18s ease;
+}
+
+.item:hover {
+  border-color: rgba(255, 255, 255, .07);
+  background: #192136;
+  color: #f7f9ff;
+}
+
+.active,
+.active:hover {
+  border-color: rgba(135, 153, 255, .38);
+  background: #5269e8;
+  color: #fff;
+  box-shadow: 0 8px 22px rgba(40, 57, 160, .26);
+}
+
+.icon {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, .045);
+  color: #aebcff;
+  transition: background .18s ease, color .18s ease, transform .18s ease;
+}
+
+.icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.icon :global(.iconMain) {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.65;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.icon :global(.iconDetail) {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.45;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: .78;
+}
+
+.icon :global(.iconAccent) {
+  fill: currentColor;
+  stroke: currentColor;
+  stroke-width: 1.2;
+}
+
+.item:hover .icon {
+  background: rgba(255, 255, 255, .075);
+  color: #d8dfff;
+  transform: scale(1.04);
+}
+
+.active .icon,
+.active:hover .icon {
+  border-color: rgba(255, 255, 255, .18);
+  background: rgba(255, 255, 255, .14);
+  color: #fff;
+}
+
+.copy {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.copy b,
+.copy small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.copy b {
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: -.01em;
+}
+
+.copy small {
+  color: #69748e;
+  font-size: 7px;
+  font-weight: 550;
+}
+
+.active .copy small {
+  color: rgba(255, 255, 255, .68);
+}
+
+.trail {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  justify-self: end;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, .045);
+  color: #707b93;
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.active .trail {
+  background: rgba(255, 255, 255, .16);
+  color: #fff;
+}
+
+@media (max-width: 700px) {
+  .menu {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+  }
+
+  .item,
+  .item:hover,
+  .active,
+  .active:hover {
+    min-height: 38px;
+    padding: 6px;
+    display: flex;
+    justify-content: center;
+    border-radius: 9px;
+    box-shadow: none;
+  }
+
+  .icon,
+  .trail,
+  .copy small {
+    display: none;
+  }
+
+  .copy b {
+    max-width: 100%;
+    font-size: clamp(7px, 2.35vw, 9px);
+    text-align: center;
+  }
+}
+
+@media (max-width: 360px) {
+  .item,
+  .item:hover,
+  .active,
+  .active:hover {
+    min-height: 42px;
+    padding-inline: 4px;
+  }
+
+  .copy b {
+    white-space: normal;
+    line-height: 1.1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item,
+  .icon {
+    transition: none;
+  }
+}

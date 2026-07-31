@@ -1,66 +1,65 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { supabase } from './lib/supabase';
+import { getRoleDashboard, getRoleFromEmail } from './lib/roles';
 import styles from './page.module.css';
 
 const features = [
   {
-    title: 'Katalog Digital',
+    title: 'Daftar Buku',
     label: 'Temukan buku',
     color: '#45d6b4',
     icon: '⌕',
-    desc: 'Jelajahi koleksi buku digital pilihan berdasarkan genre dan minatmu.',
-    points: ['500+ buku pilihan', 'Filter genre', 'Simpan ke koleksi'],
+    desc: 'Cari buku digital berdasarkan jenis cerita yang kamu suka.',
+    points: ['Banyak pilihan buku', 'Pilih jenis cerita', 'Simpan buku favorit'],
   },
   {
-    title: 'Reader Nyaman',
+    title: 'Nyaman Dibaca',
     label: 'Baca online',
     color: '#83b9ff',
     icon: '◫',
-    desc: 'Baca langsung dari browser dengan tampilan fokus dan progres otomatis.',
-    points: ['Mode fokus', 'Penanda halaman', 'Progres tersimpan'],
+    desc: 'Baca langsung di perangkatmu. Posisi halaman akan tersimpan otomatis.',
+    points: ['Tampilan nyaman', 'Tandai halaman', 'Posisi tersimpan'],
   },
   {
     title: 'Ringkasan',
     label: 'Catat insight',
     color: '#ff9a4d',
     icon: '✎',
-    desc: 'Tulis hal penting dari bacaanmu untuk menguji dan menyimpan pemahaman.',
-    points: ['Editor ringkasan', 'Validasi bacaan', 'Riwayat catatan'],
+    desc: 'Tulis kembali isi buku dengan bahasamu sendiri dan dapatkan poin.',
+    points: ['Formulir ringkasan', 'Diperiksa admin', 'Riwayat tulisan'],
   },
   {
-    title: 'XP & Badge',
+    title: 'Poin & Lencana',
     label: 'Naik level',
     color: '#f5d84d',
     icon: '↗',
-    desc: 'Selesaikan bacaan, kumpulkan XP, buka badge, dan capai level berikutnya.',
-    points: ['XP membaca', 'Badge eksklusif', 'Leaderboard'],
+    desc: 'Selesaikan buku, kumpulkan poin, dan dapatkan pencapaian baru.',
+    points: ['Poin membaca', 'Lencana pencapaian', 'Peringkat pembaca'],
   },
 ];
 
-const flightPlanes = [
-  { size: 1.16, accent: '#3d5cff', phase: 0, speed: .32, opacity: .9 },
-  { size: .94, accent: '#45d6b4', phase: 1.1, speed: .26, opacity: .78 },
-  { size: .78, accent: '#ff814a', phase: 2.2, speed: .22, opacity: .68 },
-  { size: 1.02, accent: '#f5d84d', phase: 3.2, speed: .29, opacity: .82 },
-  { size: .7, accent: '#83b9ff', phase: 4.25, speed: .2, opacity: .62 },
-  { size: .86, accent: '#15182b', phase: 5.15, speed: .24, opacity: .64 },
-];
-
 export default function Home() {
+  const router = useRouter();
   const cursorRef = useRef(null);
   const cursorTimerRef = useRef(null);
-  const sitePlaneRefs = useRef([]);
   const [mode, setMode] = useState('daftar');
   const [activeBook, setActiveBook] = useState(0);
   const [bookOpen, setBookOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
   const [authForm, setAuthForm] = useState({ name: '', email: '', password: '' });
   const [authMessage, setAuthMessage] = useState('');
+  const [authBusy, setAuthBusy] = useState(false);
+  const [showAuthPassword, setShowAuthPassword] = useState(false);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      setUser(data.session?.user ?? null);
+    });
+
     const { data } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
     });
@@ -92,53 +91,11 @@ export default function Home() {
     };
   }, []);
 
-  useEffect(() => {
-    const planes = sitePlaneRefs.current.filter(Boolean);
-    if (!planes.length) return;
-
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (reducedMotion.matches) {
-      planes.forEach((plane, index) => {
-        plane.style.transform = `translate3d(${8 + index * 13}vw, ${18 + index * 8}svh, 0) rotate(${14 + index * 18}deg) scale(${flightPlanes[index].size})`;
-      });
-      return;
-    }
-
-    let frame = 0;
-    let lastTime = performance.now();
-
-    function animate(now) {
-      const delta = Math.min((now - lastTime) / 1000, 0.032);
-      lastTime = now;
-
-      planes.forEach((plane, index) => {
-        const config = flightPlanes[index];
-        const t = now * 0.00035 * config.speed + config.phase;
-        const centerX = window.innerWidth / 2;
-        const centerY = window.innerHeight / 2;
-        const radiusX = window.innerWidth * (.43 - index * .012);
-        const radiusY = window.innerHeight * (.38 - index * .01);
-        const wobble = Math.sin(now * .00055 + index) * 18;
-        const x = centerX + Math.cos(t) * radiusX + Math.sin(t * 2.1 + index) * 16;
-        const y = centerY + Math.sin(t) * radiusY + wobble;
-        const nextX = centerX + Math.cos(t + .01) * radiusX;
-        const nextY = centerY + Math.sin(t + .01) * radiusY;
-        const angle = Math.atan2(nextY - y, nextX - x) * 180 / Math.PI;
-        const bank = Math.sin(t * 1.7 + index) * 5;
-
-        plane.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${angle + 18}deg) skewY(${bank}deg) scale(${config.size})`;
-      });
-      frame = window.requestAnimationFrame(animate);
-    }
-
-    frame = window.requestAnimationFrame(animate);
-
-    return () => window.cancelAnimationFrame(frame);
-  }, []);
-
   function openAuth(nextMode) {
     setMode(nextMode);
     setAuthMessage('');
+    setAuthBusy(false);
+    setShowAuthPassword(false);
     setAuthOpen(true);
   }
 
@@ -147,9 +104,15 @@ export default function Home() {
   }
 
   function showAuthError(error) {
-    const message = error?.message === 'Failed to fetch'
+    const rawMessage = error?.message || '';
+    const lowerMessage = rawMessage.toLowerCase();
+    const message = rawMessage === 'Failed to fetch'
       ? 'Tidak dapat terhubung ke Supabase. Periksa internet lalu coba lagi.'
-      : error?.message || 'Autentikasi gagal. Silakan coba lagi.';
+      : lowerMessage.includes('invalid login credentials')
+        ? 'Email atau password salah, akun belum terdaftar, atau akun ini dibuat lewat Google. Coba cek lagi atau daftar dulu.'
+        : lowerMessage.includes('email not confirmed')
+          ? 'Email belum dikonfirmasi. Cek inbox email kamu dulu.'
+          : rawMessage || 'Autentikasi gagal. Silakan coba lagi.';
     setAuthMessage(message);
   }
 
@@ -158,13 +121,35 @@ export default function Home() {
     const name = authForm.name.trim();
     const email = authForm.email.trim().toLowerCase();
 
-    if (!email || !authForm.password) {
-      setAuthMessage('Email dan password wajib diisi.');
+    if (!email) {
+      setAuthMessage('Email wajib diisi.');
+      return;
+    }
+
+    if (mode === 'lupa') {
+      setAuthBusy(true);
+      setAuthMessage('');
+      try {
+        const {error} = await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: `${window.location.origin}/reset-password`,
+        });
+        if (error) throw error;
+      setAuthMessage('Jika email terdaftar, tautan untuk membuat kata sandi baru sudah dikirim. Periksa kotak masuk dan folder spam.');
+      } catch (error) {
+        showAuthError(error);
+      } finally {
+        setAuthBusy(false);
+      }
+      return;
+    }
+
+    if (!authForm.password) {
+      setAuthMessage('Email dan kata sandi harus diisi.');
       return;
     }
 
     if (authForm.password.length < 8) {
-      setAuthMessage('Password minimal 8 karakter.');
+      setAuthMessage('Kata sandi harus berisi minimal 8 karakter.');
       return;
     }
 
@@ -178,25 +163,35 @@ export default function Home() {
           email,
           password: authForm.password,
           options: {
-            data: { full_name: name },
+            data: {
+              full_name: name,
+              role: getRoleFromEmail(email),
+              onboarding_required: true,
+              onboarding_completed: false,
+            },
             emailRedirectTo: window.location.origin,
           },
         });
         if (error) throw error;
+        sessionStorage.setItem('bacapop:onboarding:pending', '1');
         setAuthMessage(data.session ? 'Akun berhasil dibuat!' : 'Cek email untuk konfirmasi akunmu.');
         if (!data.session) return;
+        if (data.user) router.replace(getRoleDashboard(data.user));
       } catch (error) {
         showAuthError(error);
         return;
       }
     } else {
       try {
-        const { error } = await supabase.auth.signInWithPassword({
+        const { data, error } = await supabase.auth.signInWithPassword({
           email,
           password: authForm.password,
         });
         if (error) throw error;
         setAuthMessage('Berhasil masuk!');
+        if (data.user) {
+          router.replace(getRoleDashboard(data.user));
+        }
       } catch (error) {
         showAuthError(error);
         return;
@@ -209,6 +204,7 @@ export default function Home() {
 
   async function loginWithGoogle() {
     try {
+      if (mode === 'daftar') sessionStorage.setItem('bacapop:onboarding:pending', '1');
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: { redirectTo: window.location.origin },
@@ -246,26 +242,6 @@ export default function Home() {
           <path d="M2 2 17.5 19 29 13.5" />
         </svg>
       </div>
-      <div className={styles.siteFlight} aria-hidden="true">
-        {flightPlanes.map((plane, index) => (
-          <div
-            key={`${plane.accent}-${plane.phase}-${index}`}
-            ref={(node) => { sitePlaneRefs.current[index] = node; }}
-            className={styles.siteFlightPlane}
-            style={{
-              '--plane-accent': plane.accent,
-              '--plane-opacity': plane.opacity,
-              '--flutter-delay': `${index * -.31}s`,
-              '--trail-length': `${58 + plane.size * 42}px`,
-            }}
-          >
-            <svg viewBox="0 0 64 64">
-              <path d="M59 10 7 31.5l21 7.5L36 58 59 10Z" />
-              <path d="M7 31.5 36 58 28 39 59 10" />
-            </svg>
-          </div>
-        ))}
-      </div>
       <div className={styles.doodleOne}>✦</div>
       <div className={styles.doodleTwo}>♡</div>
       <div className={styles.doodleThree}>⌁</div>
@@ -276,16 +252,13 @@ export default function Home() {
           <b>BacaPop!</b>
         </a>
 
-        <div className={styles.navLinks}>
-          <a href="#koleksi">Koleksi</a>
-          <a href="#cara-kerja">Cara kerja</a>
-          <a href="#hadiah">Hadiah</a>
-        </div>
-
         {currentUser ? (
-          <button className={styles.loginButton} onClick={logout}>
-            Hai, {displayName.split(' ')[0]} · Keluar <span>↗</span>
-          </button>
+          <div className={styles.authNav}>
+            <button onClick={logout}>Keluar</button>
+            <button className={styles.loginButton} onClick={() => router.push(getRoleDashboard(currentUser))}>
+              Beranda <span>→</span>
+            </button>
+          </div>
         ) : (
           <div className={styles.authNav}>
             <button onClick={() => openAuth('masuk')}>Masuk</button>
@@ -298,7 +271,7 @@ export default function Home() {
 
       <section className={styles.hero}>
         <div className={styles.copy}>
-          <div className={styles.badge}><span>★</span> BACA • RINGKAS • NAIK LEVEL</div>
+          <div className={styles.badge}><span>★</span> BACA • RINGKAS • DAPAT POIN</div>
           <h1>
             Baca buku.
             <br />
@@ -336,7 +309,7 @@ export default function Home() {
             <div className={styles.avatars}>
               <span>🧑🏽</span><span>👩🏻</span><span>🧑🏻‍🦱</span>
             </div>
-            <p><b>2.400+ pembaca</b><br />sudah naik level minggu ini</p>
+            <p><b>2.400+ pembaca</b><br />aktif membaca minggu ini</p>
           </div>
         </div>
 
@@ -369,7 +342,7 @@ export default function Home() {
               <span className={styles.coverEdition}>DIGITAL LIBRARY • 2026</span>
               <div className={styles.coverLogo}>B<span>+</span></div>
               <div className={styles.coverCopy}>
-                <small>READ • LEARN • LEVEL UP</small>
+                <small>BACA • PAHAMI • DAPAT POIN</small>
                 <h2>BACA<br />POP!</h2>
                 <p>Petualangan membaca dimulai dari satu halaman.</p>
               </div>
@@ -388,7 +361,7 @@ export default function Home() {
                   </button>
                   <span className={styles.pageEyebrow}>KENALI BACAPOP</span>
                 </div>
-                <h2>Semua yang kamu<br />butuhkan untuk baca.</h2>
+                <h2>Semua kebutuhan membacamu ada di sini.</h2>
                 <div className={styles.bookChoices}>
                   {features.map((item, index) => (
                     <button
@@ -434,9 +407,9 @@ export default function Home() {
           <div className={styles.footerTrack} key={track} aria-hidden={track === 1}>
             <span>500+ BUKU PILIHAN</span>
             <i>✦</i>
-            <span>RINGKAS & DAPATKAN XP</span>
+            <span>TULIS RINGKASAN & DAPAT POIN</span>
             <i>✦</i>
-            <span>NAIK LEVEL SETIAP MINGGU</span>
+            <span>LIHAT PENCAPAIANMU</span>
             <i>✦</i>
             <span>SERTIFIKAT DIGITAL</span>
             <i>✦</i>
@@ -455,8 +428,8 @@ export default function Home() {
           >
             <button className={styles.closeModal} onClick={() => setAuthOpen(false)} aria-label="Tutup">×</button>
             <span className={styles.modalBadge}>★ GRATIS UNTUK PEMBACA</span>
-            <h2 id="auth-title">{mode === 'daftar' ? 'Mulai baca bareng BacaPop!' : 'Selamat datang kembali!'}</h2>
-            <p>{mode === 'daftar' ? 'Buat akun dan mulai kumpulkan XP pertamamu.' : 'Masuk untuk melanjutkan progres bacaanmu.'}</p>
+            <h2 id="auth-title">{mode === 'daftar' ? 'Mulai baca bareng BacaPop!' : mode === 'lupa' ? 'Lupa password?' : 'Selamat datang kembali!'}</h2>
+            <p>{mode === 'daftar' ? 'Buat akun dan mulai membaca.' : mode === 'lupa' ? 'Masukkan email akunmu. Kami akan mengirim tautan untuk membuat kata sandi baru.' : 'Masuk untuk melanjutkan bacaanmu.'}</p>
 
             <form onSubmit={handleAuth}>
               {mode === 'daftar' && (
@@ -469,44 +442,71 @@ export default function Home() {
                 Email
                 <input name="email" type="email" value={authForm.email} onChange={updateAuth} placeholder="nama@email.com" autoComplete="email" />
               </label>
-              <label>
+              {mode !== 'lupa' ? <label>
                 Password
-                <input name="password" type="password" value={authForm.password} onChange={updateAuth} placeholder="Minimal 8 karakter" autoComplete={mode === 'daftar' ? 'new-password' : 'current-password'} />
-              </label>
+                <div className={styles.passwordField}>
+                  <input
+                    name="password"
+                    type={showAuthPassword ? 'text' : 'password'}
+                    value={authForm.password}
+                    onChange={updateAuth}
+                    placeholder="Minimal 8 karakter"
+                    autoComplete={mode === 'daftar' ? 'new-password' : 'current-password'}
+                  />
+                  <button
+                    type="button"
+                    className={styles.passwordToggle}
+                    onClick={() => setShowAuthPassword((visible) => !visible)}
+                    aria-label={showAuthPassword ? 'Sembunyikan password' : 'Lihat password'}
+                    aria-pressed={showAuthPassword}
+                  >
+                    <PasswordEyeIcon hidden={showAuthPassword} />
+                  </button>
+                </div>
+              </label> : null}
+              {mode === 'masuk' ? <button type="button" className={styles.forgotPassword} onClick={() => { setMode('lupa'); setAuthMessage(''); setShowAuthPassword(false); }}>Lupa kata sandi?</button> : null}
               {authMessage && <div className={styles.authMessage}>{authMessage}</div>}
-              <button className={styles.submitAuth}>
-                {mode === 'daftar' ? 'Buat akun gratis' : 'Masuk sekarang'} <span>→</span>
+              <button className={styles.submitAuth} disabled={authBusy}>
+                {authBusy ? 'Mengirim tautan...' : mode === 'daftar' ? 'Buat akun gratis' : mode === 'lupa' ? 'Kirim tautan' : 'Masuk sekarang'} <span>→</span>
               </button>
             </form>
 
-            <div className={styles.authDivider}><span>atau lanjut dengan</span></div>
-
-            <button
-              type="button"
-              className={styles.googleAuth}
-              onClick={loginWithGoogle}
-            >
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path fill="#4285f4" d="M21.6 12.23c0-.71-.06-1.4-.18-2.06H12v3.9h5.38a4.6 4.6 0 0 1-2 3.02v2.53h3.24c1.9-1.75 2.98-4.33 2.98-7.39Z" />
-                <path fill="#34a853" d="M12 22c2.7 0 4.98-.9 6.63-2.38l-3.24-2.53c-.9.6-2.05.96-3.39.96-2.61 0-4.82-1.76-5.61-4.13H3.04v2.61A10 10 0 0 0 12 22Z" />
-                <path fill="#fbbc05" d="M6.39 13.92A6 6 0 0 1 6.08 12c0-.67.11-1.32.31-1.92V7.47H3.04A10 10 0 0 0 2 12c0 1.61.38 3.14 1.04 4.53l3.35-2.61Z" />
-                <path fill="#ea4335" d="M12 5.95c1.47 0 2.79.5 3.83 1.5l2.87-2.87A9.62 9.62 0 0 0 12 2a10 10 0 0 0-8.96 5.47l3.35 2.61C7.18 7.71 9.39 5.95 12 5.95Z" />
-              </svg>
-              {mode === 'daftar' ? 'Daftar dengan Google' : 'Masuk dengan Google'}
-            </button>
+            {mode !== 'lupa' ? <>
+              <div className={styles.authDivider}><span>atau lanjut dengan</span></div>
+              <button type="button" className={styles.googleAuth} onClick={loginWithGoogle}>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path fill="#4285f4" d="M21.6 12.23c0-.71-.06-1.4-.18-2.06H12v3.9h5.38a4.6 4.6 0 0 1-2 3.02v2.53h3.24c1.9-1.75 2.98-4.33 2.98-7.39Z" />
+                  <path fill="#34a853" d="M12 22c2.7 0 4.98-.9 6.63-2.38l-3.24-2.53c-.9.6-2.05.96-3.39.96-2.61 0-4.82-1.76-5.61-4.13H3.04v2.61A10 10 0 0 0 12 22Z" />
+                  <path fill="#fbbc05" d="M6.39 13.92A6 6 0 0 1 6.08 12c0-.67.11-1.32.31-1.92V7.47H3.04A10 10 0 0 0 2 12c0 1.61.38 3.14 1.04 4.53l3.35-2.61Z" />
+                  <path fill="#ea4335" d="M12 5.95c1.47 0 2.79.5 3.83 1.5l2.87-2.87A9.62 9.62 0 0 0 12 2a10 10 0 0 0-8.96 5.47l3.35 2.61C7.18 7.71 9.39 5.95 12 5.95Z" />
+                </svg>
+                {mode === 'daftar' ? 'Daftar dengan Google' : 'Masuk dengan Google'}
+              </button>
+            </> : null}
 
             <button
               className={styles.switchAuth}
               onClick={() => {
-                setMode(mode === 'daftar' ? 'masuk' : 'daftar');
+                setMode(mode === 'lupa' ? 'masuk' : mode === 'daftar' ? 'masuk' : 'daftar');
                 setAuthMessage('');
+                setShowAuthPassword(false);
               }}
             >
-              {mode === 'daftar' ? 'Sudah punya akun? Masuk' : 'Belum punya akun? Daftar'}
+              {mode === 'lupa' ? '← Kembali ke halaman masuk' : mode === 'daftar' ? 'Sudah punya akun? Masuk' : 'Belum punya akun? Daftar'}
             </button>
           </section>
         </div>
       )}
     </main>
+  );
+}
+
+function PasswordEyeIcon({hidden}) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M2.8 12s3.4-5.5 9.2-5.5 9.2 5.5 9.2 5.5-3.4 5.5-9.2 5.5S2.8 12 2.8 12Z" />
+      <circle cx="12" cy="12" r="2.7" />
+      {hidden ? <path d="M4.5 4.5 19.5 19.5" /> : null}
+    </svg>
   );
 }

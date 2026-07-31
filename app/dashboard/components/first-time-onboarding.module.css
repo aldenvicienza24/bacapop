@@ -1,0 +1,541 @@
+.helpButton {
+  position: fixed;
+  right: auto;
+  bottom: 18px;
+  left: 18px;
+  z-index: 80;
+  min-height: 44px;
+  padding: 5px 11px 5px 5px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  border: 2px solid #11152e;
+  border-radius: 999px;
+  background: #fffdf5;
+  color: #11152e;
+  box-shadow: 3px 3px 0 #11152e;
+  font: inherit;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.helpButton span {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border: 2px solid #11152e;
+  border-radius: 50%;
+  background: #ffda3e;
+  font-size: 16px;
+  font-weight: 950;
+}
+
+.helpButton b {
+  font-size: 10px;
+}
+
+.tourLayer {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  width: 100vw;
+  height: 100dvh;
+  pointer-events: auto;
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  transition: background 160ms ease, backdrop-filter 160ms ease;
+}
+
+.scrimWithSpotlight {
+  background: transparent;
+}
+
+.scrimFull {
+  background: rgba(10, 14, 35, 0.78);
+  backdrop-filter: blur(2px);
+}
+
+.spotlight {
+  position: fixed;
+  z-index: 1;
+  border: 3px solid #ffda3e;
+  border-radius: 14px;
+  box-shadow:
+    0 0 0 5px rgba(255, 218, 62, 0.24),
+    5px 5px 0 #11152e,
+    0 0 0 9999px rgba(10, 14, 35, 0.76);
+  background: transparent;
+  pointer-events: none;
+  transition:
+    top 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    left 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    width 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    height 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  animation: spotlightPulse 1.5s ease-in-out infinite;
+}
+
+.tourPanel {
+  position: fixed;
+  z-index: 2;
+  max-height: calc(100dvh - 24px);
+  padding: 15px;
+  overflow-y: auto;
+  border: 3px solid #11152e;
+  border-radius: 14px;
+  background: #fffdf5;
+  color: #11152e;
+  box-shadow: 7px 7px 0 #11152e;
+  transition:
+    top 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    left 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  animation: panelEnter 180ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
+.routePanel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  width: min(390px, calc(100vw - 28px));
+  padding: 22px;
+  transform: translate(-50%, -50%);
+  border: 3px solid #11152e;
+  border-radius: 16px;
+  background: #fffdf5;
+  color: #11152e;
+  box-shadow: 8px 8px 0 #11152e;
+  text-align: center;
+  animation: routePanelEnter 180ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.routeIcon {
+  width: 58px;
+  height: 48px;
+  margin: 0 auto 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border: 2px solid #11152e;
+  border-radius: 13px;
+  background: #52d4b0;
+  box-shadow: 3px 3px 0 #11152e;
+}
+
+.routeIcon i {
+  width: 7px;
+  height: 7px;
+  border: 2px solid #11152e;
+  border-radius: 50%;
+  background: #ffda3e;
+  animation: routeDot 850ms ease-in-out infinite;
+}
+
+.routeIcon i:nth-child(2) {
+  animation-delay: 120ms;
+}
+
+.routeIcon i:nth-child(3) {
+  animation-delay: 240ms;
+}
+
+.locatingIcon {
+  background: #ffda3e;
+}
+
+.locatingIcon i {
+  background: #3159e8;
+}
+
+.routePanel > span {
+  display: block;
+  color: #3159e8;
+  font-size: 8px;
+  font-weight: 950;
+  letter-spacing: 0.14em;
+}
+
+.routePanel h2 {
+  margin: 7px 0 5px;
+  font-size: 23px;
+  line-height: 1.08;
+}
+
+.routePanel p {
+  margin: 0;
+  color: #596078;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.routeProgress {
+  height: 8px;
+  margin-top: 15px;
+  overflow: hidden;
+  border: 2px solid #11152e;
+  border-radius: 999px;
+  background: #e8eaf4;
+}
+
+.routeProgress i {
+  width: 45%;
+  height: 100%;
+  display: block;
+  border-radius: inherit;
+  background: #3159e8;
+  animation: routeProgress 900ms cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+.centerPanel {
+  top: 50%;
+  left: 50%;
+  width: min(430px, calc(100vw - 24px));
+  transform: translate(-50%, -50%);
+}
+
+.panelTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.panelTop > span {
+  padding: 5px 8px;
+  border: 2px solid #11152e;
+  border-radius: 999px;
+  background: #52d4b0;
+  font-size: 8px;
+  font-weight: 950;
+  letter-spacing: 0.12em;
+}
+
+.panelTop > button {
+  padding: 5px 7px;
+  background: transparent;
+  color: #555b71;
+  font: inherit;
+  font-size: 9px;
+  font-weight: 850;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.progress {
+  height: 8px;
+  margin: 12px 0 9px;
+  overflow: hidden;
+  border: 2px solid #11152e;
+  border-radius: 999px;
+  background: #e8eaf4;
+}
+
+.progress i {
+  height: 100%;
+  display: block;
+  background: #3159e8;
+  transition: width 220ms ease;
+}
+
+.tourPanel > small {
+  display: block;
+  color: #596078;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+}
+
+.tourPanel h2 {
+  margin: 6px 0;
+  font-size: 24px;
+  line-height: 1.05;
+  overflow-wrap: anywhere;
+}
+
+.tourPanel p {
+  margin: 0;
+  color: #4e556d;
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.stepItems {
+  margin: 11px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+  list-style: none;
+}
+
+.stepItems li {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 19px minmax(0, 1fr);
+  align-items: start;
+  gap: 7px;
+  color: #30364d;
+  font-size: 9px;
+  font-weight: 750;
+  line-height: 1.4;
+}
+
+.stepItems li > i {
+  width: 19px;
+  height: 19px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #11152e;
+  border-radius: 5px;
+  background: #52d4b0;
+  color: #11152e;
+  font-size: 8px;
+  font-style: normal;
+  font-weight: 950;
+}
+
+.stepItems li > span {
+  min-width: 0;
+  padding-top: 2px;
+  overflow-wrap: anywhere;
+}
+
+.panelActions {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: minmax(90px, 0.65fr) minmax(130px, 1.35fr);
+  gap: 8px;
+}
+
+.panelActions button {
+  min-width: 0;
+  min-height: 39px;
+  padding: 7px 9px;
+  border: 2px solid #11152e;
+  border-radius: 8px;
+  background: #fff;
+  color: #11152e;
+  box-shadow: 2px 2px 0 #11152e;
+  font: inherit;
+  font-size: 9px;
+  font-weight: 900;
+  line-height: 1.25;
+  cursor: pointer;
+}
+
+.panelActions button:last-child {
+  background: #ffda3e;
+}
+
+.panelActions button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+@keyframes spotlightPulse {
+  0%, 100% { border-color: #ffda3e; }
+  50% { border-color: #ff725e; }
+}
+
+@keyframes panelEnter {
+  from {
+    opacity: 0;
+    scale: 0.97;
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes routePanelEnter {
+  from {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% + 12px)) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes routeDot {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes routeProgress {
+  0% { transform: translateX(-110%); }
+  100% { transform: translateX(245%); }
+}
+
+@media (max-width: 900px) {
+  .tourPanel {
+    width: min(340px, calc(100vw - 20px)) !important;
+    padding: 13px;
+  }
+
+  .tourPanel h2 {
+    font-size: clamp(20px, 4vw, 23px);
+  }
+
+  .routePanel {
+    width: min(360px, calc(100vw - 24px));
+    padding: 19px;
+  }
+}
+
+@media (max-width: 640px) {
+  .helpButton {
+    right: auto;
+    bottom: max(10px, env(safe-area-inset-bottom));
+    left: max(10px, env(safe-area-inset-left));
+    width: auto;
+    min-width: 0;
+    min-height: 42px;
+    padding: 5px 11px 5px 5px;
+    justify-content: flex-start;
+    border-radius: 999px;
+  }
+
+  .tourPanel:not(.centerPanel) {
+    right: auto;
+    bottom: auto;
+    width: min(320px, calc(100vw - 20px)) !important;
+    height: max-content;
+    min-height: 0;
+    max-height: min(62dvh, 500px);
+    padding: 12px;
+    border-width: 2px;
+    border-radius: 12px;
+    box-shadow: 4px 4px 0 #11152e;
+  }
+
+  .centerPanel {
+    width: calc(100vw - max(20px, env(safe-area-inset-left) + env(safe-area-inset-right))) !important;
+    max-height: calc(100dvh - max(20px, env(safe-area-inset-top) + env(safe-area-inset-bottom)));
+    padding: 13px;
+  }
+
+  .panelTop {
+    align-items: flex-start;
+  }
+
+  .panelTop > span {
+    max-width: 66%;
+    line-height: 1.25;
+  }
+
+  .tourPanel h2 {
+    font-size: clamp(19px, 6vw, 22px);
+  }
+
+  .tourPanel p {
+    font-size: 10px;
+    line-height: 1.45;
+  }
+
+  .stepItems {
+    gap: 5px;
+  }
+
+  .panelActions {
+    position: sticky;
+    right: 0;
+    bottom: -12px;
+    left: 0;
+    z-index: 3;
+    margin: 12px -2px -2px;
+    padding: 8px 2px 2px;
+    grid-template-columns: minmax(92px, .72fr) minmax(130px, 1.28fr);
+    background: linear-gradient(180deg, rgba(255, 253, 245, 0), #fffdf5 24%);
+  }
+
+  .panelActions button {
+    min-height: 44px;
+    font-size: 10px;
+  }
+
+  .routePanel {
+    width: calc(100vw - max(22px, env(safe-area-inset-left) + env(safe-area-inset-right)));
+    padding: 17px 14px;
+    box-shadow: 5px 5px 0 #11152e;
+  }
+
+  .routePanel h2 {
+    font-size: clamp(20px, 6vw, 23px);
+  }
+
+}
+
+@media (max-width: 380px) {
+  .helpButton {
+    padding-right: 7px;
+  }
+
+  .helpButton b {
+    display: none;
+  }
+
+  .panelTop > button {
+    font-size: 8px;
+  }
+
+  .tourPanel:not(.centerPanel) {
+    max-height: 72dvh;
+  }
+
+  .panelActions {
+    grid-template-columns: 1fr 1.25fr;
+    gap: 6px;
+  }
+
+  .panelActions button {
+    padding-inline: 6px;
+    font-size: 9px;
+  }
+}
+
+@media (max-height: 560px) and (orientation: landscape) {
+  .tourPanel:not(.centerPanel) {
+    right: auto;
+    bottom: auto;
+    width: min(360px, 48vw) !important;
+    max-height: none;
+  }
+
+  .tourPanel h2 {
+    font-size: 19px;
+  }
+
+  .routePanel {
+    width: min(360px, 54vw);
+    padding: 13px;
+  }
+
+  .routeIcon {
+    width: 48px;
+    height: 38px;
+    margin-bottom: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spotlight,
+  .tourPanel,
+  .routePanel,
+  .routeIcon i,
+  .routeProgress i {
+    animation: none;
+    transition: none;
+  }
+}

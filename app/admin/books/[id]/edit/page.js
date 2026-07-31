@@ -1,0 +1,1 @@
+'use client';import {useParams} from 'next/navigation';import AdminShell from '../../../components/AdminShell';import BookForm from '../../../components/BookForm';export default function Page(){const {id}=useParams();return <AdminShell title="Edit Buku"><BookForm id={id}/></AdminShell>}

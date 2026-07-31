@@ -1,0 +1,1 @@
+import AdminShell from '../../components/AdminShell';import GenreForm from '../../components/GenreForm';export default function Page(){return <AdminShell title="Tambah Genre" subtitle="Buat tampilan untuk jenis cerita baru."><GenreForm/></AdminShell>}

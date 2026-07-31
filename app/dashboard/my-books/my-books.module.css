@@ -1,0 +1,446 @@
+.page{--ink:#171a2d;--paper:#f7f2e3;--white:#fffdf8;--blue:#415cff;--mint:#4bd3b8;--yellow:#f8dc4b;min-height:100svh;padding:24px clamp(16px,4vw,58px) 60px;background-color:var(--paper);background-image:linear-gradient(rgba(23,26,45,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(23,26,45,.045) 1px,transparent 1px);background-size:28px 28px;color:var(--ink)}
+.topbar{max-width:1380px;display:flex;align-items:center;justify-content:space-between;margin:0 auto 20px;padding:12px 15px;border:2px solid var(--ink);border-radius:6px 20px 6px 6px;background:var(--white);box-shadow:5px 5px 0 var(--ink)}.topbar>a{font-size:23px;font-weight:950;letter-spacing:-.05em}.topbar>a span{color:var(--blue)}.topbar nav{display:flex;gap:14px;font-size:11px;font-weight:900}
+.hero{position:relative;max-width:1380px;min-height:210px;display:flex;align-items:center;justify-content:space-between;gap:24px;overflow:hidden;margin:0 auto 18px;padding:34px 38px;border:3px solid var(--ink);border-radius:8px 46px 8px 8px;background:var(--blue);box-shadow:9px 9px 0 var(--ink);color:#fff}.hero::after{content:'';position:absolute;width:230px;height:230px;right:-70px;top:-120px;border:3px solid var(--ink);border-radius:50%;background:var(--mint)}.hero>div,.hero>b{position:relative;z-index:1}.hero span{color:var(--yellow);font-size:9px;font-weight:950;letter-spacing:.14em}.hero h1{margin:7px 0 10px;font-size:clamp(44px,6vw,76px);line-height:.9;letter-spacing:-.06em;text-shadow:4px 4px 0 var(--ink)}.hero p{max-width:600px;margin:0;color:#e9ecff;font-size:13px}.hero>b{min-width:100px;padding:14px;border:2px solid var(--ink);background:var(--yellow);box-shadow:4px 4px 0 var(--ink);color:var(--ink);font-size:34px;text-align:center}.hero>b small{display:block;font-size:9px;text-transform:uppercase}
+.tabs{max-width:1380px;display:flex;gap:9px;margin:28px auto 20px}.tabs a{padding:10px 14px;border:2px solid var(--ink);border-radius:4px;background:var(--white);box-shadow:3px 3px 0 var(--ink);font-size:10px;font-weight:950}.tabs .activeTab{background:var(--mint)}
+.notice,.empty{max-width:1380px;margin:0 auto;padding:20px;border:2px solid var(--ink);background:var(--white);box-shadow:5px 5px 0 var(--ink);text-align:center}.empty b{font-size:20px}.empty p{color:#6f6b63;font-size:11px}.empty a{display:inline-flex;padding:9px 13px;border:2px solid var(--ink);background:var(--yellow);box-shadow:3px 3px 0 var(--ink);font-size:9px;font-weight:950}
+.grid{max-width:1380px;display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:18px;margin:0 auto}.card{min-width:0;display:grid;grid-template-columns:128px minmax(0,1fr);overflow:hidden;border:2px solid var(--ink);border-radius:7px 24px 7px 7px;background:var(--white);box-shadow:6px 6px 0 var(--ink)}.cover{position:relative;min-height:190px;border-right:2px solid var(--ink);background:var(--mint)}.cover img{width:100%;height:100%;object-fit:cover}.cover>span{height:100%;display:grid;place-items:center;font-size:30px;font-weight:950}.cover>i{position:absolute;left:8px;bottom:8px;padding:4px 7px;border:1px solid var(--ink);background:var(--yellow);font-size:7px;font-style:normal;font-weight:950}.copy{min-width:0;display:flex;flex-direction:column;padding:18px}.copy>small{color:#706b63;font-size:9px}.copy h2{margin:5px 0 8px;overflow-wrap:anywhere;font-size:20px;line-height:1.05}.copy p{margin:5px 0;color:#706b63;font-size:9px;line-height:1.45}.copy>a{display:flex;justify-content:space-between;margin-top:auto;padding:9px 11px;border:2px solid var(--ink);background:var(--blue);color:#fff;font-size:9px;font-weight:950}.progress{height:8px;overflow:hidden;border:1px solid var(--ink);background:#eee}.progress i{display:block;height:100%;background:var(--mint)}
+.summaryCard{grid-template-columns:110px minmax(0,1fr)}.summaryCard .cover{min-height:260px}.summaryHistory{display:grid;gap:8px;margin:4px 0 12px}.summaryStatus{width:max-content;padding:4px 8px;border:2px solid var(--ink);border-radius:999px;background:var(--yellow);font-size:8px;font-weight:950;text-transform:uppercase}.summaryStatus[data-status="valid"]{background:#b9ff66}.summaryStatus[data-status="rejected"]{background:#ff91b9}.summaryHistory h3{margin:0;font-size:13px}.summaryHistory>p{display:-webkit-box;margin:0;overflow:hidden;color:#4f4b46;font-size:9px;line-height:1.5;-webkit-box-orient:vertical;-webkit-line-clamp:5}.summaryHistory details{border:1px solid rgba(23,26,45,.24);border-radius:6px;background:#fff}.summaryHistory summary{padding:6px;color:var(--blue);font-size:8px;font-weight:950;cursor:pointer}.summaryHistory details p{max-height:180px;margin:0;padding:0 7px 8px;overflow-y:auto;white-space:pre-wrap;color:#4f4b46;font-size:9px;line-height:1.55}.summaryHistory dl{display:grid;gap:3px;margin:0}.summaryHistory dl div{display:flex;justify-content:space-between;gap:8px;padding-top:4px;border-top:1px solid rgba(23,26,45,.18)}.summaryHistory dt,.summaryHistory dd{margin:0;font-size:8px}.summaryHistory dd{font-weight:900;text-align:right}.summaryHistory blockquote{display:grid;gap:3px;margin:0;padding:7px;border-left:3px solid var(--blue);background:#eef0ff;color:#4f4b46;font-size:8px;line-height:1.4}.summaryHistory blockquote b{color:var(--ink)}
+@media(max-width:650px){.page{padding:12px 10px 40px}.hero{min-height:240px;align-items:flex-start;flex-direction:column;padding:26px 22px}.tabs{overflow-x:auto;padding-bottom:5px}.tabs a{min-width:max-content}.grid{grid-template-columns:1fr}.card,.summaryCard{grid-template-columns:105px minmax(0,1fr)}.cover{min-height:175px}.summaryCard .cover{min-height:250px}}
+
+/* Riwayat ringkasan — cover utuh dan kartu yang lebih lega. */
+.grid {
+  align-items: start;
+}
+
+.summaryCard {
+  min-height: 430px;
+  grid-template-columns: minmax(190px, 32%) minmax(0, 1fr);
+  overflow: visible;
+  border-width: 3px;
+  border-radius: 10px 34px 10px 10px;
+  box-shadow: 8px 8px 0 var(--ink);
+  transition: transform .22s ease, box-shadow .22s ease;
+}
+
+.summaryCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 11px 13px 0 var(--ink);
+}
+
+.summaryCard .cover {
+  isolation: isolate;
+  min-height: 430px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 18px;
+  border-right: 3px solid var(--ink);
+  border-radius: 7px 0 0 7px;
+  background:
+    radial-gradient(circle at 20% 16%, rgba(255,255,255,.76) 0 3px, transparent 4px),
+    linear-gradient(145deg, color-mix(in srgb, var(--book-accent) 28%, #fff), color-mix(in srgb, var(--book-accent) 58%, #171a2d));
+  background-size: 25px 25px, auto;
+}
+
+.summaryCard .cover::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 10px;
+  border: 1px solid rgba(255,255,255,.48);
+  border-radius: 5px 18px 5px 5px;
+  box-shadow: inset 0 0 32px rgba(23,26,45,.12);
+}
+
+.summaryCard .cover img {
+  width: 100%;
+  height: 100%;
+  max-height: 394px;
+  object-fit: contain;
+  object-position: center;
+  border: 1px solid rgba(23,26,45,.28);
+  border-radius: 3px 12px 3px 3px;
+  background: #fff;
+  box-shadow: 0 12px 24px rgba(16,18,33,.28);
+}
+
+.summaryCard .cover > i {
+  z-index: 2;
+  left: 28px;
+  bottom: 27px;
+  padding: 5px 9px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  box-shadow: 2px 2px 0 var(--ink);
+  font-size: 8px;
+}
+
+.summaryCard .copy {
+  min-height: 430px;
+  padding: 24px 24px 20px;
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--book-accent) 13%, transparent), transparent 38%),
+    var(--white);
+}
+
+.summaryCard .copy > small {
+  color: color-mix(in srgb, var(--book-accent) 64%, #4b493f);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .02em;
+}
+
+.summaryCard .copy h2 {
+  margin: 7px 0 13px;
+  font-size: clamp(22px, 2vw, 28px);
+  line-height: 1.03;
+  letter-spacing: -.035em;
+}
+
+.summaryCard .summaryHistory {
+  min-width: 0;
+  gap: 10px;
+  margin: 0 0 17px;
+}
+
+.summaryCard .summaryStatus {
+  padding: 5px 10px;
+  box-shadow: 2px 2px 0 var(--ink);
+  font-size: 8px;
+}
+
+.summaryCard .summaryHistory h3 {
+  overflow-wrap: anywhere;
+  font-size: 15px;
+  line-height: 1.2;
+}
+
+.summaryCard .summaryHistory > p {
+  min-height: 42px;
+  -webkit-line-clamp: 3;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.summaryCard .summaryHistory details {
+  border: 1px solid rgba(23,26,45,.32);
+  border-radius: 5px 14px 5px 5px;
+  background: rgba(255,255,255,.74);
+}
+
+.summaryCard .summaryHistory summary {
+  padding: 8px 10px;
+  font-size: 9px;
+}
+
+.summaryCard .summaryHistory dl div {
+  padding: 7px 0 0;
+}
+
+.summaryCard .summaryHistory dt,
+.summaryCard .summaryHistory dd {
+  font-size: 9px;
+}
+
+.summaryCard .copy > a {
+  min-height: 44px;
+  align-items: center;
+  margin-top: auto;
+  padding: 10px 14px;
+  border-radius: 4px 14px 4px 4px;
+  background: var(--book-accent);
+  box-shadow: 3px 3px 0 var(--ink);
+  font-size: 10px;
+}
+
+@media (min-width: 1001px) {
+  .grid:has(.summaryCard) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .grid:has(.summaryCard) {
+    grid-template-columns: 1fr;
+  }
+
+  .summaryCard {
+    grid-template-columns: minmax(180px, 30%) minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 620px) {
+  .summaryCard {
+    min-height: 0;
+    grid-template-columns: 1fr;
+  }
+
+  .summaryCard .cover {
+    min-height: 0;
+    aspect-ratio: 4 / 3;
+    padding: 14px;
+    border-right: 0;
+    border-bottom: 3px solid var(--ink);
+    border-radius: 7px 28px 0 0;
+  }
+
+  .summaryCard .cover img {
+    width: auto;
+    max-width: 100%;
+    max-height: 280px;
+  }
+
+  .summaryCard .cover > i {
+    left: 22px;
+    bottom: 21px;
+  }
+
+  .summaryCard .copy {
+    min-height: 360px;
+    padding: 20px 18px 17px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .summaryCard {
+    transition: none;
+  }
+
+  .summaryCard:hover {
+    transform: none;
+  }
+}
+
+/* Koreksi compact: isi rapat, cover tetap utuh, tanpa kartu raksasa. */
+.hero {
+  min-height: 176px;
+  padding: 28px 34px;
+}
+
+.hero h1 {
+  font-size: clamp(38px, 5vw, 64px);
+}
+
+.tabs {
+  margin-top: 22px;
+  margin-bottom: 18px;
+}
+
+.summaryCard {
+  min-height: 310px;
+  grid-template-columns: minmax(145px, 40%) minmax(0, 1fr);
+  overflow: hidden;
+  border-width: 2px;
+  border-radius: 8px 24px 8px 8px;
+  box-shadow: 6px 6px 0 var(--ink);
+}
+
+.summaryCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 8px 9px 0 var(--ink);
+}
+
+.summaryCard .cover {
+  min-height: 310px;
+  padding: 10px;
+  border-right-width: 2px;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--book-accent) 18%, #fff), color-mix(in srgb, var(--book-accent) 46%, #171a2d));
+}
+
+.summaryCard .cover::before {
+  inset: 6px;
+  border-radius: 4px 13px 4px 4px;
+}
+
+.summaryCard .cover img {
+  width: 100%;
+  height: 100%;
+  max-height: 290px;
+  border-radius: 3px 9px 3px 3px;
+  box-shadow: 0 7px 15px rgba(16,18,33,.24);
+}
+
+.summaryCard .cover > i {
+  left: 17px;
+  bottom: 16px;
+  padding: 3px 7px;
+  border-width: 1px;
+  box-shadow: 1px 1px 0 var(--ink);
+  font-size: 7px;
+}
+
+.summaryCard .copy {
+  min-height: 310px;
+  padding: 15px 16px 13px;
+}
+
+.summaryCard .copy > small {
+  overflow: hidden;
+  font-size: 8px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.summaryCard .copy h2 {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 5px 0 8px;
+  font-size: 19px;
+  line-height: 1.06;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.summaryCard .summaryHistory {
+  gap: 6px;
+  margin-bottom: 9px;
+}
+
+.summaryCard .summaryStatus {
+  padding: 3px 7px;
+  border-width: 1px;
+  box-shadow: 1px 1px 0 var(--ink);
+  font-size: 7px;
+}
+
+.summaryCard .summaryHistory h3 {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 12px;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.summaryCard .summaryHistory > p {
+  min-height: 27px;
+  font-size: 8px;
+  line-height: 1.4;
+  -webkit-line-clamp: 2;
+}
+
+.summaryCard .summaryHistory details {
+  border-radius: 4px 9px 4px 4px;
+}
+
+.summaryCard .summaryHistory summary {
+  padding: 5px 7px;
+  font-size: 7px;
+}
+
+.summaryCard .summaryHistory details p {
+  max-height: 130px;
+  padding: 0 7px 7px;
+  font-size: 8px;
+}
+
+.summaryCard .summaryHistory dl {
+  gap: 1px;
+}
+
+.summaryCard .summaryHistory dl div {
+  padding-top: 4px;
+}
+
+.summaryCard .summaryHistory dt,
+.summaryCard .summaryHistory dd {
+  font-size: 7px;
+}
+
+.summaryCard .summaryHistory blockquote {
+  padding: 5px 7px;
+  font-size: 7px;
+}
+
+.summaryCard .copy > a {
+  min-height: 35px;
+  padding: 7px 9px;
+  border-radius: 3px 9px 3px 3px;
+  box-shadow: 2px 2px 0 var(--ink);
+  font-size: 8px;
+}
+
+@media (min-width: 1260px) {
+  .grid:has(.summaryCard) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+}
+
+@media (min-width: 721px) and (max-width: 1259px) {
+  .grid:has(.summaryCard) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+}
+
+@media (max-width: 720px) {
+  .hero {
+    min-height: 190px;
+    padding: 24px 20px;
+  }
+
+  .summaryCard {
+    min-height: 280px;
+    grid-template-columns: minmax(125px, 38%) minmax(0, 1fr);
+  }
+
+  .summaryCard .cover {
+    min-height: 280px;
+    aspect-ratio: auto;
+    padding: 8px;
+    border-right: 2px solid var(--ink);
+    border-bottom: 0;
+    border-radius: 6px 0 0 6px;
+  }
+
+  .summaryCard .cover img {
+    width: 100%;
+    height: 100%;
+    max-height: 264px;
+  }
+
+  .summaryCard .cover > i {
+    left: 14px;
+    bottom: 13px;
+  }
+
+  .summaryCard .copy {
+    min-height: 280px;
+    padding: 13px 12px 11px;
+  }
+}
+
+@media (max-width: 460px) {
+  .summaryCard {
+    grid-template-columns: 108px minmax(0, 1fr);
+  }
+
+  .summaryCard .cover {
+    min-height: 270px;
+  }
+
+  .summaryCard .copy {
+    min-height: 270px;
+  }
+}
+
+/* Jangan paksa gambar mengikuti tinggi kartu: ini menghilangkan letterbox putih. */
+.summaryCard .cover {
+  align-content: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 50% 18%, color-mix(in srgb, var(--book-accent) 55%, #fff), transparent 42%),
+    linear-gradient(160deg, color-mix(in srgb, var(--book-accent) 72%, #171a2d), #171a2d);
+}
+
+.summaryCard .cover img {
+  align-self: center;
+  width: 100%;
+  height: auto;
+  max-height: none;
+  aspect-ratio: auto;
+  object-fit: initial;
+  background: transparent;
+}

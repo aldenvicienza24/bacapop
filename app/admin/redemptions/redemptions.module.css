@@ -1,0 +1,249 @@
+.stats {
+  margin-bottom: 12px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.stats article {
+  min-width: 0;
+  padding: 11px;
+  border: 2px solid #111;
+  border-radius: 10px;
+  background: #ffe45e;
+  box-shadow: 3px 3px 0 #111;
+}
+
+.stats article:last-child { background: #b9ff66; }
+.stats span { display: block; font-size: 9px; font-weight: 900; overflow-wrap: anywhere; }
+.stats strong { display: block; margin-top: 5px; font-size: 30px; line-height: 1; }
+
+.validator,
+.panel {
+  min-width: 0;
+  padding: 13px;
+  border: 3px solid #111;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 4px 4px 0 #111;
+}
+
+.validator {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(250px, 0.65fr);
+  align-items: end;
+  gap: 12px;
+  background: #fff4be;
+}
+
+.validator > div,
+.validator form,
+.panel header > div {
+  min-width: 0;
+}
+
+.validator span,
+.panel header span {
+  font-size: 8px;
+  font-weight: 950;
+  letter-spacing: 0.11em;
+}
+
+.validator h2,
+.panel h2 {
+  margin: 3px 0 0;
+  font-size: 21px;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.validator p {
+  margin: 5px 0 0;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.validator form {
+  display: grid;
+  gap: 5px;
+}
+
+.validator label {
+  font-size: 9px;
+  font-weight: 950;
+}
+
+.validator form > div {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 6px;
+}
+
+.validator input {
+  min-width: 0;
+  min-height: 38px;
+  padding: 7px 9px;
+  border: 2px solid #111;
+  border-radius: 8px;
+  background: #fff;
+  font: inherit;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.validator button,
+.panel header button {
+  min-width: 0;
+  min-height: 38px;
+  padding: 7px 9px;
+  border: 2px solid #111;
+  border-radius: 7px;
+  background: #3155ff;
+  box-shadow: 2px 2px 0 #111;
+  color: #fff;
+  font: inherit;
+  font-size: 9px;
+  font-weight: 950;
+  cursor: pointer;
+}
+
+.validator button:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.success,
+.error {
+  margin: 10px 0 0;
+  padding: 9px 10px;
+  border: 2px solid #111;
+  border-radius: 8px;
+  background: #b9ff66;
+  font-size: 10px;
+  font-weight: 850;
+  overflow-wrap: anywhere;
+}
+
+.error { background: #ffabbf; }
+
+.panel {
+  margin-top: 12px;
+}
+
+.panel header {
+  min-width: 0;
+  margin-bottom: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.panel header button {
+  background: #fff;
+  color: #111;
+}
+
+.list {
+  min-width: 0;
+  display: grid;
+  gap: 7px;
+}
+
+.list article {
+  min-width: 0;
+  padding: 9px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(150px, 0.75fr) auto;
+  align-items: center;
+  gap: 9px;
+  border: 2px solid #111;
+  border-radius: 8px;
+  background: #fffdf8;
+}
+
+.list article > div {
+  min-width: 0;
+}
+
+.list small,
+.list b,
+.list span,
+.list strong {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+.list small { font-size: 7px; font-weight: 950; letter-spacing: 0.1em; }
+.list b,
+.list strong { margin: 3px 0 2px; font-size: 11px; }
+.list span { color: #625c53; font-size: 8px; }
+.list strong { font-size: 13px; letter-spacing: 0.06em; }
+
+.list em {
+  padding: 5px 7px;
+  border: 2px solid #111;
+  border-radius: 999px;
+  background: #ffe45e;
+  font-size: 7px;
+  font-style: normal;
+  font-weight: 950;
+  text-align: center;
+}
+
+.list em[data-status="completed"] { background: #b9ff66; }
+.list em[data-status="cancelled"] { background: #ffabbf; }
+
+.empty {
+  padding: 25px 12px;
+  border: 2px dashed #111;
+  border-radius: 9px;
+  background: #f5f1e9;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+@media (max-width: 780px) {
+  .validator {
+    grid-template-columns: 1fr;
+  }
+
+  .list article {
+    grid-template-columns: 1fr auto;
+  }
+
+  .list article > div:nth-child(2) {
+    grid-column: 1;
+  }
+
+  .list em {
+    grid-column: 2;
+    grid-row: 1 / 3;
+  }
+}
+
+@media (max-width: 520px) {
+  .stats,
+  .validator form > div,
+  .list article {
+    grid-template-columns: 1fr;
+  }
+
+  .validator,
+  .panel {
+    padding: 10px;
+  }
+
+  .panel header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .list em {
+    grid-column: 1;
+    grid-row: auto;
+    width: fit-content;
+  }
+}

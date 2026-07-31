@@ -1,0 +1,511 @@
+.stats {
+  margin-bottom: 12px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+  gap: 9px;
+}
+
+.stat {
+  min-width: 0;
+  padding: 11px;
+  border: 2px solid #111;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 3px 3px 0 #111;
+}
+
+.stat[data-color="yellow"] { background: #ffe45e; }
+.stat[data-color="lime"] { background: #d9ff19; }
+.stat[data-color="pink"] { background: #ff91b9; }
+.stat[data-color="blue"] { background: #a8d5ff; }
+
+.stat span,
+.stat i {
+  display: block;
+  font-size: 9px;
+  font-weight: 900;
+  overflow-wrap: anywhere;
+}
+
+.stat strong {
+  display: block;
+  margin: 5px 0;
+  font-size: 29px;
+  line-height: 1;
+}
+
+.stat i {
+  opacity: 0.7;
+  font-style: normal;
+}
+
+.panel {
+  min-width: 0;
+  padding: 13px;
+  border: 3px solid #111;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 4px 4px 0 #111;
+}
+
+.panelHead,
+.panelTools,
+.cardTop,
+.cardFoot,
+.actions,
+.modalActions {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.panelHead,
+.cardTop,
+.cardFoot {
+  justify-content: space-between;
+}
+
+.panelHead > div:first-child {
+  min-width: 0;
+}
+
+.panelHead span,
+.modalHead span,
+.fullSummary > span {
+  color: #625c53;
+  font-size: 8px;
+  font-weight: 950;
+  letter-spacing: 0.11em;
+}
+
+.panelHead h2 {
+  margin: 3px 0 0;
+  font-size: 22px;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.panelTools {
+  justify-content: flex-end;
+}
+
+.panelTools > b,
+.panelTools > button {
+  padding: 6px 8px;
+  border: 2px solid #111;
+  border-radius: 999px;
+  background: #d9ff19;
+  font: inherit;
+  font-size: 9px;
+  font-weight: 950;
+}
+
+.panelTools > button {
+  background: #fff;
+  box-shadow: 2px 2px 0 #111;
+  cursor: pointer;
+}
+
+.filters {
+  min-width: 0;
+  margin: 11px 0 13px;
+  display: grid;
+  grid-template-columns: minmax(190px, 1fr) repeat(2, minmax(125px, 165px));
+  gap: 8px;
+}
+
+.filters label,
+.validationForm label {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  gap: 4px;
+  font-size: 9px;
+  font-weight: 900;
+}
+
+.search {
+  min-width: 0;
+}
+
+.filters input,
+.filters select,
+.validationForm input,
+.validationForm textarea {
+  width: 100%;
+  min-width: 0;
+  min-height: 38px;
+  padding: 7px 9px;
+  border: 2px solid #111;
+  border-radius: 8px;
+  background: #fff;
+  color: #111;
+  font: inherit;
+  font-size: 10px;
+}
+
+.list {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(255px, 1fr));
+  gap: 11px;
+}
+
+.summaryCard {
+  min-width: 0;
+  padding: 11px;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #111;
+  border-radius: 10px;
+  background: #fffdf8;
+  box-shadow: 3px 3px 0 #111;
+}
+
+.genreBadge,
+.status {
+  max-width: 58%;
+  padding: 4px 7px;
+  border: 2px solid #111;
+  border-radius: 999px;
+  font-size: 8px;
+  font-weight: 950;
+  overflow-wrap: anywhere;
+}
+
+.status[data-status="pending"] { background: #ffe45e; }
+.status[data-status="valid"] { background: #b9ff66; }
+.status[data-status="rejected"] { background: #ff91b9; }
+
+.userLine {
+  min-width: 0;
+  margin: 9px 0;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  align-items: center;
+  gap: 7px;
+}
+
+.userLine > span {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 2px solid #111;
+  border-radius: 50%;
+  background: #3159e8;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 950;
+}
+
+.userLine b,
+.userLine small {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+.userLine b { font-size: 10px; }
+.userLine small { color: #706960; font-size: 8px; }
+
+.bookLabel {
+  margin: 0 0 2px;
+  color: #777067;
+  font-size: 8px;
+  font-weight: 950;
+  letter-spacing: 0.1em;
+}
+
+.summaryCard h3 {
+  margin: 0 0 2px;
+  font-size: 16px;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.summaryCard > small {
+  color: #6e675e;
+  font-size: 9px;
+}
+
+.preview {
+  margin: 8px 0;
+  padding: 8px;
+  border: 1px solid #111;
+  border-radius: 7px;
+  background: #f3efe7;
+}
+
+.preview b {
+  display: block;
+  font-size: 10px;
+  overflow-wrap: anywhere;
+}
+
+.preview p {
+  margin: 4px 0 0;
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 9px;
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+
+.cardFoot {
+  margin-top: auto;
+  font-size: 8px;
+}
+
+.actions {
+  margin-top: 8px;
+}
+
+.actions button,
+.modalActions button,
+.backButton {
+  min-width: 0;
+  min-height: 35px;
+  padding: 6px 8px;
+  flex: 1 1 105px;
+  border: 2px solid #111;
+  border-radius: 7px;
+  box-shadow: 2px 2px 0 #111;
+  font: inherit;
+  font-size: 9px;
+  font-weight: 950;
+  cursor: pointer;
+}
+
+.detailButton,
+.backButton { background: #fff; }
+.validateButton,
+.approveButton { background: #d9ff19; }
+.rejectButton { background: #ff3b86; color: #fff; }
+
+.empty {
+  grid-column: 1 / -1;
+  padding: 28px 14px;
+  border: 2px dashed #111;
+  border-radius: 10px;
+  background: #f5f1e9;
+  text-align: center;
+  font-size: 11px;
+}
+
+.error,
+.success {
+  margin: 0 0 10px;
+  padding: 9px 10px;
+  border: 2px solid #111;
+  border-radius: 8px;
+  background: #ffabbf;
+  font-size: 10px;
+  font-weight: 850;
+  overflow-wrap: anywhere;
+}
+
+.success { background: #b9ff66; }
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  padding: 10px;
+  display: grid;
+  place-items: center;
+  overflow-y: auto;
+  background: rgba(17, 17, 17, 0.68);
+}
+
+.modal {
+  width: min(860px, calc(100vw - 20px));
+  max-height: calc(100dvh - 20px);
+  overflow-y: auto;
+  border: 3px solid #111;
+  border-radius: 12px;
+  background: #fffdf8;
+  box-shadow: 4px 4px 0 #111;
+}
+
+.modalHead {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  min-width: 0;
+  padding: 11px 13px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  border-bottom: 2px solid #111;
+  background: #ffe45e;
+}
+
+.modalHead > div {
+  min-width: 0;
+}
+
+.modalHead h2 {
+  margin: 3px 0 0;
+  font-size: 20px;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.modalHead button {
+  width: 33px;
+  height: 33px;
+  flex: 0 0 auto;
+  border: 2px solid #111;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 20px;
+  font-weight: 950;
+  cursor: pointer;
+}
+
+.detailGrid {
+  min-width: 0;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: minmax(180px, 220px) minmax(0, 1fr);
+  gap: 10px;
+}
+
+.detailMeta {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  gap: 6px;
+}
+
+.detailMeta > div {
+  min-width: 0;
+  padding: 7px;
+  border: 1px solid #111;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.detailMeta > div > span:first-child,
+.validationForm label > span {
+  display: block;
+  margin-bottom: 3px;
+  color: #6e675e;
+  font-size: 8px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.detailMeta b {
+  display: block;
+  font-size: 10px;
+  overflow-wrap: anywhere;
+}
+
+.fullSummary {
+  min-width: 0;
+  padding: 10px;
+  border: 2px solid #111;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.fullSummary h3 {
+  margin: 5px 0 8px;
+  font-size: 17px;
+  overflow-wrap: anywhere;
+}
+
+.fullSummary p {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.validationForm,
+.processed {
+  min-width: 0;
+  padding: 0 12px 12px;
+}
+
+.validationForm {
+  display: grid;
+  grid-template-columns: minmax(130px, 165px) minmax(0, 1fr);
+  gap: 8px;
+}
+
+.validationForm .error,
+.modalActions {
+  grid-column: 1 / -1;
+}
+
+.validationForm textarea {
+  resize: vertical;
+}
+
+.modalActions {
+  justify-content: flex-end;
+}
+
+.processed {
+  display: grid;
+  gap: 8px;
+}
+
+.processed strong {
+  padding: 9px;
+  border: 2px solid #111;
+  border-radius: 7px;
+  background: #d9ff19;
+  font-size: 10px;
+}
+
+.processed .backButton {
+  width: fit-content;
+}
+
+@media (max-width: 760px) {
+  .filters,
+  .detailGrid,
+  .validationForm {
+    grid-template-columns: 1fr;
+  }
+
+  .validationForm .error,
+  .modalActions {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 520px) {
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .panel {
+    padding: 10px;
+  }
+
+  .panelHead {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .panelTools {
+    justify-content: flex-start;
+  }
+
+  .list {
+    grid-template-columns: 1fr;
+  }
+
+  .modalActions {
+    flex-direction: column;
+  }
+}

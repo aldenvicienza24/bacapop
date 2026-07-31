@@ -1,0 +1,3511 @@
+.page {
+  --ink: #0b0710;
+  --night: #130a1f;
+  --purple: #2a143f;
+  --red: #ff4057;
+  --blood: #8f1027;
+  --bone: #f6ead7;
+  --mist: rgba(246, 234, 215, 0.16);
+  min-height: 100svh;
+  overflow-x: hidden;
+  color: var(--bone);
+  background:
+    radial-gradient(circle at 86% 9%, rgba(202, 44, 68, 0.8) 0 62px, rgba(202, 44, 68, 0.13) 63px 96px, transparent 97px),
+    radial-gradient(circle, rgba(246, 234, 215, 0.24) 0 1px, transparent 1.5px) 0 0 / 126px 116px,
+    radial-gradient(circle at 18% 10%, rgba(255, 64, 87, 0.18), transparent 22%),
+    radial-gradient(circle at 84% 20%, rgba(128, 83, 255, 0.16), transparent 24%),
+    linear-gradient(135deg, #09060d 0%, #16091f 52%, #070509 100%);
+  background-attachment: fixed;
+}
+
+.page * {
+  box-sizing: border-box;
+}
+
+.fog {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.fog span {
+  position: absolute;
+  display: block;
+  width: 42vw;
+  height: 88px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgba(225, 215, 231, 0.1), transparent);
+  filter: blur(22px);
+  animation: fogMove 14s ease-in-out infinite;
+}
+
+.fog span:nth-child(1) {
+  left: -10%;
+  top: 190px;
+}
+
+.fog span:nth-child(2) {
+  right: -12%;
+  top: 360px;
+  animation-delay: -4s;
+}
+
+.fog span:nth-child(3) {
+  left: 28%;
+  bottom: 100px;
+  animation-delay: -7s;
+}
+
+.fog span:nth-child(4) {
+  width: 58px;
+  height: 78px;
+  left: 3%;
+  top: 44%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50% 50% 28% 30%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(225, 210, 232, 0.08));
+  box-shadow: 0 0 34px rgba(222, 204, 236, 0.2);
+  clip-path: polygon(0 0, 100% 0, 100% 87%, 82% 100%, 64% 88%, 48% 100%, 30% 88%, 14% 100%, 0 87%);
+  filter: none;
+  opacity: 0.52;
+  animation: ghostHover 8s ease-in-out infinite;
+}
+
+.fog span:nth-child(4)::before {
+  content: '';
+  position: absolute;
+  top: 27px;
+  left: 17px;
+  width: 6px;
+  height: 9px;
+  border-radius: 50%;
+  background: #1a0e22;
+  box-shadow: 18px 0 0 #1a0e22;
+}
+
+.fog span:nth-child(5) {
+  width: 82px;
+  height: 82px;
+  right: 5%;
+  bottom: 9%;
+  border-radius: 50%;
+  background: rgba(143, 16, 39, 0.24);
+  box-shadow: 0 0 0 18px rgba(255, 64, 87, 0.035), 0 0 58px rgba(255, 64, 87, 0.16);
+  filter: none;
+  opacity: 0.7;
+  animation: moonPulse 7s ease-in-out infinite;
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  width: min(1240px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 18px 0 54px;
+}
+
+.topbar {
+  position: sticky;
+  top: 12px;
+  z-index: 20;
+  min-height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 11px 14px;
+  border: 2px solid #5b335e;
+  border-radius: 20px;
+  background: rgba(17, 9, 23, 0.88);
+  color: #fff3f5;
+  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(16px);
+}
+
+.brand,
+.topbar a,
+.genreItem,
+.activeGenre,
+.backLink,
+.cardCopy a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand span {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 2px solid #ff6572;
+  border-radius: 12px;
+  background: var(--red);
+  color: #fff;
+  box-shadow: 3px 3px 0 #000;
+  font-size: 24px;
+  font-weight: 950;
+  transform: rotate(-8deg);
+}
+
+.brand b {
+  font-size: 27px;
+  font-weight: 950;
+  letter-spacing: -0.04em;
+}
+
+.topbar nav {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 15px;
+  font-weight: 950;
+}
+
+.topbar button {
+  padding: 11px 18px;
+  border: 2px solid #ff6572;
+  border-radius: 999px;
+  background: #8f2035;
+  color: #fff;
+  box-shadow: 4px 4px 0 var(--red);
+  font: inherit;
+  font-weight: 950;
+  cursor: pointer;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+  margin-top: 24px;
+}
+
+.sidebar {
+  position: sticky;
+  top: 102px;
+  padding: 18px;
+  border: 2px solid #5b335e;
+  border-radius: 22px;
+  background: rgba(33, 20, 47, 0.9);
+  box-shadow: 5px 6px 0 #09060d, 0 20px 42px rgba(0, 0, 0, 0.26);
+  backdrop-filter: blur(12px);
+}
+
+.sidebar p,
+.sectionHead p,
+.cardCopy > p {
+  margin: 0;
+  color: #cbb9a3;
+  font-size: 10px;
+  font-weight: 950;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.sidebar h2 {
+  margin: 8px 0 14px;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.sidebar nav {
+  display: grid;
+  gap: 10px;
+}
+
+.genreItem,
+.activeGenre {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 8px;
+  border: 2px solid #5b335e;
+  border-radius: 15px;
+  background: var(--bone);
+  color: var(--ink);
+  box-shadow: 2px 3px 0 #09060d;
+  transition: transform 160ms ease, background 160ms ease;
+}
+
+.activeGenre,
+.genreItem:hover {
+  background: var(--red);
+  color: #fff;
+  transform: translate(-1px, -1px);
+}
+
+.genreItem span,
+.activeGenre span {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 2px solid #000;
+  border-radius: 12px;
+  background: #000;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 950;
+}
+
+.genreItem b,
+.activeGenre b {
+  min-width: 0;
+  font-size: 15px;
+  font-weight: 950;
+  overflow-wrap: anywhere;
+}
+
+.main {
+  min-width: 0;
+  display: grid;
+  gap: 18px;
+}
+
+.hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 34px;
+  align-items: center;
+  min-height: 390px;
+  padding: 34px;
+  overflow: hidden;
+  border: 2px solid #5b335e;
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at 80% 20%, rgba(246, 234, 215, 0.12) 0 64px, transparent 66px),
+    linear-gradient(130deg, #241234 0 55%, #120817 55% 100%);
+  box-shadow: 6px 7px 0 #09060d, 0 28px 65px rgba(0, 0, 0, 0.34);
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: auto -40px -48px 42%;
+  height: 118px;
+  border: 4px solid #000;
+  border-radius: 50% 50% 0 0;
+  background: #050405;
+}
+
+.heroCopy,
+.hauntedCard {
+  position: relative;
+  z-index: 1;
+}
+
+.backLink {
+  width: max-content;
+  display: inline-flex;
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  border: 3px solid #000;
+  border-radius: 999px;
+  background: var(--bone);
+  color: var(--ink);
+  box-shadow: 3px 3px 0 #000;
+  font-size: 13px;
+  font-weight: 950;
+}
+
+.kicker {
+  width: max-content;
+  max-width: 100%;
+  margin: 0;
+  padding: 8px 13px;
+  border: 3px solid #000;
+  border-radius: 999px;
+  background: var(--red);
+  color: #fff;
+  box-shadow: 3px 3px 0 #000;
+  font-size: 11px;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  margin: 12px 0 10px;
+  color: #fff;
+  font-size: clamp(52px, 7vw, 88px);
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+  text-shadow: 4px 4px 0 #000, 8px 8px 0 var(--blood);
+}
+
+.heroCopy > p:last-of-type {
+  max-width: 620px;
+  margin: 0;
+  color: #e8d8c8;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 16px;
+}
+
+.tags span {
+  padding: 8px 11px;
+  border: 3px solid #000;
+  border-radius: 999px;
+  background: var(--bone);
+  color: var(--ink);
+  box-shadow: 3px 3px 0 #000;
+  font-size: 12px;
+  font-weight: 950;
+}
+
+.tags span:nth-child(2) {
+  background: #2c173e;
+  color: #fff;
+}
+
+.tags span:nth-child(3) {
+  background: var(--red);
+  color: #fff;
+}
+
+.hauntedCard {
+  min-height: 240px;
+  overflow: hidden;
+  border: 2px solid #6b3b68;
+  border-radius: 26px;
+  background: #03070c;
+  box-shadow: 7px 8px 0 #08050b, 0 20px 44px rgba(0, 0, 0, 0.34);
+}
+
+.hauntedCard img {
+  width: 100%;
+  height: 100%;
+  min-height: 240px;
+  display: block;
+  object-fit: cover;
+  filter: saturate(1.15) contrast(1.16) brightness(0.8);
+  transition: transform 700ms ease, filter 700ms ease;
+}
+
+.hauntedCard:hover img {
+  filter: saturate(1.24) contrast(1.2) brightness(0.9);
+  transform: scale(1.045);
+}
+
+.hauntedCard::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.62)),
+    radial-gradient(circle at 55% 43%, rgba(35, 136, 255, 0.2), transparent 34%);
+}
+
+.heroPosterText {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 14px;
+  z-index: 2;
+  display: grid;
+  gap: 8px;
+}
+
+.heroPosterText span {
+  width: max-content;
+  padding: 7px 10px;
+  border: 3px solid #000;
+  border-radius: 999px;
+  background: var(--red);
+  color: #fff;
+  box-shadow: 3px 3px 0 #000;
+  font-size: 11px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.heroPosterText b {
+  color: #fff;
+  font-size: 26px;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  text-shadow: 3px 3px 0 #000, 5px 5px 0 var(--blood);
+}
+
+.moodGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.moodGrid article,
+.collection,
+.bookCard {
+  border: 2px solid #5b335e;
+  background: rgba(33, 20, 47, 0.94);
+  box-shadow: 5px 6px 0 #09060d;
+}
+
+.moodGrid article {
+  min-height: 142px;
+  padding: 16px;
+  border-radius: 22px;
+  transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
+}
+
+.moodGrid article:hover {
+  border-color: var(--red);
+  background: #2d193d;
+  transform: translateY(-4px);
+}
+
+.moodGrid b {
+  display: inline-grid;
+  place-items: center;
+  width: 38px;
+  height: 30px;
+  margin-bottom: 10px;
+  border: 3px solid #000;
+  border-radius: 999px;
+  background: var(--red);
+  color: #fff;
+  box-shadow: 2px 2px 0 #000;
+}
+
+.moodGrid h3 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.moodGrid p {
+  margin: 0;
+  color: #d8c9b7;
+  font-size: 13px;
+  font-weight: 750;
+  line-height: 1.4;
+}
+
+.collection {
+  padding: 22px;
+  border-radius: 28px;
+  box-shadow: 5px 6px 0 #09060d, 0 24px 54px rgba(0, 0, 0, 0.25);
+}
+
+.sectionHead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 3px solid #000;
+}
+
+.sectionHead h2 {
+  margin: 4px 0 0;
+  font-size: clamp(28px, 3.4vw, 42px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.sectionHead > span {
+  padding: 9px 13px;
+  border: 3px solid #000;
+  border-radius: 999px;
+  background: var(--red);
+  color: #fff;
+  box-shadow: 3px 3px 0 #000;
+  font-size: 13px;
+  font-weight: 950;
+  white-space: nowrap;
+}
+
+.notice,
+.empty {
+  margin-top: 12px;
+  padding: 14px;
+  border: 3px dashed var(--red);
+  border-radius: 18px;
+  background: rgba(255, 64, 87, 0.12);
+  text-align: center;
+  font-size: 14px;
+  font-weight: 950;
+  line-height: 1.45;
+}
+
+.bookGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 260px));
+  justify-content: start;
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.bookCard {
+  overflow: hidden;
+  border-radius: 22px;
+  transition: transform 190ms ease, box-shadow 190ms ease, border-color 190ms ease;
+}
+
+.bookCard:hover {
+  border-color: var(--red);
+  box-shadow: 9px 10px 0 #000, 0 24px 52px rgba(0, 0, 0, 0.28);
+  transform: translateY(-5px);
+}
+
+.cover {
+  position: relative;
+  min-height: 270px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 18px;
+  overflow: hidden;
+  border-bottom: 4px solid #000;
+  background: #09060d;
+}
+
+.cover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.48) 46%, rgba(0, 0, 0, 0.86) 100%),
+    radial-gradient(circle at 50% 30%, rgba(255, 64, 87, 0.18), transparent 35%);
+}
+
+.cover img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  filter: saturate(1.2) contrast(1.12) brightness(0.78);
+}
+
+.posterOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.82)),
+    linear-gradient(90deg, rgba(143, 16, 39, 0.4), transparent 40%, rgba(0, 0, 0, 0.3));
+}
+
+.cover span,
+.cover h3,
+.cover p {
+  position: relative;
+  z-index: 4;
+}
+
+.premiumCover {
+  padding: 0;
+  background: #05070a;
+}
+
+.premiumCover::before,
+.premiumCover .posterOverlay,
+.premiumCover span,
+.premiumCover h3,
+.premiumCover p {
+  display: none;
+}
+
+.premiumCover img {
+  object-fit: contain;
+  filter: none;
+}
+
+.cover span {
+  width: max-content;
+  padding: 7px 10px;
+  border: 3px solid #000;
+  border-radius: 999px;
+  background: var(--red);
+  color: #fff;
+  box-shadow: 3px 3px 0 #000;
+  font-size: 11px;
+  font-weight: 950;
+}
+
+.cover h3 {
+  margin: auto 0 10px;
+  color: #fff;
+  font-size: 30px;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  text-shadow: 3px 3px 0 #000;
+}
+
+.cover p {
+  margin: 0;
+  color: #f4d9c9;
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.cardCopy {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+}
+
+.cardCopy h3 {
+  margin: 0;
+  color: #fff;
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+.cardCopy span {
+  color: #d8c9b7;
+  font-size: 13px;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+.cardActions {
+  display: grid;
+  grid-template-columns: 1fr 72px;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.cardActions a {
+  width: 100%;
+  display: grid;
+  place-items: center;
+  padding: 10px 12px;
+  border: 3px solid #000;
+  border-radius: 999px;
+  background: var(--red);
+  color: #fff;
+  box-shadow: 3px 3px 0 #000;
+  font-size: 13px;
+  font-weight: 950;
+}
+
+.cardActions a:last-child {
+  background: var(--bone);
+  color: var(--ink);
+}
+
+@keyframes fogMove {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(44px);
+  }
+}
+
+@keyframes ghostHover {
+  0%, 100% {
+    transform: translate(0, 0) rotate(-3deg);
+  }
+  45% {
+    transform: translate(13px, -17px) rotate(3deg);
+  }
+  72% {
+    transform: translate(-4px, -8px) rotate(-1deg);
+  }
+}
+
+@keyframes moonPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.62;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.82;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fog span,
+  .fogGhost {
+    animation: none;
+  }
+
+  .hauntedCard img,
+  .moodGrid article,
+  .bookCard {
+    transition: none;
+  }
+}
+
+/* SVG transparan mencegah batas layer persegi muncul saat hantu dianimasikan. */
+.fogGhost {
+  position: absolute;
+  left: 3%;
+  top: 44%;
+  width: 76px;
+  height: 102px;
+  overflow: hidden;
+  opacity: 0.68;
+  animation: ghostHover 8s ease-in-out infinite;
+  pointer-events: none;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Efek layar penuh ini sebelumnya memicu repaint besar saat scroll. */
+.page {
+  background-attachment: scroll;
+}
+
+.page::before {
+  filter: none;
+  opacity: 0.5;
+}
+
+.fog span {
+  will-change: transform;
+}
+
+.topbar,
+.hero,
+.moodGrid article,
+.collection {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+@media (max-width: 980px) {
+  .layout,
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+  }
+
+  .sidebar nav {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+
+  .hauntedCard {
+    max-width: 420px;
+  }
+
+  .moodGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .wrap {
+    width: min(100% - 20px, 1240px);
+    padding-top: 10px;
+  }
+
+  .topbar {
+    position: relative;
+    top: auto;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .topbar nav {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .topbar nav a {
+    display: none;
+  }
+
+  .hero,
+  .collection {
+    padding: 15px;
+    border-radius: 22px;
+  }
+
+  .hero h1 {
+    font-size: 52px;
+  }
+
+  .bookGrid {
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  }
+}
+
+/* Shared genre layout: horror theme treatment only */
+.countCard {
+  border: 1px solid rgba(255, 101, 118, 0.45);
+  background: rgba(143, 16, 39, 0.34);
+  color: #fff3f5;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+}
+
+.countCard span {
+  color: #ff9aa6;
+}
+
+.storyShelf {
+  border: 1px solid rgba(255, 89, 108, 0.26);
+  background: rgba(11, 7, 16, 0.5);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+}
+
+.storyHead {
+  border-bottom: 1px solid rgba(255, 89, 108, 0.22);
+  padding-bottom: 14px;
+}
+
+.storyHead p {
+  margin: 0;
+  color: #ff8795;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.storyHead h3,
+.storyTile h4 {
+  color: #fff3f5;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.storyTile {
+  border: 1px solid rgba(255, 101, 118, 0.24);
+  background: #160d1c;
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.22);
+}
+
+.storyTile span {
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: #8f2035;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.storyTile p {
+  display: -webkit-box;
+  overflow: hidden;
+  color: #d8c9b7;
+  font-size: 12px;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+/* Background horror yang tetap terlihat di balik konten */
+.page {
+  position: relative;
+  isolation: isolate;
+  background: #09060d;
+}
+
+.page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(7, 4, 10, 0.2), rgba(7, 4, 10, 0.72)),
+    radial-gradient(circle at 78% 16%, rgba(255, 79, 101, 0.2), transparent 23%),
+    url("/images/horror/graveyard-moon.jfif") center 28% / cover no-repeat;
+  filter: saturate(0.78) contrast(1.16) brightness(0.72);
+  opacity: 0.58;
+  transform: scale(1.015);
+}
+
+.page::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 118px, rgba(255, 255, 255, 0.018) 119px 120px),
+    radial-gradient(ellipse at 50% 105%, rgba(0, 0, 0, 0.92) 0 20%, transparent 58%);
+  opacity: 0.72;
+}
+
+.hero {
+  background:
+    radial-gradient(circle at 82% 18%, rgba(255, 101, 118, 0.1) 0 70px, transparent 72px),
+    linear-gradient(120deg, rgba(25, 12, 35, 0.94) 0 55%, rgba(8, 5, 11, 0.73) 55% 100%);
+  backdrop-filter: blur(7px);
+}
+
+.moodGrid article {
+  background: rgba(27, 15, 37, 0.74);
+  backdrop-filter: blur(8px);
+}
+
+.collection {
+  background: rgba(15, 8, 20, 0.8);
+  backdrop-filter: blur(9px);
+}
+
+.sidebar {
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+/* Hantu tanpa kotak pembungkus */
+.fog span:nth-child(4) {
+  width: 76px;
+  height: 102px;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  clip-path: none;
+  filter: none;
+  opacity: 0.68;
+}
+
+.fog span:nth-child(4)::before {
+  content: "";
+  position: absolute;
+  inset: 4px 7px 7px;
+  width: auto;
+  height: auto;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  border-radius: 50% 50% 27% 29%;
+  background: linear-gradient(180deg, rgba(244, 237, 250, 0.68), rgba(190, 174, 205, 0.17));
+  box-shadow: none;
+  clip-path: polygon(0 0, 100% 0, 100% 86%, 84% 100%, 66% 87%, 49% 100%, 31% 87%, 14% 100%, 0 86%);
+  filter: drop-shadow(0 0 12px rgba(226, 211, 238, 0.34));
+}
+
+.fog span:nth-child(4)::after {
+  content: "";
+  position: absolute;
+  top: 40px;
+  left: 24px;
+  width: 7px;
+  height: 10px;
+  border-radius: 50%;
+  background: #160a1d;
+  box-shadow: 23px 0 0 #160a1d;
+}
+
+/* Scalable poster archive */
+.hero {
+  min-height: 380px;
+  padding-block: 36px;
+}
+
+.bookGrid {
+  grid-template-columns: repeat(auto-fill, minmax(205px, 1fr));
+  align-items: start;
+  gap: 32px 24px;
+}
+
+.bookCard,
+.bookCard:only-child {
+  width: auto;
+  min-width: 0;
+  display: block;
+  grid-column: auto;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.bookCard:hover,
+.bookCard:only-child:hover {
+  border: 0;
+  box-shadow: none;
+  transform: translateY(-7px);
+}
+
+.cover,
+.bookCard:only-child .cover {
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  aspect-ratio: 2 / 3;
+  border: 1px solid rgba(255, 89, 108, 0.34);
+  border-radius: 2px;
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.42), 8px 8px 0 rgba(143, 16, 39, 0.16);
+  transition: box-shadow 190ms ease, border-color 190ms ease;
+}
+
+.bookCard:hover .cover {
+  border-color: rgba(255, 101, 118, 0.78);
+  box-shadow: 0 28px 58px rgba(0, 0, 0, 0.5), 10px 10px 0 rgba(143, 16, 39, 0.23);
+}
+
+.cardCopy,
+.bookCard:only-child .cardCopy {
+  min-height: 205px;
+  align-content: start;
+  gap: 9px;
+  padding: 18px 2px 0;
+}
+
+.cardCopy h3,
+.bookCard:only-child .cardCopy h3 {
+  min-height: 50px;
+  font-size: 22px;
+  line-height: 1.12;
+}
+
+.cardCopy > span,
+.bookCard:only-child .cardCopy > span {
+  display: -webkit-box;
+  max-width: none;
+  overflow: hidden;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.cardActions,
+.bookCard:only-child .cardActions {
+  width: 100%;
+  margin-top: auto;
+}
+
+@media (max-width: 680px) {
+  .bookGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 26px 14px;
+  }
+
+  .bookCard:only-child .cover {
+    min-height: 0;
+    aspect-ratio: 2 / 3;
+  }
+
+  .cardCopy,
+  .bookCard:only-child .cardCopy {
+    min-height: 190px;
+    padding-top: 14px;
+  }
+
+  .cardCopy h3,
+  .bookCard:only-child .cardCopy h3 {
+    font-size: 18px;
+  }
+}
+
+/* Cinematic archive direction */
+.wrap {
+  width: min(1360px, calc(100% - 44px));
+  padding-top: 22px;
+}
+
+.topbar {
+  top: 16px;
+  min-height: 60px;
+  padding: 10px 18px;
+  border: 1px solid rgba(255, 92, 111, 0.28);
+  border-radius: 4px;
+  background: rgba(10, 6, 13, 0.86);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.38);
+}
+
+.brand span {
+  border: 1px solid #ff596c;
+  border-radius: 2px;
+  background: transparent;
+  box-shadow: inset 0 0 18px rgba(255, 64, 87, 0.16);
+  color: #ff6576;
+  transform: none;
+}
+
+.topbar button {
+  border: 1px solid #9d2c41;
+  border-radius: 2px;
+  background: transparent;
+  box-shadow: none;
+  color: #ff8795;
+}
+
+.layout {
+  grid-template-columns: 176px minmax(0, 1fr);
+  gap: 30px;
+  margin-top: 32px;
+}
+
+.sidebar {
+  top: 110px;
+  padding: 8px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.sidebar h2 {
+  margin-bottom: 22px;
+  color: #f1e6dc;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.sidebar nav {
+  gap: 6px;
+  padding-left: 12px;
+  border-left: 1px solid rgba(255, 89, 108, 0.3);
+}
+
+.genreItem,
+.activeGenre {
+  min-height: 48px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #d4c4c4;
+}
+
+.activeGenre,
+.genreItem:hover {
+  background: linear-gradient(90deg, rgba(255, 64, 87, 0.18), transparent);
+  color: #fff;
+  transform: translateX(5px);
+}
+
+.genreItem span,
+.activeGenre span {
+  border: 1px solid #8e3142;
+  border-radius: 2px;
+  background: #140a17;
+}
+
+.main {
+  gap: 28px;
+}
+
+.hero {
+  grid-template-columns: minmax(0, 1fr) 390px;
+  min-height: 380px;
+  padding: 36px 40px;
+  border: 1px solid rgba(255, 89, 108, 0.28);
+  border-radius: 2px;
+  background:
+    linear-gradient(90deg, rgba(255, 64, 87, 0.055) 1px, transparent 1px) 0 0 / 44px 44px,
+    linear-gradient(0deg, rgba(255, 64, 87, 0.045) 1px, transparent 1px) 0 0 / 44px 44px,
+    linear-gradient(125deg, rgba(36, 18, 52, 0.98), rgba(10, 6, 13, 0.98));
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.42);
+}
+
+.caseStamp {
+  position: absolute;
+  z-index: 4;
+  top: 25px;
+  right: 25px;
+  min-width: 88px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 89, 108, 0.62);
+  background: rgba(12, 7, 15, 0.82);
+  color: #ff7182;
+  text-align: center;
+  transform: rotate(2deg);
+}
+
+.caseStamp span,
+.caseStamp b {
+  display: block;
+}
+
+.caseStamp span {
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.24em;
+}
+
+.caseStamp b {
+  margin-top: 4px;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 16px;
+  letter-spacing: 0.08em;
+}
+
+.hero::before {
+  inset: auto 0 0 46%;
+  height: 1px;
+  border: 0;
+  border-radius: 0;
+  background: linear-gradient(90deg, #ff4057, transparent);
+}
+
+.backLink,
+.kicker,
+.tags span {
+  border: 0;
+  border-radius: 1px;
+  box-shadow: none;
+}
+
+.backLink {
+  padding-left: 0;
+  background: transparent;
+  color: #bba8ad;
+}
+
+.kicker {
+  padding-left: 0;
+  background: transparent;
+  color: #ff6576;
+}
+
+.hero h1 {
+  margin: 10px 0 22px;
+  color: #f5eadd;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(72px, 8vw, 118px);
+  font-weight: 400;
+  letter-spacing: -0.055em;
+  text-shadow: 0 0 34px rgba(255, 64, 87, 0.18);
+}
+
+.heroCopy > p:last-of-type {
+  max-width: 560px;
+  color: #cabdc0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+.tags span {
+  background: rgba(255, 255, 255, 0.055);
+  color: #d9cace;
+}
+
+.tags span:nth-child(2),
+.tags span:nth-child(3) {
+  background: rgba(255, 64, 87, 0.13);
+  color: #ff98a4;
+}
+
+.hauntedCard {
+  border: 1px solid rgba(255, 89, 108, 0.45);
+  border-radius: 1px;
+  box-shadow: 18px 18px 0 rgba(143, 16, 39, 0.15), 0 28px 64px rgba(0, 0, 0, 0.42);
+  transform: rotate(1.2deg);
+}
+
+.heroPosterText span {
+  border: 0;
+  border-radius: 1px;
+  box-shadow: none;
+}
+
+.heroPosterText b {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 500;
+  text-shadow: 0 3px 14px #000;
+}
+
+.moodGrid {
+  gap: 18px;
+}
+
+.moodGrid article {
+  min-height: 160px;
+  padding: 22px;
+  border: 0;
+  border-top: 1px solid rgba(255, 89, 108, 0.48);
+  border-radius: 0;
+  background: linear-gradient(180deg, rgba(42, 20, 63, 0.72), rgba(18, 9, 24, 0.72));
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.2);
+}
+
+.moodGrid b {
+  border: 0;
+  border-radius: 1px;
+  background: transparent;
+  box-shadow: none;
+  color: #ff6576;
+}
+
+.moodGrid h3,
+.sectionHead h2 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 500;
+}
+
+.collection {
+  padding: 32px;
+  border: 1px solid rgba(255, 89, 108, 0.26);
+  border-radius: 2px;
+  background: rgba(17, 9, 23, 0.78);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.32);
+}
+
+.sectionHead {
+  border-bottom: 1px solid rgba(255, 89, 108, 0.22);
+}
+
+.sectionHead > span {
+  border: 1px solid #8f2b3e;
+  border-radius: 1px;
+  background: transparent;
+  box-shadow: none;
+  color: #ff8795;
+}
+
+.bookCard {
+  border: 0;
+  border-radius: 1px;
+  background: #160d1c;
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.3);
+}
+
+.cardActions {
+  grid-template-columns: 1fr;
+}
+
+.cover {
+  border-bottom: 1px solid rgba(255, 89, 108, 0.22);
+}
+
+.cover span,
+.cardActions a {
+  border: 0;
+  border-radius: 1px;
+  box-shadow: none;
+}
+
+.cover h3,
+.cardCopy h3 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 500;
+}
+
+@media (max-width: 980px) {
+  .wrap {
+    width: min(100% - 24px, 1360px);
+  }
+
+  .layout,
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar nav {
+    border-left: 0;
+  }
+
+  .caseStamp {
+    top: 18px;
+    right: 18px;
+  }
+}
+
+@media (max-width: 680px) {
+  .hero {
+    min-height: auto;
+    padding: 26px 20px;
+  }
+
+  .hero h1 {
+    font-size: 64px;
+  }
+
+  .collection {
+    padding: 20px;
+  }
+
+  .caseStamp {
+    display: none;
+  }
+
+}
+
+/* Performance overrides harus berada paling akhir agar tidak ditimpa tema arsip. */
+.page {
+  background-attachment: scroll;
+}
+
+.page::before {
+  filter: none;
+  opacity: 0.5;
+}
+
+.topbar,
+.hero,
+.moodGrid article,
+.collection {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fogGhost {
+    animation: none;
+  }
+}
+
+/* Banyak hantu, tetapi masing-masing hanya menggerakkan layer SVG kecil. */
+.ghostField {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  contain: strict;
+}
+
+.ghostField .fogGhost {
+  left: var(--ghost-left);
+  top: var(--ghost-top);
+  width: var(--ghost-size);
+  height: auto;
+  opacity: var(--ghost-opacity);
+  animation: ghostDrift var(--ghost-duration) ease-in-out var(--ghost-delay) infinite;
+  transform: translate3d(-50%, 0, 0);
+  will-change: transform;
+}
+
+/* Kabut tetap terasa tanpa blur besar yang harus dicat ulang setiap frame. */
+.fog > span:nth-child(-n + 3) {
+  filter: none;
+  opacity: 0.45;
+  animation-duration: 22s;
+}
+
+@keyframes ghostDrift {
+  0%, 100% { transform: translate3d(-50%, 0, 0) rotate(-2deg); }
+  50% { transform: translate3d(calc(-50% + 14px), -18px, 0) rotate(3deg); }
+}
+
+@media (max-width: 680px) {
+  .ghostField .fogGhost:nth-child(n + 5) {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ghostField .fogGhost,
+  .fog > span:nth-child(-n + 3) {
+    animation: none;
+    will-change: auto;
+  }
+}
+
+/* Kuburan mini di header: transform-only agar tetap ringan saat sticky. */
+.topbar {
+  min-height: 108px;
+  overflow: hidden;
+}
+
+.headerHaunt {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    linear-gradient(90deg, rgba(5, 2, 8, .96) 0 17%, rgba(5, 2, 8, .32) 30% 70%, rgba(5, 2, 8, .96) 83% 100%),
+    radial-gradient(circle at 50% 24%, rgba(181, 29, 61, 0.15), transparent 22%),
+    radial-gradient(ellipse at 50% 100%, rgba(100, 48, 111, 0.34), transparent 62%),
+    linear-gradient(180deg, rgba(5, 2, 8, 0.2), rgba(4, 2, 7, 0.88));
+}
+
+.brand,
+.topbar nav {
+  position: relative;
+  z-index: 10;
+}
+
+.headerHaunt::before {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  top: 30px;
+  left: -45%;
+  width: 86%;
+  height: 42px;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at 24% 55%, rgba(237, 226, 242, 0.22), transparent 43%),
+    radial-gradient(ellipse at 70% 48%, rgba(177, 146, 190, 0.18), transparent 48%);
+  opacity: .72;
+  animation: headerFogBank 13s linear infinite;
+  will-change: transform;
+}
+
+.headerFogCanvas {
+  position: absolute;
+  z-index: 6;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: .9;
+  mix-blend-mode: screen;
+  mask-image: linear-gradient(180deg, transparent 0, #000 20% 96%, transparent 100%);
+  pointer-events: none;
+}
+
+.headerHaunt::before {
+  display: none;
+}
+
+.headerHaunt::after {
+  content: '';
+  position: absolute;
+  z-index: 5;
+  right: -4%;
+  bottom: 3px;
+  left: -4%;
+  height: 9px;
+  border-radius: 50% 50% 0 0;
+  background: #07040a;
+  box-shadow: 0 -2px 0 rgba(124, 77, 128, 0.35);
+}
+
+.headerMoon {
+  position: absolute;
+  top: 7px;
+  left: 50%;
+  width: 29px;
+  height: 29px;
+  border-radius: 50%;
+  background: #b92943;
+  box-shadow: 0 0 18px rgba(255, 64, 87, 0.48), 0 0 0 6px rgba(185, 41, 67, 0.08);
+  transform: translateX(-50%);
+  animation: headerMoonPulse 4.8s ease-in-out infinite;
+}
+
+.headerMist {
+  position: absolute;
+  z-index: 6;
+  bottom: 7px;
+  left: -28%;
+  width: 58%;
+  height: 18px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgba(231, 218, 237, 0.3), rgba(137, 104, 151, 0.18), transparent);
+  filter: blur(3px);
+  opacity: .42;
+  mask-image: linear-gradient(90deg, transparent, #000 14% 86%, transparent);
+  animation: headerMistDrift 9s linear infinite;
+}
+
+.headerFogVeil {
+  position: absolute;
+  z-index: 6;
+  left: -44%;
+  width: 68%;
+  height: 64px;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at 12% 60%, rgba(244, 237, 247, .34) 0 8%, transparent 31%),
+    radial-gradient(ellipse at 35% 42%, rgba(207, 190, 215, .28) 0 13%, transparent 36%),
+    radial-gradient(ellipse at 61% 65%, rgba(234, 222, 239, .3) 0 10%, transparent 35%),
+    radial-gradient(ellipse at 87% 43%, rgba(164, 132, 177, .24) 0 12%, transparent 38%);
+  filter: blur(7px);
+  opacity: .66;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+.headerFogVeilOne {
+  bottom: -14px;
+  animation: realisticFogDrift 17s linear infinite;
+}
+
+.headerFogVeilTwo {
+  top: 8px;
+  left: auto;
+  right: -48%;
+  opacity: .38;
+  transform: scaleX(-1);
+  animation: realisticFogReverse 21s linear -9s infinite;
+}
+
+.headerLightning {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background:
+    linear-gradient(112deg, transparent 0 49.2%, rgba(239, 230, 255, .82) 49.5% 49.7%, transparent 50%),
+    radial-gradient(circle at 52% 0, rgba(187, 156, 255, .4), transparent 35%);
+  opacity: 0;
+  mix-blend-mode: screen;
+  animation: horrorLightning 12s linear -4s infinite;
+  pointer-events: none;
+}
+
+.headerMistTwo {
+  bottom: 22px;
+  animation-delay: -4.5s;
+  animation-duration: 12s;
+  opacity: 0.55;
+}
+
+.headerMistThree {
+  bottom: 38px;
+  left: auto;
+  right: -34%;
+  width: 50%;
+  opacity: .42;
+  animation-name: headerMistReverse;
+  animation-duration: 10.5s;
+}
+
+.headerMistFour {
+  bottom: 3px;
+  width: 72%;
+  opacity: .64;
+  animation-delay: -7s;
+  animation-duration: 15s;
+}
+
+.headerGrave,
+.graveCross {
+  position: absolute;
+  z-index: 3;
+  bottom: 8px;
+  display: grid;
+  place-items: center;
+  background: #17101d;
+  color: #947a9b;
+  box-shadow: 3px 3px 0 #050307;
+}
+
+.headerGrave {
+  width: 31px;
+  height: 39px;
+  border: 2px solid #755779;
+  border-radius: 16px 16px 2px 2px;
+}
+
+.headerGrave b {
+  font-size: 7px;
+  letter-spacing: 0.08em;
+}
+
+.graveOne { left: 19%; transform: rotate(-5deg); }
+.graveTwo { right: 17%; width: 27px; height: 34px; transform: rotate(6deg); }
+
+.graveCross {
+  left: 66%;
+  width: 8px;
+  height: 39px;
+  border: 1px solid #705474;
+}
+
+.graveCross::before {
+  content: '';
+  position: absolute;
+  top: 9px;
+  left: -8px;
+  width: 22px;
+  height: 7px;
+  border: 1px solid #705474;
+  background: #17101d;
+}
+
+.headerEyes {
+  position: absolute;
+  z-index: 3;
+  width: 4px;
+  height: 3px;
+  border-radius: 50%;
+  background: #ff294b;
+  box-shadow: 10px 0 0 #ff294b, 0 0 6px #ff294b, 10px 0 6px #ff294b;
+  opacity: 0;
+  animation: lurkingEyes 6.8s steps(1, end) infinite;
+}
+
+.headerEyesOne { left: 31%; bottom: 25px; animation-delay: -2s; }
+.headerEyesTwo { right: 26%; top: 24px; transform: scale(.72); animation-delay: -5.1s; }
+
+.headerHand {
+  position: absolute;
+  z-index: 4;
+  left: 57%;
+  bottom: 5px;
+  width: 12px;
+  height: 25px;
+  border: 1px solid #a78eaa;
+  border-radius: 8px 8px 2px 2px;
+  background: #5d4a65;
+  transform-origin: 50% 100%;
+  animation: graveHandRise 8.6s ease-in-out -3s infinite;
+}
+
+.headerHand::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -6px;
+  width: 4px;
+  height: 15px;
+  border-radius: 4px;
+  background: #75617c;
+  box-shadow: 5px -4px 0 #75617c, 10px -6px 0 #75617c, 15px -3px 0 #75617c;
+}
+
+.headerBat {
+  position: absolute;
+  z-index: 5;
+  top: 17px;
+  left: 50%;
+  width: 6px;
+  height: 3px;
+  border-radius: 50%;
+  background: #050307;
+  opacity: .8;
+  animation: batCircle 5.4s ease-in-out infinite;
+}
+
+.headerBat::before,
+.headerBat::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  width: 10px;
+  height: 7px;
+  border-top: 3px solid #050307;
+  border-radius: 50%;
+}
+
+.headerBat::before { right: 3px; transform: rotate(-20deg); }
+.headerBat::after { left: 3px; transform: rotate(20deg); }
+.headerBatTwo { animation-delay: -2.7s; animation-duration: 6.2s; transform: scale(.68); }
+
+.headerGhost {
+  position: absolute;
+  z-index: 4;
+  width: 27px;
+  height: 35px;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  border-radius: 50% 50% 22% 22%;
+  background: linear-gradient(180deg, rgba(247, 239, 250, 0.82), rgba(190, 159, 202, 0.22));
+  box-shadow: 0 0 14px rgba(222, 199, 232, 0.34);
+  clip-path: polygon(0 0, 100% 0, 100% 84%, 82% 100%, 64% 84%, 48% 100%, 30% 84%, 13% 100%, 0 84%);
+  will-change: transform, opacity;
+}
+
+.headerGhost::before {
+  content: '';
+  position: absolute;
+  top: 13px;
+  left: 7px;
+  width: 4px;
+  height: 6px;
+  border-radius: 50%;
+  background: #170b1c;
+  box-shadow: 9px 0 0 #170b1c;
+}
+
+.headerGhostFour::before,
+.headerGhostSix::before {
+  background: #ff294b;
+  box-shadow: 9px 0 0 #ff294b, 0 0 5px #ff294b, 9px 0 5px #ff294b;
+}
+
+.headerGhostOne {
+  top: 13px;
+  left: -34px;
+  animation: headerGhostCross 10s cubic-bezier(.45, 0, .55, 1) infinite;
+}
+
+.headerGhostTwo {
+  top: 24px;
+  left: 41%;
+  width: 22px;
+  height: 29px;
+  opacity: 0.54;
+  animation: headerGhostHover 5.6s ease-in-out -2s infinite;
+}
+
+.headerGhostThree {
+  right: 4%;
+  bottom: -17px;
+  width: 24px;
+  height: 31px;
+  opacity: 0;
+  animation: headerGhostRise 7.2s ease-in-out -3.4s infinite;
+}
+
+.headerGhostFour {
+  top: 5px;
+  right: -30px;
+  width: 21px;
+  height: 29px;
+  opacity: 0;
+  animation: headerGhostReverse 8.7s ease-in-out -4.2s infinite;
+}
+
+.headerGhostFive {
+  top: 34px;
+  left: 8%;
+  width: 18px;
+  height: 24px;
+  opacity: .36;
+  animation: headerGhostLurk 6.4s ease-in-out -1.1s infinite;
+}
+
+.headerGhostSix {
+  top: -30px;
+  left: 72%;
+  width: 24px;
+  height: 32px;
+  opacity: 0;
+  animation: headerGhostDrop 9.4s cubic-bezier(.45, 0, .25, 1) -6s infinite;
+}
+
+@keyframes headerGhostCross {
+  0% { transform: translate3d(0, 14px, 0) scale(.82); opacity: 0; }
+  10% { opacity: .72; }
+  35% { transform: translate3d(480px, -7px, 0) scale(1); }
+  66% { transform: translate3d(960px, 9px, 0) scale(.9); opacity: .62; }
+  100% { transform: translate3d(1450px, -5px, 0) scale(.76); opacity: 0; }
+}
+
+@keyframes headerGhostHover {
+  0%, 100% { transform: translate3d(-14px, 7px, 0) rotate(-5deg); }
+  50% { transform: translate3d(24px, -12px, 0) rotate(5deg); }
+}
+
+@keyframes headerGhostRise {
+  0%, 18%, 100% { transform: translate3d(0, 18px, 0); opacity: 0; }
+  38%, 70% { transform: translate3d(-13px, -31px, 0); opacity: .68; }
+  84% { transform: translate3d(8px, -19px, 0); opacity: .2; }
+}
+
+@keyframes headerGhostReverse {
+  0% { transform: translate3d(0, 20px, 0) scale(.7); opacity: 0; }
+  15% { opacity: .62; }
+  48% { transform: translate3d(-680px, -8px, 0) scale(1.08); opacity: .82; }
+  78% { transform: translate3d(-1080px, 12px, 0) scale(.86); opacity: .5; }
+  100% { transform: translate3d(-1450px, -5px, 0) scale(.62); opacity: 0; }
+}
+
+@keyframes headerGhostLurk {
+  0%, 100% { transform: translate3d(0, 20px, 0) rotate(-8deg); opacity: .12; }
+  42% { transform: translate3d(18px, -18px, 0) rotate(5deg); opacity: .58; }
+  68% { transform: translate3d(33px, -8px, 0) rotate(-3deg); opacity: .3; }
+}
+
+@keyframes headerGhostDrop {
+  0%, 12%, 100% { transform: translate3d(0, -20px, 0) scale(.72); opacity: 0; }
+  34% { transform: translate3d(-17px, 42px, 0) scale(1); opacity: .78; }
+  58% { transform: translate3d(12px, 58px, 0) scale(1.08); opacity: .64; }
+  78% { transform: translate3d(-8px, 92px, 0) scale(.76); opacity: 0; }
+}
+
+@keyframes headerMistDrift {
+  to { transform: translate3d(220%, 0, 0); }
+}
+
+@keyframes headerMistReverse {
+  to { transform: translate3d(-245%, 0, 0); }
+}
+
+@keyframes headerFogBank {
+  to { transform: translate3d(215%, 0, 0) scaleX(1.22); }
+}
+
+@keyframes realisticFogDrift {
+  0% { transform: translate3d(0, 0, 0) scale(1); opacity: .2; }
+  20% { opacity: .68; }
+  52% { transform: translate3d(106%, -5px, 0) scale(1.18, .9); opacity: .58; }
+  82% { opacity: .72; }
+  100% { transform: translate3d(218%, 3px, 0) scale(.96, 1.12); opacity: .12; }
+}
+
+@keyframes realisticFogReverse {
+  0% { transform: translate3d(0, 0, 0) scaleX(-1); opacity: .1; }
+  28% { opacity: .42; }
+  62% { transform: translate3d(-112%, 5px, 0) scale(-1.16, .92); opacity: .5; }
+  100% { transform: translate3d(-220%, -3px, 0) scale(-.92, 1.08); opacity: .08; }
+}
+
+@keyframes horrorLightning {
+  0%, 43%, 45%, 47%, 100% { opacity: 0; }
+  43.3% { opacity: .58; }
+  43.7% { opacity: .08; }
+  44.1% { opacity: .86; }
+  44.6% { opacity: .14; }
+  46% { opacity: .34; }
+}
+
+@keyframes lurkingEyes {
+  0%, 18%, 28%, 46%, 100% { opacity: 0; }
+  19%, 27% { opacity: .9; }
+  47%, 68% { opacity: .55; }
+}
+
+@keyframes graveHandRise {
+  0%, 18%, 100% { transform: translate3d(0, 31px, 0) rotate(-12deg); opacity: 0; }
+  36% { transform: translate3d(0, 4px, 0) rotate(7deg); opacity: .85; }
+  55% { transform: translate3d(5px, 0, 0) rotate(-8deg); opacity: .9; }
+  73% { transform: translate3d(-3px, 8px, 0) rotate(10deg); opacity: .55; }
+}
+
+@keyframes batCircle {
+  0%, 100% { transform: translate3d(-35px, 5px, 0) scale(.7); }
+  32% { transform: translate3d(18px, -8px, 0) scale(1); }
+  68% { transform: translate3d(52px, 9px, 0) scale(.76); }
+}
+
+@keyframes headerMoonPulse {
+  50% { transform: translateX(-50%) scale(1.08); opacity: .78; }
+}
+
+@media (max-width: 980px) {
+  .headerHaunt { display: none; }
+  .topbar { min-height: 68px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .headerGhost,
+  .headerMist,
+  .headerMoon,
+  .headerFogVeil,
+  .headerLightning,
+  .headerEyes,
+  .headerHand,
+  .headerBat,
+  .headerHaunt::before { animation: none; }
+}
+
+/* Phone and tablet layout while retaining the haunted motion scene. */
+@media (max-width: 980px) {
+  .wrap { width: min(100% - 24px, 1360px); }
+  .layout { grid-template-columns: 1fr; gap: 20px; }
+  .sidebar { position: static; }
+  .sidebar nav { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .hero { grid-template-columns: minmax(0, 1fr) minmax(270px, 36%); gap: 24px; }
+
+  .headerHaunt {
+    display: block;
+    width: auto;
+    max-width: none;
+    inset: 0 155px;
+    opacity: .62;
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 700px) {
+  .wrap { width: min(100% - 16px, 1360px); padding-top: 8px; }
+  .topbar { min-height: 62px; padding: 8px 9px; overflow: hidden; }
+  .brand, .topbar nav { position: relative; z-index: 20; }
+  .brand b { font-size: 17px; }
+  .topbar nav { gap: 6px; }
+  .topbar nav > a { display: none; }
+  .topbar button { padding: 9px 11px; }
+
+  .headerHaunt {
+    display: block;
+    inset: 0 78px 0 92px;
+    opacity: .48;
+  }
+  .headerFogCanvas { display: block; opacity: .8; }
+  .headerGhostTwo, .headerGhostFive, .headerMoon { display: block; }
+
+  .layout { margin-top: 14px; gap: 14px; }
+  .sidebar { padding: 12px; }
+  .sidebar > p, .sidebar > h2 { display: none; }
+  .sidebar nav { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+  .genreItem, .activeGenre { min-height: 44px; padding: 6px; }
+
+  .hero { grid-template-columns: 1fr; min-height: 0; padding: 25px 18px; }
+  .hero h1 { font-size: clamp(50px, 17vw, 70px); }
+  .hauntedCard { width: min(100%, 340px); margin-inline: auto; }
+  .moodGrid { grid-template-columns: 1fr; }
+  .collection { padding: 18px; }
+  .bookGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 11px; }
+}
+
+@media (max-width: 430px) {
+  .page, .wrap, .layout, .sidebar, .main, .hero, .heroCopy,
+  .moodGrid, .collection, .sectionHead, .bookGrid, .bookCard,
+  .cover, .cardCopy { width: 100%; max-width: 100%; min-width: 0; }
+  .sidebar nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); overflow: visible; }
+  .sidebar nav a { width: 100%; min-width: 0; }
+  .headerHaunt { width: auto; max-width: none; inset: 0 78px 0 92px; }
+  .topbar nav { position: absolute; top: 50%; right: 8px; width: auto; margin: 0; transform: translateY(-50%); }
+  .hauntedCard { max-width: min(100%, 340px); }
+  .bookGrid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 430px) {
+  .wrap { width: calc(100% - 16px); margin-inline: auto; padding-top: 8px; }
+  .topbar { min-height: 64px; border-radius: 14px; }
+  .brand { padding: 4px 7px 4px 4px; }
+  .brand span { width: 33px; height: 33px; }
+  .brand b { font-size: 15px; }
+  .topbar button { min-height: 36px; padding: 8px 10px; font-size: 10px; }
+  .headerHaunt { inset: 0 72px 0 88px; opacity: .42; }
+
+  .layout { margin-top: 10px; gap: 12px; }
+  .sidebar { padding: 9px; border-radius: 14px; }
+  .sidebar nav { gap: 7px; }
+  .genreItem, .activeGenre { min-height: 46px; border-radius: 10px; font-size: 11px; }
+  .genreItem span, .activeGenre span { width: 31px; height: 31px; }
+
+  .main { gap: 12px; }
+  .hero { gap: 20px; padding: 23px 17px 19px; border-radius: 18px 5px 18px 5px; }
+  .backLink { margin-bottom: 5px; }
+  .kicker { margin-top: 13px; font-size: 8px; }
+  .hero h1 { margin-block: 10px 13px; font-size: clamp(48px, 15vw, 61px); }
+  .heroCopy > p:not(.kicker) { font-size: 14px; line-height: 1.55; }
+  .tags { gap: 6px; margin-top: 14px; }
+  .tags span { padding: 7px 9px; font-size: 9px; }
+  .hauntedCard { width: min(100%, 310px); }
+  .moodGrid { gap: 10px; }
+  .moodGrid article { min-height: 130px; padding: 18px; }
+  .collection { padding: 16px; border-radius: 16px 5px 16px 5px; }
+  .sectionHead { align-items: flex-start; gap: 9px; margin-bottom: 16px; }
+}
+
+/* Animated haunted feature artwork. */
+.hauntedCard {
+  isolation: isolate;
+  aspect-ratio: 3 / 2;
+  min-height: 0;
+  background: #020711;
+}
+.hauntedCard img {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(1.08) contrast(1.1) brightness(.78);
+  animation: hauntedCamera 13s ease-in-out infinite alternate;
+}
+.hauntedCard:hover img {
+  filter: saturate(1.16) contrast(1.12) brightness(.86);
+  transform: none;
+}
+.hauntedCard::after {
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.03) 35%, rgba(0,0,0,.82) 100%),
+    linear-gradient(90deg, rgba(0,0,0,.5), transparent 58%);
+}
+.hauntedEffects {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.hauntedEffects::before {
+  content: '';
+  position: absolute;
+  left: 59%;
+  top: -11%;
+  width: 42%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(180,224,255,.4), rgba(64,152,226,.12) 42%, transparent 70%);
+  mix-blend-mode: screen;
+  animation: hauntedMoonPulse 4.8s ease-in-out infinite;
+}
+.hauntedEffects::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background:
+    linear-gradient(113deg, transparent 0 46%, rgba(219,241,255,.76) 47%, transparent 48%),
+    rgba(116, 190, 255, .12);
+  mix-blend-mode: screen;
+  animation: hauntedLightningFlash 9s linear infinite;
+}
+.hauntedEffects i {
+  position: absolute;
+  left: -22%;
+  bottom: -13%;
+  width: 145%;
+  height: 48%;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at 50% 100%, rgba(178,217,230,.32), transparent 62%),
+    linear-gradient(180deg, transparent, rgba(120,177,198,.22));
+  filter: blur(12px);
+  opacity: .58;
+  animation: hauntedFogDrift 11s ease-in-out infinite alternate;
+}
+.hauntedEffects i:nth-child(2) {
+  left: -38%;
+  bottom: 4%;
+  height: 31%;
+  opacity: .35;
+  animation-duration: 15s;
+  animation-direction: alternate-reverse;
+}
+.hauntedEffects i:nth-child(3) {
+  left: -12%;
+  bottom: -24%;
+  height: 58%;
+  opacity: .44;
+  animation-duration: 19s;
+}
+.hauntedEffects span {
+  position: absolute;
+  left: -8%;
+  top: 24%;
+  width: 16px;
+  height: 9px;
+  background: #02040a;
+  clip-path: polygon(0 45%, 24% 8%, 50% 45%, 76% 8%, 100% 45%, 76% 36%, 50% 72%, 24% 36%);
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,.7));
+  opacity: .88;
+  animation: hauntedBatFlight 8s linear infinite;
+}
+.hauntedEffects span:nth-of-type(2) {
+  top: 17%;
+  width: 11px;
+  height: 7px;
+  animation-duration: 11s;
+  animation-delay: -5s;
+}
+.hauntedEffects span:nth-of-type(3) {
+  top: 34%;
+  width: 9px;
+  height: 6px;
+  animation-duration: 13s;
+  animation-delay: -8s;
+}
+.heroPosterText {
+  z-index: 4;
+}
+.heroPosterText span {
+  background: linear-gradient(135deg, #ff4057, #b41637);
+  box-shadow: 0 8px 22px rgba(0,0,0,.34);
+}
+.heroPosterText b {
+  max-width: 92%;
+  text-wrap: balance;
+}
+
+@keyframes hauntedCamera {
+  from { transform: scale(1.04) translate3d(-.8%, -.3%, 0); }
+  to { transform: scale(1.1) translate3d(1.4%, .7%, 0); }
+}
+@keyframes hauntedMoonPulse {
+  0%, 100% { scale: .92; opacity: .45; }
+  50% { scale: 1.12; opacity: .9; }
+}
+@keyframes hauntedFogDrift {
+  from { transform: translate3d(-5%, 2%, 0) scaleX(.96); }
+  to { transform: translate3d(10%, -4%, 0) scaleX(1.08); }
+}
+@keyframes hauntedLightningFlash {
+  0%, 41%, 43%, 100% { opacity: 0; }
+  41.4% { opacity: .75; }
+  41.8% { opacity: .08; }
+  42.2% { opacity: .42; }
+}
+@keyframes hauntedBatFlight {
+  0% { transform: translate3d(0, 8px, 0) scale(.7) rotate(-8deg); opacity: 0; }
+  10% { opacity: .9; }
+  50% { transform: translate3d(290px, -18px, 0) scale(1) rotate(7deg); }
+  90% { opacity: .8; }
+  100% { transform: translate3d(620px, 10px, 0) scale(.72) rotate(-5deg); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hauntedCard img,
+  .hauntedEffects::before,
+  .hauntedEffects::after,
+  .hauntedEffects i,
+  .hauntedEffects span {
+    animation: none;
+  }
+}
+
+.horrorTicker {
+  position: relative;
+  min-width: 0;
+  min-height: 52px;
+  overflow: hidden;
+  border: 1px solid #7f1d35;
+  border-left: 5px solid #ff4057;
+  border-right: 5px solid #ff4057;
+  background:
+    linear-gradient(90deg, rgba(255, 64, 87, .16), transparent 20% 80%, rgba(255, 64, 87, .16)),
+    #090811;
+  color: #fff6ed;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .08),
+    inset 0 -1px 0 rgba(255, 64, 87, .22),
+    0 12px 30px rgba(6, 3, 12, .28);
+}
+.horrorTicker::before,
+.horrorTicker::after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  bottom: 0;
+  width: 78px;
+  pointer-events: none;
+}
+.horrorTicker::before {
+  left: 0;
+  background: linear-gradient(90deg, #090811, transparent);
+}
+.horrorTicker::after {
+  right: 0;
+  background: linear-gradient(270deg, #090811, transparent);
+}
+.horrorTickerTrack {
+  width: max-content;
+  display: flex;
+  align-items: center;
+  min-height: 50px;
+  will-change: transform;
+  animation: horrorTickerLoop 22s linear infinite;
+}
+.horrorTickerGroup {
+  width: max-content;
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 34px;
+  min-height: 50px;
+  padding-right: 34px;
+  white-space: nowrap;
+}
+.horrorTicker span {
+  font-size: 11px;
+  font-weight: 950;
+  letter-spacing: .2em;
+  text-shadow: 0 0 14px rgba(255, 64, 87, .4);
+}
+.horrorTicker i {
+  color: #ff4057;
+  font-size: 16px;
+  font-style: normal;
+  filter: drop-shadow(0 0 7px rgba(255, 64, 87, .7));
+}
+
+@keyframes horrorTickerLoop {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+/* Premium books keep the horror mood while gaining a polished collector frame. */
+.premiumBookCard {
+  position: relative;
+  isolation: isolate;
+  border: 3px solid #d92f48;
+  border-radius: 2px 22px 2px 15px;
+  outline: 2px solid #070407;
+  background: #0c070d;
+  box-shadow:
+    0 0 0 5px rgba(112, 12, 30, .78),
+    8px 9px 0 #030203,
+    0 22px 52px rgba(0, 0, 0, .54),
+    0 0 30px rgba(226, 39, 70, .22);
+  animation: horrorPremiumGlow 3.4s ease-in-out infinite;
+}
+
+.premiumBookCard::after {
+  content: "✦  PREMIUM HORROR  ✦";
+  position: absolute;
+  z-index: 8;
+  top: 10px;
+  right: 10px;
+  padding: 5px 8px;
+  border: 2px solid #ff5269;
+  background: linear-gradient(135deg, #090508, #8e1026 65%, #d62d48);
+  color: #fff;
+  box-shadow: 2px 2px 0 #080509;
+  font-size: 8px;
+  font-weight: 950;
+  letter-spacing: .16em;
+  pointer-events: none;
+}
+
+@keyframes horrorPremiumGlow {
+  50% {
+    box-shadow:
+      0 0 0 5px rgba(139, 13, 36, .9),
+      9px 10px 0 #030203,
+      0 26px 58px rgba(0, 0, 0, .58),
+      0 0 40px rgba(239, 42, 73, .34);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .premiumBookCard { animation: none; }
+}
+
+@media (max-width: 700px) {
+  .horrorTickerTrack { animation-duration: 17s; }
+  .horrorTickerGroup { gap: 24px; padding-right: 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .horrorTickerTrack { animation: none; }
+}
+
+@property --horror-frame-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* Living cursed-poster frame for Premium Horror. */
+.premiumBookCard {
+  --horror-frame-angle: 0deg;
+  overflow: visible;
+  border: 0;
+  outline: 0;
+  background: #080509;
+  box-shadow:
+    8px 9px 0 #020102,
+    0 0 0 2px #310711,
+    0 0 28px rgba(228, 35, 66, .28);
+  animation: horrorFramePulse 2.6s ease-in-out infinite;
+}
+.premiumBookCard::before {
+  content: "";
+  position: absolute;
+  z-index: 7;
+  inset: 0;
+  display: block;
+  padding: 4px;
+  border-radius: 2px 24px 2px 16px;
+  background:
+    conic-gradient(
+      from var(--horror-frame-angle),
+      #160208 0deg,
+      #ff314f 24deg,
+      #5b0919 58deg,
+      #080306 96deg,
+      #b70f2d 145deg,
+      #ff6a7d 176deg,
+      #21040a 226deg,
+      #d51e3c 290deg,
+      #160208 360deg
+    );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  filter: drop-shadow(0 0 7px rgba(244, 43, 75, .62));
+  pointer-events: none;
+  animation: horrorBorderCrawl 2.1s linear infinite;
+}
+.premiumBookCard::after {
+  top: 8px;
+  right: 8px;
+  max-width: calc(100% - 16px);
+  border: 2px solid #ff405a;
+  border-radius: 1px 9px 1px 7px;
+  background: #120307;
+  box-shadow: 3px 3px 0 #000, 0 0 13px rgba(255, 50, 81, .65);
+  animation: horrorBadgeFlicker 2.8s steps(1, end) infinite;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.premiumBookCard .premiumCover {
+  border-radius: 1px 18px 1px 10px;
+  box-shadow: inset 0 0 0 1px rgba(255, 72, 98, .45);
+}
+.premiumBookCard .premiumCover img {
+  animation: horrorCoverBreathe 6.5s ease-in-out infinite;
+}
+
+@keyframes horrorBorderCrawl {
+  to { --horror-frame-angle: 360deg; }
+}
+@keyframes horrorFramePulse {
+  0%, 100% { box-shadow: 8px 9px 0 #020102, 0 0 0 2px #310711, 0 0 24px rgba(228, 35, 66, .22); }
+  50% { box-shadow: 9px 10px 0 #020102, 0 0 0 3px #641020, 0 0 44px rgba(255, 42, 76, .48); }
+}
+@keyframes horrorBadgeFlicker {
+  0%, 17%, 21%, 68%, 72%, 100% { opacity: 1; filter: brightness(1); }
+  18%, 20%, 69%, 71% { opacity: .48; filter: brightness(1.7); }
+}
+@keyframes horrorCoverBreathe {
+  0%, 100% { filter: contrast(1.03) brightness(.96); }
+  50% { filter: contrast(1.12) brightness(.82) saturate(1.12); }
+}
+
+@media (max-width: 560px) {
+  .premiumBookCard::after {
+    top: 6px;
+    right: 6px;
+    max-width: calc(100% - 12px);
+    padding: 4px 6px;
+    font-size: 6px;
+    letter-spacing: .08em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .premiumBookCard,
+  .premiumBookCard::before,
+  .premiumBookCard::after,
+  .premiumBookCard .premiumCover img { animation: none; }
+}
+
+/* Center the haunted scene only on flexible tablet/phone layouts. */
+@media (max-width: 960px) {
+  .topbar {
+    min-height: 82px;
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  .headerHaunt {
+    position: absolute;
+    z-index: 3;
+    inset: auto;
+    top: 50%;
+    left: 50%;
+    display: block;
+    width: clamp(180px, 34vw, 280px);
+    min-width: 0;
+    max-width: 280px;
+    height: 100%;
+    overflow: hidden;
+    translate: -50% -50%;
+    opacity: .86;
+  }
+}
+
+@media (max-width: 520px) {
+  .topbar {
+    min-height: 64px;
+  }
+
+  .headerHaunt {
+    display: block;
+    width: clamp(138px, 37vw, 190px);
+    opacity: .78;
+  }
+}
+
+@media (max-width: 370px) {
+  .headerHaunt {
+    width: 128px;
+    opacity: .72;
+  }
+}
+
+/* Shared responsive layout contract: follows Romance and Comic. */
+@media (max-width: 960px) {
+  .wrap {
+    width: min(100% - 24px, 1360px);
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .sidebar {
+    position: static;
+    top: auto;
+    padding: 12px;
+  }
+
+  .sidebar nav {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .genreItem,
+  .activeGenre {
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    padding: 7px;
+  }
+
+  .hero {
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 40%);
+    gap: 24px;
+    padding: 28px;
+  }
+
+  .heroCopy,
+  .hauntedCard {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .hauntedCard {
+    width: 100%;
+    justify-self: center;
+  }
+
+  .moodGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .bookGrid {
+    grid-template-columns: repeat(auto-fit, minmax(190px, 260px));
+    justify-content: start;
+  }
+}
+
+@media (max-width: 700px) {
+  .wrap {
+    width: min(100% - 16px, 1360px);
+    padding-top: 8px;
+  }
+
+  .topbar {
+    min-height: 64px;
+    padding: 8px 9px;
+  }
+
+  .brand,
+  .topbar nav {
+    position: relative;
+    z-index: 20;
+  }
+
+  .brand b {
+    font-size: 17px;
+  }
+
+  .topbar nav {
+    gap: 6px;
+  }
+
+  .topbar nav > a {
+    display: none;
+  }
+
+  .topbar button {
+    min-height: 38px;
+    padding: 9px 11px;
+  }
+
+  .headerHaunt {
+    width: clamp(150px, 36vw, 240px);
+  }
+
+  .layout {
+    gap: 14px;
+    margin-top: 14px;
+  }
+
+  .sidebar {
+    padding: 10px;
+  }
+
+  .sidebar > p,
+  .sidebar > h2 {
+    display: none;
+  }
+
+  .sidebar nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
+  }
+
+  .genreItem,
+  .activeGenre {
+    min-height: 44px;
+    padding: 6px;
+  }
+
+  .main {
+    gap: 14px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    min-height: 0;
+    gap: 20px;
+    padding: 25px 18px;
+  }
+
+  .hero h1 {
+    font-size: clamp(49px, 16vw, 68px);
+  }
+
+  .hauntedCard {
+    width: min(100%, 420px);
+    min-height: 240px;
+    margin-inline: auto;
+  }
+
+  .moodGrid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .moodGrid article {
+    min-height: 0;
+  }
+
+  .collection {
+    padding: 18px;
+  }
+
+  .bookGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 11px;
+  }
+}
+
+@media (max-width: 430px) {
+  .page,
+  .wrap,
+  .layout,
+  .sidebar,
+  .main,
+  .hero,
+  .heroCopy,
+  .hauntedCard,
+  .moodGrid,
+  .collection,
+  .sectionHead,
+  .bookGrid,
+  .bookCard,
+  .cover,
+  .cardCopy {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .topbar nav {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    width: auto;
+    margin: 0;
+    transform: translateY(-50%);
+  }
+
+  .brand {
+    padding: 4px 7px 4px 4px;
+  }
+
+  .brand span {
+    width: 33px;
+    height: 33px;
+  }
+
+  .brand b {
+    font-size: 15px;
+  }
+
+  .topbar button {
+    min-height: 36px;
+    padding: 8px 10px;
+    font-size: 10px;
+  }
+
+  .headerHaunt {
+    width: clamp(120px, 36vw, 150px);
+    opacity: .76;
+  }
+
+  .sidebar nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    overflow: visible;
+  }
+
+  .sidebar nav a {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .hero {
+    padding: 23px 17px 19px;
+  }
+
+  .hero h1 {
+    font-size: clamp(47px, 14vw, 59px);
+  }
+
+  .heroCopy > p:last-of-type {
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .tags {
+    gap: 7px;
+  }
+
+  .sectionHead {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 9px;
+  }
+
+  .sectionHead > span {
+    flex: none;
+  }
+
+  .collection {
+    padding: 16px;
+  }
+
+  .bookGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .bookCard {
+    max-width: 280px;
+    margin-inline: auto;
+  }
+}
+
+/* Mobile genre composition mirrors the Romance reference. */
+@media (max-width: 0px) {
+  .topbar {
+    min-height: 96px;
+    padding: 10px 12px;
+  }
+
+  .brand span {
+    width: 54px;
+    height: 54px;
+    font-size: 24px;
+  }
+
+  .brand b {
+    font-size: 22px;
+  }
+
+  .topbar nav {
+    position: relative;
+    z-index: 20;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .topbar nav > a {
+    display: none;
+  }
+
+  .topbar button {
+    min-height: 50px;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+
+  .headerHaunt {
+    inset: 0 104px 0 122px;
+    top: 0;
+    left: 0;
+    width: auto;
+    max-width: none;
+    height: auto;
+    translate: none;
+    opacity: .9;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-top: 18px;
+  }
+
+  .sidebar {
+    position: static;
+    padding: 12px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+
+  .sidebar > p,
+  .sidebar > h2 {
+    display: none;
+  }
+
+  .sidebar nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px 18px;
+    padding: 0;
+    border: 0;
+  }
+
+  .genreItem,
+  .activeGenre {
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 12px;
+    min-height: 58px;
+    padding: 7px 8px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    color: #f3e8dc;
+    transform: none;
+  }
+
+  .activeGenre,
+  .genreItem:hover {
+    background: linear-gradient(90deg, rgba(255, 64, 87, .24), rgba(94, 40, 105, .1));
+    color: #fff;
+    transform: none;
+  }
+
+  .genreItem span,
+  .activeGenre span {
+    width: 44px;
+    height: 44px;
+    border: 1px solid #ff6572;
+    border-radius: 2px;
+    background: #170b20;
+    color: #ff8b98;
+    box-shadow: none;
+  }
+
+  .genreItem b,
+  .activeGenre b {
+    font-size: clamp(14px, 3vw, 18px);
+  }
+
+  .main {
+    gap: 14px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    min-height: 0;
+    gap: 22px;
+    padding: 28px 20px;
+  }
+
+  .hauntedCard {
+    width: min(100%, 430px);
+    margin-inline: auto;
+  }
+
+  .moodGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .bookGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 12px;
+  }
+}
+
+@media (max-width: 0px) {
+  .topbar {
+    min-height: 72px;
+    padding: 8px;
+  }
+
+  .brand span {
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
+  }
+
+  .brand b {
+    font-size: 16px;
+  }
+
+  .topbar button {
+    min-height: 40px;
+    padding: 8px 11px;
+    font-size: 11px;
+  }
+
+  .headerHaunt {
+    inset: 0 70px 0 94px;
+    opacity: .82;
+  }
+
+  .sidebar {
+    padding: 8px 4px;
+  }
+
+  .sidebar nav {
+    gap: 6px 10px;
+  }
+
+  .genreItem,
+  .activeGenre {
+    grid-template-columns: 35px minmax(0, 1fr);
+    gap: 8px;
+    min-height: 48px;
+    padding: 5px 4px;
+  }
+
+  .genreItem span,
+  .activeGenre span {
+    width: 35px;
+    height: 35px;
+  }
+
+  .genreItem b,
+  .activeGenre b {
+    font-size: 13px;
+  }
+
+  .hero {
+    padding: 24px 17px 20px;
+  }
+
+  .bookGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Mobile haunted header: logo, moving graveyard and exit stay in one row. */
+@media (max-width: 700px) {
+  .topbar {
+    position: relative;
+    min-height: 82px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+    overflow: hidden;
+    padding: 10px 11px;
+    border: 2px solid #ff566d;
+    border-radius: 18px;
+    background:
+      radial-gradient(circle at 50% 16%, rgba(210, 40, 75, .22), transparent 24%),
+      radial-gradient(circle, rgba(255, 91, 116, .17) 0 1.1px, transparent 1.8px) 0 0 / 35px 31px,
+      linear-gradient(110deg, #050208, #1b0a21 52%, #050208);
+    box-shadow: 0 7px 0 #6d1630, 0 17px 34px rgba(0, 0, 0, .4);
+  }
+
+  .brand {
+    z-index: 20;
+    grid-column: 1;
+    justify-self: start;
+    gap: 8px;
+    padding: 5px 9px 5px 5px;
+    border: 2px solid #ff6577;
+    border-radius: 8px;
+    background: rgba(10, 5, 14, .94);
+    box-shadow: 3px 3px 0 #5e1830;
+  }
+
+  .brand span {
+    width: 42px;
+    height: 42px;
+    font-size: 22px;
+  }
+
+  .brand b {
+    color: #fff6f3;
+    font-size: clamp(16px, 3.2vw, 21px);
+    white-space: nowrap;
+  }
+
+  .topbar nav {
+    position: relative;
+    z-index: 20;
+    grid-column: 2;
+    justify-self: end;
+    width: auto;
+    justify-content: center;
+    gap: 0;
+    margin: 0;
+    padding: 4px;
+    border: 2px solid #ff6577;
+    border-radius: 999px;
+    background: rgba(10, 5, 14, .94);
+    box-shadow: 3px 3px 0 #5e1830;
+    transform: none;
+  }
+
+  .topbar nav > a {
+    display: none;
+  }
+
+  .topbar button {
+    min-height: 42px;
+    padding: 9px 14px;
+    border: 0;
+    background: linear-gradient(135deg, #bc2544, #ff526b);
+    box-shadow: none;
+    color: #fff;
+    font-size: 13px;
+  }
+
+  .headerHaunt {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    overflow: hidden;
+    border: 0;
+    background:
+      linear-gradient(90deg, rgba(5, 2, 8, .86) 0 17%, rgba(5, 2, 8, .16) 34% 66%, rgba(5, 2, 8, .86) 83% 100%),
+      radial-gradient(circle at 50% 20%, rgba(209, 42, 78, .35), transparent 24%),
+      radial-gradient(ellipse at 50% 112%, rgba(109, 50, 119, .42), transparent 65%),
+      linear-gradient(180deg, #170921, #050208);
+    opacity: 1;
+    translate: none;
+  }
+
+  .headerFogCanvas {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: .94;
+    mask-image: linear-gradient(90deg, rgba(0,0,0,.38), #000 13% 87%, rgba(0,0,0,.38));
+  }
+
+  .headerMoon {
+    width: 25px;
+    height: 25px;
+  }
+
+  .headerMist {
+    left: -18%;
+    width: 78%;
+    opacity: .62;
+  }
+}
+
+@media (max-width: 480px) {
+  .topbar {
+    min-height: 72px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 5px;
+    padding: 7px;
+  }
+
+  .brand {
+    gap: 5px;
+    padding: 4px 6px 4px 4px;
+  }
+
+  .brand span {
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+  }
+
+  .brand b {
+    font-size: 14px;
+  }
+
+  .topbar button {
+    min-height: 36px;
+    padding: 8px 10px;
+    font-size: 10px;
+  }
+
+  .headerHaunt {
+    width: 100%;
+    height: 100%;
+  }
+
+  .headerMoon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Final clean mobile composition: full-width haunt, quiet controls, no stacked frames. */
+@media (max-width: 700px) {
+  .topbar {
+    min-height: 84px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    gap: 14px;
+    padding: 12px 14px;
+    overflow: hidden;
+    border: 2px solid #e94061;
+    border-radius: 15px;
+    background: #08040d;
+    box-shadow: 0 5px 0 #4e1024, 0 14px 30px rgba(0, 0, 0, .32);
+  }
+
+  .brand {
+    position: relative;
+    z-index: 20;
+    min-width: 0;
+    display: inline-flex;
+    align-items: center;
+    flex: 0 1 auto;
+    gap: 9px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+
+  .brand span {
+    width: 43px;
+    height: 43px;
+    flex: 0 0 43px;
+    border: 2px solid #ff647b;
+    border-radius: 7px;
+    background: #170914;
+    box-shadow: none;
+    color: #ff6077;
+    font-size: 22px;
+    transform: none;
+  }
+
+  .brand b {
+    overflow: hidden;
+    color: #fff8f4;
+    font-size: clamp(16px, 3.1vw, 20px);
+    line-height: 1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .topbar nav {
+    position: relative;
+    z-index: 20;
+    width: auto;
+    min-width: 0;
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    transform: none;
+  }
+
+  .topbar button {
+    min-width: 74px;
+    min-height: 42px;
+    padding: 9px 14px;
+    border: 2px solid #ff7187;
+    border-radius: 9px;
+    background: #bc2948;
+    box-shadow: 3px 3px 0 #4e1024;
+    color: #fff;
+    font-size: 12px;
+    line-height: 1;
+  }
+
+  .topbar button:hover {
+    background: #e33d5d;
+    box-shadow: 2px 2px 0 #4e1024;
+    transform: translate(1px, 1px);
+  }
+
+  .headerHaunt {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    border: 0;
+    background:
+      linear-gradient(90deg, #08040d 0 24%, rgba(8,4,13,.28) 39% 65%, #08040d 88% 100%),
+      radial-gradient(circle at 53% 20%, rgba(219, 53, 88, .31), transparent 23%),
+      linear-gradient(180deg, #170a1e, #050208);
+    opacity: 1;
+    translate: none;
+  }
+
+  .headerHaunt::after {
+    right: 0;
+    left: 0;
+    bottom: 0;
+    height: 8px;
+    opacity: .82;
+  }
+
+  .headerFogCanvas {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: .72;
+    mask-image: linear-gradient(90deg, transparent 0, #000 17% 84%, transparent 100%);
+  }
+
+  .headerGhost {
+    filter: drop-shadow(0 0 8px rgba(255, 226, 237, .2));
+  }
+
+  .headerGhostFive {
+    left: 24%;
+  }
+
+  .headerGhostThree {
+    right: 18%;
+  }
+
+  .headerMoon {
+    left: 52%;
+    opacity: .82;
+  }
+}
+
+@media (max-width: 480px) {
+  .topbar {
+    min-height: 72px;
+    gap: 8px;
+    padding: 9px 10px;
+  }
+
+  .brand {
+    gap: 6px;
+  }
+
+  .brand span {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+    font-size: 18px;
+  }
+
+  .brand b {
+    max-width: 88px;
+    font-size: 14px;
+  }
+
+  .topbar button {
+    min-width: 59px;
+    min-height: 36px;
+    padding: 8px 9px;
+    font-size: 10px;
+  }
+
+  .headerFogCanvas {
+    opacity: .62;
+  }
+}
+
+/* Premium Horror uses an overlay frame, so its length stays equal to regular cards. */
+.collection article.premiumBookCard.premiumBookCard {
+  align-self: start;
+  box-sizing: border-box;
+}
+
+.collection article.premiumBookCard .premiumCover {
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  aspect-ratio: 2 / 3;
+  box-sizing: border-box;
+}
+
+.collection article.premiumBookCard .cardCopy {
+  height: 205px;
+  min-height: 205px;
+  padding: 14px 12px 12px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.collection article.premiumBookCard .cardCopy h3 {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.collection article.premiumBookCard .cardCopy > span {
+  max-height: 4.35em;
+}
+
+.collection article.premiumBookCard .cardActions {
+  width: 100%;
+  min-width: 0;
+  margin-top: auto;
+  padding: 0 3px 3px 0;
+}
+
+.collection article.premiumBookCard .cardActions a,
+.collection article.premiumBookCard .cardActions a:last-child {
+  width: 100%;
+  min-height: 40px;
+  padding: 9px 12px;
+  border: 2px solid #ff536c;
+  border-radius: 8px 2px 8px 2px;
+  background: #fff2df;
+  box-shadow: 4px 4px 0 #761329;
+  color: #18070d;
+  font-size: 11px;
+  line-height: 1;
+  text-align: center;
+}
+
+.collection article.premiumBookCard .cardActions a:hover {
+  background: #ffd9d0;
+  box-shadow: 2px 2px 0 #761329;
+  transform: translate(2px, 2px);
+}
+
+@media (max-width: 680px) {
+  .collection article.premiumBookCard .cardCopy {
+    height: 190px;
+    min-height: 190px;
+    padding: 12px 10px 10px;
+  }
+}
+
+/* Compact Horror shelf: more books fit without oversized poster cards. */
+.collection .bookGrid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  justify-content: stretch;
+  align-items: start;
+  gap: 16px 12px;
+}
+
+.collection article.bookCard,
+.collection article.bookCard:only-child {
+  width: 100%;
+  max-width: 190px;
+  margin-inline: 0;
+}
+
+@media (min-width: 701px) {
+  .collection article.bookCard,
+  .collection article.bookCard:only-child {
+    max-width: none;
+  }
+}
+
+.collection article.bookCard .cover,
+.collection article.bookCard:only-child .cover {
+  width: 100%;
+  min-height: 0;
+  aspect-ratio: 2 / 3;
+}
+
+.collection article.bookCard .cardCopy,
+.collection article.bookCard:only-child .cardCopy,
+.collection article.premiumBookCard .cardCopy {
+  height: 178px;
+  min-height: 178px;
+  padding: 12px 8px 9px;
+  gap: 5px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.collection article.bookCard .cardCopy > p {
+  margin: 0;
+  font-size: 7px;
+  letter-spacing: .1em;
+}
+
+.collection article.bookCard .cardCopy h3,
+.collection article.bookCard:only-child .cardCopy h3 {
+  min-height: 2.15em;
+  margin: 2px 0 0;
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 18px;
+  line-height: 1.07;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.collection article.bookCard .cardCopy > span,
+.collection article.bookCard:only-child .cardCopy > span {
+  min-height: 3.9em;
+  max-height: 3.9em;
+  font-size: 9px;
+  line-height: 1.3;
+  -webkit-line-clamp: 3;
+}
+
+.collection article.bookCard .cardActions a,
+.collection article.bookCard .cardActions a:last-child,
+.collection article.premiumBookCard .cardActions a,
+.collection article.premiumBookCard .cardActions a:last-child {
+  min-height: 32px;
+  padding: 7px 9px;
+  font-size: 8px;
+}
+
+.collection article.premiumBookCard::after {
+  max-width: calc(100% - 14px);
+  padding: 4px 6px;
+  font-size: 6px;
+  letter-spacing: .08em;
+}
+
+@media (max-width: 700px) {
+  .collection .bookGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 10px;
+  }
+
+  .collection article.bookCard,
+  .collection article.bookCard:only-child {
+    max-width: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .collection .bookGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .collection article.bookCard,
+  .collection article.bookCard:only-child {
+    max-width: 220px;
+    margin-inline: auto;
+  }
+}

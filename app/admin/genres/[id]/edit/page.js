@@ -1,0 +1,1 @@
+'use client';import {useParams} from 'next/navigation';import AdminShell from '../../../components/AdminShell';import GenreForm from '../../../components/GenreForm';export default function Page(){const {id}=useParams();return <AdminShell title="Edit Genre"><GenreForm id={id}/></AdminShell>}

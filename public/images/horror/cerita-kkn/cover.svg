@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1200" role="img" aria-labelledby="title desc">
+  <title id="title">Jeritan Tengah Malam</title>
+  <desc id="desc">Cover antologi cerpen horor Kelompok 2</desc>
+  <defs>
+    <linearGradient id="night" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#090611"/>
+      <stop offset=".55" stop-color="#211127"/>
+      <stop offset="1" stop-color="#3b101d"/>
+    </linearGradient>
+    <radialGradient id="moon">
+      <stop stop-color="#fff7d2"/>
+      <stop offset=".55" stop-color="#d9cfba"/>
+      <stop offset="1" stop-color="#8e8590"/>
+    </radialGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="18"/></filter>
+  </defs>
+  <rect width="800" height="1200" fill="url(#night)"/>
+  <circle cx="622" cy="205" r="128" fill="#f5e8bd" opacity=".15" filter="url(#glow)"/>
+  <circle cx="622" cy="205" r="92" fill="url(#moon)"/>
+  <path fill="#17131d" d="M0 850 93 774l58 33 70-92 70 51 77-144 74 106 91-74 68 96 74-42 125 102v390H0z"/>
+  <path fill="#09070c" d="M295 1200V760h29v-88h28v88h31v440zm-42-443 86-116 87 116z"/>
+  <path d="M322 840c-65-47-120-12-129 48 39-28 76-18 99 16-61 7-92 56-71 108 23-39 60-47 93-23" fill="none" stroke="#0a080d" stroke-width="18"/>
+  <g fill="#b4243c" opacity=".75">
+    <path d="M0 0h16v1200H0z"/><path d="M784 0h16v1200h-16z"/>
+  </g>
+  <text x="72" y="92" fill="#d9b26b" font-family="Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="8">HORROR PREMIUM</text>
+  <text x="70" y="385" fill="#f4eadc" font-family="Georgia, serif" font-size="84" font-weight="700">JERITAN</text>
+  <text x="70" y="475" fill="#e03c54" font-family="Georgia, serif" font-size="82" font-weight="700">TENGAH</text>
+  <text x="70" y="565" fill="#f4eadc" font-family="Georgia, serif" font-size="82" font-weight="700">MALAM</text>
+  <path d="M72 608h390" stroke="#d9b26b" stroke-width="5"/>
+  <text x="72" y="654" fill="#d9b26b" font-family="Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="5">ANTOLOGI CERPEN HOROR</text>
+  <text x="72" y="1110" fill="#e8ddd1" font-family="Arial, sans-serif" font-size="25" font-weight="700">KELOMPOK 2</text>
+  <text x="72" y="1148" fill="#9d9196" font-family="Arial, sans-serif" font-size="18" letter-spacing="3">73 HALAMAN · EDISI DIGITAL</text>
+</svg>

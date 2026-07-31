@@ -1,0 +1,1 @@
+import AdminShell from '../../components/AdminShell';import BookForm from '../../components/BookForm';export default function Page(){return <AdminShell title="Tambah Buku" subtitle="Masukkan buku baru ke BacaPop."><BookForm/></AdminShell>}
