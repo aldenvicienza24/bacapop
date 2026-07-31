@@ -1,6 +1,7 @@
 'use client';
 
 import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {createPortal} from 'react-dom';
 import {usePathname, useRouter} from 'next/navigation';
 import {getDemoBooks} from '../../lib/demoBooks';
 import {supabase} from '../../lib/supabase';
@@ -13,6 +14,19 @@ const TOUR_BOOK_ID = getDemoBooks('dongeng')[0]?.id;
 
 function route(path) {
   return path?.replace(':bookId', TOUR_BOOK_ID || '');
+}
+
+function findVisibleTarget(selector) {
+  if (!selector || typeof document === 'undefined') return null;
+
+  return [...document.querySelectorAll(selector)].find((element) => {
+    const rect = element.getBoundingClientRect();
+    const computed = window.getComputedStyle(element);
+    return rect.width > 2
+      && rect.height > 2
+      && computed.display !== 'none'
+      && computed.visibility !== 'hidden';
+  }) || null;
 }
 
 const steps = [
@@ -32,7 +46,7 @@ const steps = [
   },
   {
     path: '/dashboard',
-    target: '[data-tour="genres"]',
+    target: '[data-tour="genres"], [data-tour="genre-list"]',
     eyebrow: 'PILIH JENIS CERITA',
     title: 'Pilih cerita yang kamu suka',
     description: 'Kamu bisa memilih Dongeng, Horror, Komik, atau Romance.',
@@ -62,8 +76,8 @@ const steps = [
     path: '/dashboard',
     target: '[data-tour="notifications"]',
     eyebrow: 'PEMBERITAHUAN',
-    title: 'Lihat kabar baru di tombol lonceng',
-    description: 'Kamu akan mendapat kabar tentang buku baru, hasil ringkasan, poin, dan pembayaran.',
+    title: 'Periksa notifikasi lewat tombol lonceng',
+    description: 'Di sini kamu menerima pemberitahuan tentang buku baru, hasil ringkasan, poin, dan pembayaran.',
     items: ['Buku baru sudah tersedia', 'Ringkasan disetujui dan poin masuk', 'Ringkasan atau pembayaran perlu diperbaiki'],
   },
   {
@@ -258,6 +272,22 @@ export default function FirstTimeOnboarding() {
   const step = steps[stepIndex];
   const isTestAccount = user?.email?.trim().toLowerCase() === ONBOARDING_TEST_EMAIL;
 
+  /*
+   * Dashboard dan halaman genre memakai susunan navbar yang berbeda.
+   * Saat berpindah halaman, tombol Panduan dapat dipasang ulang. Pulihkan
+   * tur langsung dari sessionStorage agar perpindahan tidak menunggu proses
+   * autentikasi Supabase dan langkah tetap berlanjut di halaman tujuan.
+   */
+  useEffect(() => {
+    if (sessionStorage.getItem(ACTIVE_KEY) !== '1') return;
+
+    setStepIndex(getSavedStep());
+    setTargetRect(null);
+    setTargetUnavailable(false);
+    setTransitioning(false);
+    setOpen(true);
+  }, []);
+
   useEffect(() => {
     let active = true;
     supabase.auth.getSession().then(({data}) => {
@@ -282,7 +312,7 @@ export default function FirstTimeOnboarding() {
       return false;
     }
 
-    const target = document.querySelector(step.target);
+    const target = findVisibleTarget(step.target);
     if (!target) {
       setTargetRect(null);
       return false;
@@ -363,11 +393,11 @@ export default function FirstTimeOnboarding() {
       if (step.action === 'close-checkout') {
         document.querySelector('[data-tour="store-checkout"] [aria-label="Tutup checkout"]')?.click();
       }
-      if (step.action === 'open-checkout' && !document.querySelector(step.target)) {
+      if (step.action === 'open-checkout' && !findVisibleTarget(step.target)) {
         window.dispatchEvent(new Event('bacapop:onboarding:open-checkout'));
       }
 
-      const target = step.target ? document.querySelector(step.target) : null;
+      const target = findVisibleTarget(step.target);
       if (target) {
         setTargetUnavailable(false);
         const mobileViewport = (window.visualViewport?.width || window.innerWidth) <= 640;
@@ -441,45 +471,47 @@ export default function FirstTimeOnboarding() {
     return () => window.removeEventListener('keydown', handleKey);
   }, [finish, moveTo, open, stepIndex]);
 
-  const panelStyle = useMemo(() => {
-    if (!targetRect || typeof window === 'undefined') return {};
+  const panelLayout = useMemo(() => {
+    if (!targetRect || typeof window === 'undefined') {
+      return {style: {}, placement: 'center'};
+    }
+
     const viewportWidth = window.visualViewport?.width || window.innerWidth;
     const viewportHeight = window.visualViewport?.height || window.innerHeight;
     const mobileViewport = viewportWidth <= 640;
     const edge = mobileViewport ? 10 : 12;
-    const gap = 12;
-    const panelWidth = Math.min(mobileViewport ? 320 : 360, viewportWidth - edge * 2);
-    const estimatedHeight = step.items?.length ? (mobileViewport ? 330 : 390) : (mobileViewport ? 245 : 270);
-    const centeredLeft = Math.max(edge, Math.min(
+    const gap = mobileViewport ? 12 : 15;
+    const panelWidth = Math.min(mobileViewport ? 420 : 380, viewportWidth - edge * 2);
+    const estimatedHeight = step.items?.length
+      ? (mobileViewport ? 300 : 325)
+      : (mobileViewport ? 220 : 245);
+    const left = Math.max(edge, Math.min(
       viewportWidth - panelWidth - edge,
       targetRect.left + targetRect.width / 2 - panelWidth / 2,
     ));
     const spaceBelow = viewportHeight - targetRect.bottom - edge;
     const spaceAbove = targetRect.top - edge;
-    const spaceRight = viewportWidth - (targetRect.left + targetRect.width) - edge;
-    const spaceLeft = targetRect.left - edge;
-    let left = centeredLeft;
-    let top;
-
-    if (spaceRight >= panelWidth + gap) {
-      left = targetRect.left + targetRect.width + gap;
-      top = targetRect.top + targetRect.height / 2 - estimatedHeight / 2;
-    } else if (spaceLeft >= panelWidth + gap) {
-      left = targetRect.left - panelWidth - gap;
-      top = targetRect.top + targetRect.height / 2 - estimatedHeight / 2;
-    } else {
-      const placeBelow = spaceBelow >= Math.min(estimatedHeight, 220) || spaceBelow >= spaceAbove;
-      top = placeBelow
-        ? targetRect.bottom + gap
-        : targetRect.top - estimatedHeight - gap;
-    }
-
+    const placeBelow = spaceBelow >= Math.min(estimatedHeight, viewportHeight * 0.4)
+      || spaceBelow >= spaceAbove;
+    const placement = placeBelow ? 'below' : 'above';
+    let top = placeBelow
+      ? targetRect.bottom + gap
+      : targetRect.top - estimatedHeight - gap;
     top = Math.max(edge, Math.min(viewportHeight - estimatedHeight - edge, top));
+    const pointerX = Math.max(
+      24,
+      Math.min(panelWidth - 24, targetRect.left + targetRect.width / 2 - left),
+    );
+
     return {
-      left: Math.max(edge, Math.min(viewportWidth - panelWidth - edge, left)),
-      top,
-      width: panelWidth,
-      maxHeight: Math.min(estimatedHeight + 40, Math.max(220, viewportHeight - top - edge)),
+      placement,
+      style: {
+        left,
+        top,
+        width: panelWidth,
+        maxHeight: Math.min(estimatedHeight + 50, Math.max(190, viewportHeight - top - edge)),
+        '--guide-pointer-x': `${pointerX}px`,
+      },
     };
   }, [step, targetRect]);
 
@@ -501,8 +533,16 @@ export default function FirstTimeOnboarding() {
     );
   }
 
+  /*
+   * DashboardUtilities menempatkan tombol Panduan di dalam navbar.
+   * Overlay tidak boleh ikut berada di sana karena transform/layout navbar
+   * akan menggeser koordinat fixed element dari target yang sebenarnya.
+   */
+  const portalTarget = typeof document !== 'undefined' ? document.body : null;
+  if (!portalTarget) return null;
+
   if (transitioning) {
-    return (
+    return createPortal((
       <div className={styles.tourLayer} role="status" aria-live="polite" aria-label="Membuka halaman panduan berikutnya">
         <div className={`${styles.scrim} ${styles.scrimFull}`} />
         <section className={styles.routePanel}>
@@ -513,11 +553,11 @@ export default function FirstTimeOnboarding() {
           <div className={styles.routeProgress}><i /></div>
         </section>
       </div>
-    );
+    ), portalTarget);
   }
 
   if (step.target && !targetRect && !targetUnavailable) {
-    return (
+    return createPortal((
       <div className={styles.tourLayer} role="status" aria-live="polite" aria-label={`Menemukan fitur ${step.title}`}>
         <div className={`${styles.scrim} ${styles.scrimFull}`} />
         <section className={styles.routePanel}>
@@ -528,10 +568,10 @@ export default function FirstTimeOnboarding() {
           <div className={styles.routeProgress}><i /></div>
         </section>
       </div>
-    );
+    ), portalTarget);
   }
 
-  return (
+  return createPortal((
     <div className={styles.tourLayer} role="dialog" aria-modal="true" aria-label="Panduan fitur BacaPop">
       <div className={`${styles.scrim} ${targetRect ? styles.scrimWithSpotlight : styles.scrimFull}`} />
       {targetRect ? (
@@ -546,7 +586,12 @@ export default function FirstTimeOnboarding() {
         />
       ) : null}
 
-      <section className={`${styles.tourPanel} ${targetRect ? '' : styles.centerPanel}`} style={panelStyle} key={`${pathname}-${stepIndex}`}>
+      <section
+        className={`${styles.tourPanel} ${targetRect ? '' : styles.centerPanel}`}
+        style={panelLayout.style}
+        data-placement={targetRect ? panelLayout.placement : 'center'}
+        key={`${pathname}-${stepIndex}`}
+      >
         <div className={styles.panelTop}>
           <span>{step.eyebrow}</span>
           <button type="button" onClick={finish}>Lewati tur</button>
@@ -575,5 +620,5 @@ export default function FirstTimeOnboarding() {
         </div>
       </section>
     </div>
-  );
+  ), portalTarget);
 }

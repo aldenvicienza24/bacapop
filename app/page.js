@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from './lib/supabase';
 import { getRoleDashboard, getRoleFromEmail } from './lib/roles';
@@ -13,7 +13,9 @@ const features = [
     color: '#45d6b4',
     icon: '⌕',
     desc: 'Cari buku digital berdasarkan jenis cerita yang kamu suka.',
+    definition: 'Tempat untuk melihat seluruh koleksi BacaPop. Kamu dapat memilih buku berdasarkan judul, penulis, jenis cerita, dan cara mendapatkannya.',
     points: ['Banyak pilihan buku', 'Pilih jenis cerita', 'Simpan buku favorit'],
+    href: '/dashboard',
   },
   {
     title: 'Nyaman Dibaca',
@@ -21,7 +23,9 @@ const features = [
     color: '#83b9ff',
     icon: '◫',
     desc: 'Baca langsung di perangkatmu. Posisi halaman akan tersimpan otomatis.',
+    definition: 'Ruang membaca digital yang menyimpan halaman terakhir secara otomatis, sehingga kamu dapat melanjutkan bacaan kapan saja.',
     points: ['Tampilan nyaman', 'Tandai halaman', 'Posisi tersimpan'],
+    href: '/dashboard/my-books?status=reading',
   },
   {
     title: 'Ringkasan',
@@ -29,7 +33,9 @@ const features = [
     color: '#ff9a4d',
     icon: '✎',
     desc: 'Tulis kembali isi buku dengan bahasamu sendiri dan dapatkan poin.',
+    definition: 'Fitur untuk mencatat pemahamanmu setelah selesai membaca. Ringkasan akan diperiksa admin sebelum poin diberikan.',
     points: ['Formulir ringkasan', 'Diperiksa admin', 'Riwayat tulisan'],
+    href: '/dashboard/my-books?status=summary',
   },
   {
     title: 'Poin & Lencana',
@@ -37,14 +43,14 @@ const features = [
     color: '#f5d84d',
     icon: '↗',
     desc: 'Selesaikan buku, kumpulkan poin, dan dapatkan pencapaian baru.',
+    definition: 'Pusat penghargaan pembaca. Poin dari ringkasan yang disetujui dapat digunakan untuk membuka buku premium atau hadiah.',
     points: ['Poin membaca', 'Lencana pencapaian', 'Peringkat pembaca'],
+    href: '/dashboard/rewards',
   },
 ];
 
 export default function Home() {
   const router = useRouter();
-  const cursorRef = useRef(null);
-  const cursorTimerRef = useRef(null);
   const [mode, setMode] = useState('daftar');
   const [activeBook, setActiveBook] = useState(0);
   const [bookOpen, setBookOpen] = useState(false);
@@ -54,6 +60,7 @@ export default function Home() {
   const [authBusy, setAuthBusy] = useState(false);
   const [showAuthPassword, setShowAuthPassword] = useState(false);
   const [user, setUser] = useState(null);
+  const [pendingFeatureHref, setPendingFeatureHref] = useState('');
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -67,36 +74,26 @@ export default function Home() {
     return () => data.subscription.unsubscribe();
   }, []);
 
-  useEffect(() => {
-    function moveCursor(event) {
-      if (!cursorRef.current) return;
-      cursorRef.current.style.setProperty('--cursor-x', `${event.clientX}px`);
-      cursorRef.current.style.setProperty('--cursor-y', `${event.clientY}px`);
-      cursorRef.current.dataset.visible = 'true';
-      window.clearTimeout(cursorTimerRef.current);
-    }
-
-    function hideCursor() {
-      if (cursorRef.current) cursorRef.current.dataset.visible = 'false';
-      window.clearTimeout(cursorTimerRef.current);
-    }
-
-    window.addEventListener('pointermove', moveCursor, { passive: true });
-    document.documentElement.addEventListener('mouseleave', hideCursor);
-
-    return () => {
-      window.removeEventListener('pointermove', moveCursor);
-      document.documentElement.removeEventListener('mouseleave', hideCursor);
-      window.clearTimeout(cursorTimerRef.current);
-    };
-  }, []);
-
-  function openAuth(nextMode) {
+  function openAuth(nextMode, nextHref = '') {
     setMode(nextMode);
+    setPendingFeatureHref(nextHref);
     setAuthMessage('');
     setAuthBusy(false);
     setShowAuthPassword(false);
     setAuthOpen(true);
+  }
+
+  async function openFeature() {
+    const href = features[activeBook].href;
+    const { data } = await supabase.auth.getSession();
+
+    if (data.session?.user) {
+      router.push(href);
+      return;
+    }
+
+    openAuth('daftar', href);
+    setAuthMessage('Daftar atau masuk terlebih dahulu untuk membuka fitur ini.');
   }
 
   function updateAuth(event) {
@@ -176,7 +173,7 @@ export default function Home() {
         sessionStorage.setItem('bacapop:onboarding:pending', '1');
         setAuthMessage(data.session ? 'Akun berhasil dibuat!' : 'Cek email untuk konfirmasi akunmu.');
         if (!data.session) return;
-        if (data.user) router.replace(getRoleDashboard(data.user));
+        if (data.user) router.replace(pendingFeatureHref || getRoleDashboard(data.user));
       } catch (error) {
         showAuthError(error);
         return;
@@ -190,7 +187,7 @@ export default function Home() {
         if (error) throw error;
         setAuthMessage('Berhasil masuk!');
         if (data.user) {
-          router.replace(getRoleDashboard(data.user));
+          router.replace(pendingFeatureHref || getRoleDashboard(data.user));
         }
       } catch (error) {
         showAuthError(error);
@@ -200,19 +197,6 @@ export default function Home() {
 
     setAuthForm({ name: '', email: '', password: '' });
     setTimeout(() => setAuthOpen(false), 700);
-  }
-
-  async function loginWithGoogle() {
-    try {
-      if (mode === 'daftar') sessionStorage.setItem('bacapop:onboarding:pending', '1');
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: { redirectTo: window.location.origin },
-      });
-      if (error) throw error;
-    } catch (error) {
-      showAuthError(error);
-    }
   }
 
   async function logout() {
@@ -232,16 +216,6 @@ export default function Home() {
 
   return (
     <main className={styles.page}>
-      <div
-        ref={cursorRef}
-        className={styles.paperCursor}
-        aria-hidden="true"
-      >
-        <svg viewBox="0 0 32 32">
-          <path d="M2 2 29 13.5 17.5 19 12 30 2 2Z" />
-          <path d="M2 2 17.5 19 29 13.5" />
-        </svg>
-      </div>
       <div className={styles.doodleOne}>✦</div>
       <div className={styles.doodleTwo}>♡</div>
       <div className={styles.doodleThree}>⌁</div>
@@ -385,6 +359,10 @@ export default function Home() {
                 </div>
                 <div className={styles.selectedCover}>
                   <span>{features[activeBook].icon}</span>
+                  <div className={styles.featureDefinition}>
+                    <b>APA ITU FITUR INI?</b>
+                    <p>{features[activeBook].definition}</p>
+                  </div>
                   <small>{features[activeBook].label}</small>
                   <h2>{features[activeBook].title}</h2>
                   <p>{features[activeBook].desc}</p>
@@ -394,7 +372,13 @@ export default function Home() {
                     <span key={point}>✓ {point}</span>
                   ))}
                 </div>
-                <button className={styles.readButton}>COBA FITUR INI <span>→</span></button>
+                <button
+                  className={styles.readButton}
+                  type="button"
+                  onClick={openFeature}
+                >
+                  LIHAT FITUR INI <span>→</span>
+                </button>
                 <div className={styles.pageNumber}>BacaPop / 02</div>
               </section>
             </div>
@@ -470,19 +454,6 @@ export default function Home() {
                 {authBusy ? 'Mengirim tautan...' : mode === 'daftar' ? 'Buat akun gratis' : mode === 'lupa' ? 'Kirim tautan' : 'Masuk sekarang'} <span>→</span>
               </button>
             </form>
-
-            {mode !== 'lupa' ? <>
-              <div className={styles.authDivider}><span>atau lanjut dengan</span></div>
-              <button type="button" className={styles.googleAuth} onClick={loginWithGoogle}>
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path fill="#4285f4" d="M21.6 12.23c0-.71-.06-1.4-.18-2.06H12v3.9h5.38a4.6 4.6 0 0 1-2 3.02v2.53h3.24c1.9-1.75 2.98-4.33 2.98-7.39Z" />
-                  <path fill="#34a853" d="M12 22c2.7 0 4.98-.9 6.63-2.38l-3.24-2.53c-.9.6-2.05.96-3.39.96-2.61 0-4.82-1.76-5.61-4.13H3.04v2.61A10 10 0 0 0 12 22Z" />
-                  <path fill="#fbbc05" d="M6.39 13.92A6 6 0 0 1 6.08 12c0-.67.11-1.32.31-1.92V7.47H3.04A10 10 0 0 0 2 12c0 1.61.38 3.14 1.04 4.53l3.35-2.61Z" />
-                  <path fill="#ea4335" d="M12 5.95c1.47 0 2.79.5 3.83 1.5l2.87-2.87A9.62 9.62 0 0 0 12 2a10 10 0 0 0-8.96 5.47l3.35 2.61C7.18 7.71 9.39 5.95 12 5.95Z" />
-                </svg>
-                {mode === 'daftar' ? 'Daftar dengan Google' : 'Masuk dengan Google'}
-              </button>
-            </> : null}
 
             <button
               className={styles.switchAuth}

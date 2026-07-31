@@ -1,9 +1,7 @@
 .helpButton {
-  position: fixed;
-  right: auto;
-  bottom: 18px;
-  left: 18px;
-  z-index: 80;
+  position: relative;
+  inset: auto;
+  z-index: 1;
   min-height: 44px;
   padding: 5px 11px 5px 5px;
   display: flex;
@@ -396,9 +394,7 @@
 
 @media (max-width: 640px) {
   .helpButton {
-    right: auto;
-    bottom: max(10px, env(safe-area-inset-bottom));
-    left: max(10px, env(safe-area-inset-left));
+    inset: auto;
     width: auto;
     min-width: 0;
     min-height: 42px;
@@ -483,7 +479,8 @@
   }
 
   .helpButton b {
-    display: none;
+    display: block;
+    font-size: 9px;
   }
 
   .panelTop > button {
@@ -502,6 +499,55 @@
   .panelActions button {
     padding-inline: 6px;
     font-size: 9px;
+  }
+}
+
+/* Match the compact profile control in the dashboard header. */
+.helpButton {
+  height: 40px;
+  min-height: 40px;
+  padding: 4px 10px 4px 4px;
+  gap: 7px;
+  border: 1px solid #11152e;
+  border-radius: 7px;
+  background: #fffdf7;
+  box-shadow: 3px 3px 0 #11152e;
+  font-size: 8px;
+  font-weight: 950;
+  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+.helpButton span {
+  width: 30px;
+  height: 30px;
+  border-width: 1px;
+  border-radius: 6px;
+  background: #4f63ff;
+  color: #fff;
+  font-size: 14px;
+}
+
+.helpButton b {
+  font-size: 8px;
+}
+
+.helpButton:hover {
+  background: #e9eeff;
+  box-shadow: 4px 4px 0 #11152e;
+  transform: translate(-1px, -1px);
+}
+
+@media (max-width: 1250px) {
+  .helpButton {
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+    min-height: 40px;
+    padding: 4px;
+  }
+
+  .helpButton b {
+    display: none;
   }
 }
 
@@ -537,5 +583,365 @@
   .routeProgress i {
     animation: none;
     transition: none;
+  }
+}
+
+@media (max-width: 1250px) {
+  .helpButton {
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+    min-height: 40px;
+    padding: 4px;
+    justify-content: center;
+  }
+
+  .helpButton b {
+    display: none;
+  }
+}
+
+@media (max-width: 380px) {
+  .helpButton {
+    padding: 4px;
+  }
+
+  .helpButton b {
+    display: none;
+  }
+}
+
+/* Canonical guide styles — kept last so older dashboard rules cannot move it. */
+.helpButton {
+  width: auto;
+  min-width: 96px;
+  height: 40px;
+  min-height: 40px;
+  padding: 4px 11px 4px 4px;
+  gap: 8px;
+  justify-content: flex-start;
+  border: 1px solid #15182b;
+  border-radius: 9px;
+  background: #fffdf7;
+  color: #15182b;
+  box-shadow: 3px 3px 0 #15182b;
+  font-size: 9px;
+  font-weight: 900;
+}
+
+.helpButton span {
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
+  border: 1px solid #15182b;
+  border-radius: 7px;
+  background: #4f63ff;
+  color: #fff;
+  font-size: 15px;
+}
+
+.helpButton b {
+  display: block;
+  font-size: 9px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.helpButton:hover {
+  background: #eef1ff;
+  box-shadow: 4px 4px 0 #15182b;
+  transform: translate(-1px, -1px);
+}
+
+.tourPanel {
+  --guide-pointer-x: 50%;
+  padding: 17px;
+  border: 2px solid #15182b;
+  border-radius: 16px;
+  background:
+    linear-gradient(135deg, rgba(79, 99, 255, .08), transparent 42%),
+    #fffdf7;
+  box-shadow: 6px 6px 0 #15182b;
+  scrollbar-gutter: stable;
+}
+
+.tourPanel[data-placement='below']::before,
+.tourPanel[data-placement='above']::before {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  left: calc(var(--guide-pointer-x) - 9px);
+  width: 16px;
+  height: 16px;
+  border: 2px solid #15182b;
+  background: #fffdf7;
+  transform: rotate(45deg);
+}
+
+.tourPanel[data-placement='below']::before {
+  top: -10px;
+  border-right: 0;
+  border-bottom: 0;
+}
+
+.tourPanel[data-placement='above']::before {
+  bottom: -10px;
+  border-top: 0;
+  border-left: 0;
+}
+
+.tourPanel[data-placement='below']::after,
+.tourPanel[data-placement='above']::after {
+  content: "FITUR INI";
+  position: absolute;
+  z-index: 5;
+  left: max(10px, calc(var(--guide-pointer-x) - 34px));
+  padding: 3px 6px;
+  border: 1px solid #15182b;
+  border-radius: 5px;
+  background: #ffda45;
+  color: #15182b;
+  font-size: 6px;
+  font-weight: 950;
+  letter-spacing: .08em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.tourPanel[data-placement='below']::after {
+  top: -27px;
+}
+
+.tourPanel[data-placement='above']::after {
+  bottom: -27px;
+}
+
+.panelTop > span {
+  padding: 6px 10px;
+  border: 1px solid #15182b;
+  border-radius: 7px;
+  background: #63d8bd;
+  box-shadow: 2px 2px 0 #15182b;
+  color: #15182b;
+}
+
+.panelTop > button {
+  min-height: 30px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  color: #50566d;
+}
+
+.panelTop > button:hover {
+  background: #eceef7;
+  color: #15182b;
+}
+
+.progress {
+  height: 7px;
+  margin: 14px 0 10px;
+  border-width: 1px;
+  background: #e9ebf5;
+}
+
+.progress i {
+  background: linear-gradient(90deg, #4f63ff, #7767ff);
+}
+
+.tourPanel > small {
+  color: #687088;
+  font-size: 8px;
+}
+
+.tourPanel h2 {
+  margin: 7px 0 6px;
+  color: #15182b;
+  font-size: clamp(21px, 2vw, 27px);
+  line-height: 1.08;
+}
+
+.tourPanel p {
+  color: #555d74;
+  font-size: 11px;
+  line-height: 1.48;
+}
+
+.stepItems {
+  margin-top: 12px;
+  gap: 7px;
+}
+
+.stepItems li {
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 8px;
+  font-size: 9px;
+  line-height: 1.4;
+}
+
+.stepItems li > i {
+  width: 22px;
+  height: 22px;
+  border: 1px solid #15182b;
+  background: #63d8bd;
+}
+
+.panelActions {
+  margin-top: 15px;
+  grid-template-columns: minmax(104px, .68fr) minmax(142px, 1.32fr);
+  gap: 9px;
+}
+
+.panelActions button {
+  min-height: 42px;
+  padding: 8px 10px;
+  border: 1px solid #15182b;
+  border-radius: 8px;
+  box-shadow: 3px 3px 0 #15182b;
+  font-size: 9px;
+}
+
+.panelActions button:last-child {
+  background: #ffda45;
+}
+
+.panelActions button:not(:disabled):hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 #15182b;
+}
+
+.spotlight {
+  border: 2px solid #ffda45;
+  border-radius: 12px;
+  box-shadow:
+    0 0 0 4px rgba(255, 218, 69, .24),
+    4px 4px 0 #15182b,
+    0 0 0 9999px rgba(10, 14, 35, .73);
+}
+
+.routePanel {
+  padding: 20px;
+  border: 2px solid #15182b;
+  border-radius: 16px;
+  box-shadow: 6px 6px 0 #15182b;
+}
+
+@media (max-width: 760px) {
+  .helpButton {
+    width: 40px;
+    min-width: 40px;
+    padding: 4px;
+    justify-content: center;
+  }
+
+  .helpButton b {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .tourPanel:not(.centerPanel) {
+    width: calc(100vw - 20px) !important;
+    max-width: 420px;
+    max-height: calc(100dvh - 20px);
+    padding: 13px;
+    overflow-y: auto;
+    border-radius: 13px;
+    box-shadow: 4px 4px 0 #15182b;
+  }
+
+  .centerPanel {
+    width: calc(100vw - 20px) !important;
+    max-width: 420px;
+    max-height: calc(100dvh - 20px);
+    padding: 14px;
+  }
+
+  .panelTop {
+    align-items: center;
+  }
+
+  .panelTop > span {
+    max-width: 68%;
+    padding: 5px 8px;
+    overflow: hidden;
+    font-size: 7px;
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .panelTop > button {
+    flex: 0 0 auto;
+    font-size: 8px;
+  }
+
+  .progress {
+    margin: 10px 0 8px;
+  }
+
+  .tourPanel h2 {
+    margin-block: 5px;
+    font-size: clamp(19px, 5.8vw, 23px);
+  }
+
+  .tourPanel p {
+    font-size: 10px;
+    line-height: 1.4;
+  }
+
+  .stepItems {
+    margin-top: 9px;
+    gap: 5px;
+  }
+
+  .stepItems li {
+    grid-template-columns: 20px minmax(0, 1fr);
+    gap: 7px;
+    font-size: 8px;
+  }
+
+  .stepItems li > i {
+    width: 20px;
+    height: 20px;
+  }
+
+  .panelActions {
+    position: static;
+    margin: 11px 0 0;
+    padding: 0;
+    grid-template-columns: minmax(92px, .72fr) minmax(124px, 1.28fr);
+    gap: 7px;
+    background: transparent;
+  }
+
+  .panelActions button {
+    min-height: 40px;
+    padding: 7px 8px;
+    font-size: 9px;
+  }
+
+  .routePanel {
+    width: calc(100vw - 24px);
+    max-width: 390px;
+    padding: 17px 14px;
+    box-shadow: 4px 4px 0 #15182b;
+  }
+}
+
+@media (max-width: 360px) {
+  .tourPanel:not(.centerPanel),
+  .centerPanel {
+    width: calc(100vw - 14px) !important;
+    max-height: calc(100dvh - 14px);
+  }
+
+  .panelActions {
+    grid-template-columns: 1fr 1.25fr;
+    gap: 6px;
+  }
+
+  .panelActions button {
+    padding-inline: 5px;
+    font-size: 8px;
   }
 }

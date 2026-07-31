@@ -5,22 +5,24 @@
   --yellow: #ffdf35;
   --pink: #ff668a;
   --mint: #74e2bf;
-  position: fixed;
+  position: relative;
   z-index: 1000;
-  right: 18px;
-  bottom: 18px;
+  inset: auto;
   font-family: inherit;
 }
 
 .bell {
   position: relative;
-  width: 50px;
-  height: 50px;
-  display: grid;
-  place-items: center;
-  padding: 0;
+  width: auto;
+  min-width: 104px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 12px;
   border: 3px solid var(--ink);
-  border-radius: 8px;
+  border-radius: 999px;
   background: var(--yellow);
   box-shadow: 7px 7px 0 var(--ink);
   color: var(--ink);
@@ -32,32 +34,25 @@
   position: absolute;
   inset: 5px;
   border: 1px dashed rgba(17, 19, 27, .28);
-  border-radius: 4px;
+  border-radius: 999px;
   content: "";
   pointer-events: none;
 }
 
 .bell > span {
-  position: absolute;
-  right: 0;
-  bottom: calc(100% + 10px);
-  width: max-content;
-  padding: 5px 7px;
-  border: 2px solid var(--ink);
-  background: #fff;
-  box-shadow: 3px 3px 0 var(--ink);
-  font-size: 7px;
+  position: static;
+  width: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  font-size: 9px;
   font-weight: 1000;
   letter-spacing: .1em;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(5px);
-  transition: opacity .15s ease, transform .15s ease;
-}
-
-.bell:hover > span {
   opacity: 1;
+  pointer-events: auto;
   transform: none;
+  transition: none;
 }
 
 .bell:hover {
@@ -80,8 +75,8 @@
 }
 
 .bell > svg {
-  width: 23px;
-  height: 23px;
+  width: 20px;
+  height: 20px;
   fill: none;
   stroke: currentColor;
   stroke-linecap: round;
@@ -113,8 +108,9 @@
 
 .panel {
   position: absolute;
+  top: calc(100% + 13px);
   right: 0;
-  bottom: 66px;
+  bottom: auto;
   width: min(438px, calc(100vw - 30px));
   max-height: calc(100svh - 112px);
   overflow: hidden;
@@ -122,7 +118,7 @@
   border-radius: 5px 18px 5px 18px;
   background: var(--paper);
   box-shadow: 11px 11px 0 var(--ink);
-  transform-origin: calc(100% - 48px) 100%;
+  transform-origin: calc(100% - 48px) 0;
   animation: panelBlast .48s cubic-bezier(.16, 1.25, .3, 1) both;
 }
 
@@ -573,8 +569,9 @@
 .toast {
   --accent: #9edcff;
   position: absolute;
+  top: calc(100% + 13px);
   right: 0;
-  bottom: 66px;
+  bottom: auto;
   width: min(405px, calc(100vw - 30px));
   display: grid;
   grid-template-columns: minmax(0, 1fr) 32px;
@@ -859,18 +856,24 @@
 
 @media (max-width: 620px) {
   .center {
-    right: 12px;
-    bottom: 12px;
+    inset: auto;
   }
 
   .bell {
-    width: 46px;
-    height: 46px;
+    min-width: 108px;
+    height: 42px;
+    padding-inline: 11px;
   }
 
   .panel,
   .toast {
-    bottom: 60px;
+    position: absolute;
+    top: calc(100% + 13px);
+    right: 0;
+    bottom: auto;
+    left: auto;
+    width: calc(100vw - max(20px, env(safe-area-inset-left) + env(safe-area-inset-right)));
+    max-height: calc(100dvh - max(7px, env(safe-area-inset-top)) - 76px);
   }
 
   .panel > header {
@@ -900,6 +903,86 @@
   }
 }
 
+@media (max-width: 360px) {
+  .bell {
+    min-width: 98px;
+    padding-inline: 9px;
+  }
+
+  .bell > span {
+    font-size: 8px;
+  }
+}
+
+/* Match the profile button instead of competing with it. */
+.bell {
+  width: auto;
+  min-width: 118px;
+  height: 40px;
+  padding: 4px 10px;
+  gap: 7px;
+  border: 1px solid var(--ink);
+  border-radius: 7px;
+  background: #ffe45e;
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+.bell::before {
+  display: none;
+}
+
+.bell > span {
+  font-size: 7px;
+  letter-spacing: .08em;
+}
+
+.bell > svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2.1;
+}
+
+.bell > b {
+  top: -8px;
+  right: -7px;
+  min-width: 22px;
+  height: 22px;
+  padding-inline: 4px;
+  border-width: 2px;
+  box-shadow: 2px 2px 0 var(--ink);
+  font-size: 7px;
+}
+
+.bell:hover {
+  background: #ffed89;
+  box-shadow: 4px 4px 0 var(--ink);
+  transform: translate(-1px, -1px);
+}
+
+.panel h2 {
+  font-size: 34px;
+  letter-spacing: -.065em;
+}
+
+@media (max-width: 1250px) {
+  .bell {
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+    padding: 0;
+  }
+
+  .bell > span {
+    display: none;
+  }
+}
+
+@media (max-width: 620px) {
+  .panel h2 {
+    font-size: 30px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .panel,
   .panel h2,
@@ -919,5 +1002,38 @@
 
   .item {
     opacity: 1;
+  }
+}
+
+@media (max-width: 1250px) {
+  .bell {
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+    padding: 0;
+  }
+
+  .bell > span {
+    display: none;
+  }
+}
+
+@media (max-width: 620px) {
+  .panel,
+  .toast {
+    position: fixed;
+    top: calc(max(7px, env(safe-area-inset-top)) + 58px);
+    right: max(10px, env(safe-area-inset-right));
+    bottom: auto;
+    left: max(10px, env(safe-area-inset-left));
+    width: auto;
+  }
+}
+
+@media (max-width: 360px) {
+  .bell {
+    width: 40px;
+    min-width: 40px;
+    padding: 0;
   }
 }

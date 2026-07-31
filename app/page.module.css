@@ -33,19 +33,7 @@
 }
 
 .page::after {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  width: 210px;
-  height: 210px;
-  left: 32%;
-  bottom: -150px;
-  border: 3px solid var(--ink);
-  border-radius: 42% 58% 46% 54%;
-  background:
-    repeating-linear-gradient(-45deg, rgba(255,255,255,.18) 0 7px, transparent 7px 15px),
-    var(--coral);
-  transform: rotate(18deg);
+  display: none;
 }
 
 .navbar {
@@ -550,55 +538,6 @@
   font-weight: 650;
 }
 
-.googleAuth {
-  width: 100%;
-  height: 46px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  border: 2px solid var(--ink);
-  border-radius: 11px;
-  background: #fff;
-  box-shadow: 4px 4px 0 var(--ink);
-  font-size: 10px;
-  font-weight: 900;
-  cursor: pointer;
-  transition: transform .15s ease, box-shadow .15s ease;
-}
-
-.googleAuth:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: 5px 5px 0 var(--ink);
-}
-
-.googleAuth svg {
-  width: 19px;
-  height: 19px;
-}
-
-.authDivider {
-  height: 29px;
-  display: flex;
-  align-items: center;
-  color: #777;
-  font-size: 8px;
-  font-weight: 800;
-  text-transform: uppercase;
-}
-
-.authDivider::before,
-.authDivider::after {
-  content: '';
-  height: 2px;
-  flex: 1;
-  background: #ddd8ca;
-}
-
-.authDivider span {
-  padding: 0 10px;
-}
-
 .authModal form {
   display: grid;
   gap: 11px;
@@ -804,12 +743,6 @@
   .submitAuth {
     height: 40px;
   }
-}
-
-/* Animated paper-plane cursor */
-.page,
-.page * {
-  cursor: none !important;
 }
 
 .paperCursor {
@@ -2508,4 +2441,189 @@
   .burst { top: 5%; scale: .85; }
   .xpSticker { bottom: 9%; scale: .9; }
   .starSticker { bottom: 7%; scale: .85; }
+}
+
+/* Keep every open-book element inside the page at every responsive scale. */
+.bookPages {
+  height: 100%;
+  min-height: 0;
+}
+
+.leftPage,
+.rightPage {
+  height: 100%;
+  min-height: 0;
+}
+
+.leftPage {
+  display: flex;
+  flex-direction: column;
+}
+
+.leftPage > h2 {
+  flex: 0 0 auto;
+}
+
+.bookChoices {
+  min-height: 0;
+  padding-bottom: 22px;
+  display: grid;
+  flex: 1 1 auto;
+  grid-template-rows: repeat(4, minmax(0, 1fr));
+}
+
+.bookChoices button {
+  width: 100%;
+  height: auto;
+  min-height: 0;
+}
+
+.bookChoices i {
+  max-height: calc(100% - 4px);
+}
+
+.rightPage {
+  display: flex;
+  flex-direction: column;
+}
+
+.rightPageTop,
+.featurePoints,
+.readButton {
+  flex: 0 0 auto;
+}
+
+.selectedCover {
+  height: auto;
+  min-height: 0;
+  flex: 1 1 auto;
+}
+
+@media (max-width: 900px) {
+  .leftPage,
+  .rightPage {
+    padding: 20px;
+  }
+
+  .leftPage > h2 {
+    margin: 10px 0 12px;
+    font-size: 25px;
+    line-height: .95;
+  }
+
+  .bookChoices {
+    gap: 6px;
+    padding-bottom: 18px;
+  }
+
+  .bookChoices button {
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+    gap: 7px;
+    padding: 4px 7px 4px 4px;
+  }
+
+  .bookChoices i {
+    width: 37px;
+    height: calc(100% - 4px);
+    min-height: 30px;
+    font-size: 16px;
+  }
+
+  .pageNumber {
+    left: 20px;
+    bottom: 10px;
+  }
+
+  .selectedCover {
+    margin: 13px 12px 9px;
+    padding: 15px;
+  }
+
+  .selectedCover > span {
+    font-size: 29px;
+  }
+
+  .selectedCover h2 {
+    font-size: 23px;
+  }
+
+  .selectedCover p {
+    margin-top: 6px;
+    font-size: 8px;
+  }
+
+  .featurePoints {
+    gap: 4px;
+    margin-bottom: 7px;
+  }
+
+  .featurePoints span {
+    padding: 4px 6px;
+    font-size: 6px;
+  }
+
+  .readButton {
+    height: 34px;
+    margin-top: 0;
+  }
+}
+
+.featureDefinition {
+  margin: 12px 0 auto;
+  padding: 9px 10px;
+  border: 1.5px solid rgba(255, 255, 255, .9);
+  border-radius: 7px;
+  background: rgba(21, 24, 43, .2);
+  box-shadow: 3px 3px 0 rgba(21, 24, 43, .72);
+}
+
+.featureDefinition b {
+  display: block;
+  color: #fff4a8;
+  font-size: 6.5px;
+  font-weight: 950;
+  letter-spacing: .11em;
+}
+
+.selectedCover .featureDefinition p {
+  margin: 5px 0 0;
+  color: #fff;
+  font-size: 7.5px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.selectedCover small {
+  margin-top: 9px;
+}
+
+.readButton {
+  transition: transform .16s ease, box-shadow .16s ease, background .16s ease;
+}
+
+.readButton:hover {
+  background: var(--lime);
+  box-shadow: 3px 3px 0 var(--ink);
+  transform: translate(-1px, -1px);
+}
+
+@media (max-width: 900px) {
+  .featureDefinition {
+    margin-top: 8px;
+    padding: 7px 8px;
+  }
+
+  .featureDefinition b {
+    font-size: 6px;
+  }
+
+  .selectedCover .featureDefinition p {
+    margin-top: 3px;
+    font-size: 6.7px;
+    line-height: 1.32;
+  }
+
+  .selectedCover small {
+    margin-top: 6px;
+  }
 }

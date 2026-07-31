@@ -11,12 +11,13 @@ import {ceritaKknBook, ensureHorrorBook} from '../lib/horrorContent';
 import {ensureRomanceBooks} from '../lib/novelContent';
 import {getPaidBookAccess, paidCatalogBooks} from '../lib/paidBooks';
 import {getPremiumBookAccess} from '../lib/premiumBooks';
-import {getDashboardUser, logoutFromDashboard} from './auth';
+import {getDashboardUser} from './auth';
 import {withPageCounts} from './components/BookSection';
 import {BookSearch} from './components/BookSearch';
 import {DashboardBookSection} from './components/DashboardBookSection';
 import ModernDashboardMenu from './components/ModernDashboardMenu';
 import styles from './main-dashboard.module.css';
+import header from './dashboard-header.module.css';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -124,13 +125,14 @@ export default function DashboardPage() {
       </aside>
 
       <section className={styles.dashboardWorkspace}>
-        <header className={styles.dashboardTopbar} data-tour="welcome">
-          <div><span>Perpustakaan Digital BacaPop</span><h1>Beranda Pembaca</h1></div>
-          <div className={styles.dashboardActions}>
-            <div className={styles.utilityActions}>
-              <button className={styles.browseButton} data-tour="search" type="button" aria-label="Cari bacaan" onClick={() => setSearchOpen(true)}><span aria-hidden="true">⌕</span>Cari Bacaan</button>
-              <button className={styles.logoutButton} data-tour="logout" onClick={() => logoutFromDashboard(router)}>Keluar <span aria-hidden="true">↗</span></button>
-            </div>
+        <header className={`${styles.dashboardTopbar} ${header.topbar}`} data-tour="welcome">
+          <Link className={`${styles.topbarBrand} ${header.brand}`} href="/dashboard" aria-label="BacaPop, kembali ke beranda">
+            <span>B</span>
+            <b>BacaPop!</b>
+          </Link>
+          <button className={`${styles.browseButton} ${header.search}`} data-tour="search" type="button" aria-label="Cari bacaan" onClick={() => setSearchOpen(true)}><span aria-hidden="true">⌕</span>Cari Bacaan</button>
+          <div className={`${styles.dashboardActions} ${header.actions}`}>
+            <div className={styles.utilitySlot} data-dashboard-utility-slot />
             <Link className={styles.profileButton} data-tour="profile" href="/dashboard/profile">
               <span className={styles.profileAvatar}>{firstName.slice(0, 1).toUpperCase()}<i aria-hidden="true" /></span>
               <span className={styles.profileButtonCopy}><small>RUANG PEMBACA</small><b>Profil Saya</b></span>

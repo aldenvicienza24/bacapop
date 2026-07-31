@@ -1,0 +1,90 @@
+.utilityBar {
+  --utility-ink: #11152e;
+  position: sticky;
+  z-index: 1100;
+  top: 0;
+  min-height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding:
+    max(8px, env(safe-area-inset-top))
+    max(18px, env(safe-area-inset-right))
+    8px
+    max(18px, env(safe-area-inset-left));
+  border-bottom: 3px solid var(--utility-ink);
+  background:
+    radial-gradient(circle at 12px 12px, rgba(17, 21, 46, .09) 1.4px, transparent 1.6px) 0 0 / 17px 17px,
+    rgba(255, 253, 245, .96);
+  box-shadow: 0 5px 0 rgba(17, 21, 46, .14);
+}
+
+.utilityLabel {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--utility-ink);
+}
+
+.utilityLabel span {
+  padding: 5px 8px;
+  border: 2px solid var(--utility-ink);
+  background: #74e2bf;
+  box-shadow: 3px 3px 0 var(--utility-ink);
+  font-size: 8px;
+  font-weight: 950;
+  letter-spacing: .13em;
+  white-space: nowrap;
+}
+
+.utilityLabel b {
+  overflow: hidden;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.utilityActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 7px;
+}
+
+.hiddenUtilityHost {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .utilityBar {
+    min-height: 58px;
+    justify-content: center;
+    padding:
+      max(7px, env(safe-area-inset-top))
+      max(10px, env(safe-area-inset-right))
+      7px
+      max(10px, env(safe-area-inset-left));
+  }
+
+  .utilityLabel {
+    display: none;
+  }
+
+  .utilityBar .utilityActions {
+    width: 100%;
+    justify-content: space-between;
+    gap: 9px;
+  }
+}
+
+@media (max-width: 360px) {
+  .utilityBar {
+    padding-inline: 7px;
+  }
+
+  .utilityBar .utilityActions {
+    gap: 7px;
+  }
+}

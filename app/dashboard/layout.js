@@ -1,12 +1,10 @@
-import UserNotificationCenter from './components/UserNotificationCenter';
-import FirstTimeOnboarding from './components/FirstTimeOnboarding';
+import DashboardUtilities from './components/DashboardUtilities';
 
 export default function DashboardLayout({children}) {
   return (
     <>
-      <UserNotificationCenter />
+      <DashboardUtilities />
       {children}
-      <FirstTimeOnboarding />
     </>
   );
 }

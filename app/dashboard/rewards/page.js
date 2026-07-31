@@ -5,7 +5,7 @@ import {useEffect, useMemo, useState} from 'react';
 import {useRouter} from 'next/navigation';
 import {supabase} from '../../lib/supabase';
 import {notifyRewardRedeemed} from '../../lib/userNotifications';
-import {getDashboardUser, logoutFromDashboard} from '../auth';
+import {getDashboardUser} from '../auth';
 import DashboardMenuIcon from '../components/DashboardMenuIcon';
 import ModernDashboardMenu from '../components/ModernDashboardMenu';
 import mainStyles from '../main-dashboard.module.css';
@@ -112,7 +112,6 @@ export default function RewardsPage() {
       <header className={mainStyles.dashboardTopbar}>
         <div><span>Perpustakaan Digital BacaPop</span><h1>Tukar Poin</h1></div>
         <div className={mainStyles.dashboardActions}>
-          <div className={mainStyles.utilityActions}><Link className={mainStyles.browseButton} href="/dashboard"><span>←</span>Beranda</Link><button className={mainStyles.logoutButton} onClick={() => logoutFromDashboard(router)}>Keluar <span>↗</span></button></div>
           <Link className={mainStyles.profileButton} href="/dashboard/profile"><span className={mainStyles.profileAvatar}>{firstName[0]?.toUpperCase()}<i /></span><span className={mainStyles.profileButtonCopy}><small>RUANG PEMBACA</small><b>Profil Saya</b></span><i className={mainStyles.profileArrow}>↗</i></Link>
         </div>
       </header>

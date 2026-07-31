@@ -178,7 +178,7 @@ export default function UserNotificationCenter() {
   return (
     <div className={styles.center} ref={centerRef}>
       <button className={styles.bell} data-tour="notifications" data-unread={unread > 0} type="button" onClick={openCenter} aria-label={`Pemberitahuan, ${unread} belum dibaca`} aria-expanded={open}>
-        <span>KABAR</span>
+        <span>NOTIFIKASI</span>
         <svg aria-hidden="true" viewBox="0 0 24 24">
           <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" />
         </svg>
@@ -195,8 +195,8 @@ export default function UserNotificationCenter() {
         <header>
           <div>
             <span>PEMBERITAHUAN</span>
-            <h2>KABAR<span>!</span></h2>
-            <p>{unread ? 'Ada kabar baru buat kamu.' : 'Semua kabar sudah kamu baca.'}</p>
+            <h2>NOTIFIKASI<span>!</span></h2>
+            <p>{unread ? 'Ada pemberitahuan baru untukmu.' : 'Semua pemberitahuan sudah dibaca.'}</p>
           </div>
           <aside><b>{String(unread).padStart(2, '0')}</b><small>BELUM<br />DIBACA</small></aside>
         </header>
@@ -214,7 +214,7 @@ export default function UserNotificationCenter() {
               <span><strong>{typeLabel(item.type)}</strong><b>{item.title}</b><small>{item.message}</small></span>
               <time>{timeLabel(item.created_at)}</time>
             </Link>
-          )) : <div className={styles.empty}><b>Belum ada kabar baru</b><p>Kabar tentang ringkasan, poin, dan buku baru akan muncul di sini.</p></div>}
+          )) : <div className={styles.empty}><b>Belum ada notifikasi baru</b><p>Pemberitahuan tentang ringkasan, poin, dan buku baru akan muncul di sini.</p></div>}
         </div>
         <footer aria-hidden="true"><span>BCP–POP</span><i /><b>KEEP READING</b></footer>
       </section> : null}
